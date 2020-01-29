@@ -6,7 +6,7 @@ class Feed extends Component {
     return (
       <>
         <h1>Feed</h1>
-        <Link to="/recipes">Home</Link>
+        <Link to="/">Home</Link>
       </>
     );
   }
