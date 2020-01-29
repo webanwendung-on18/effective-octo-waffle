@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap');
+
+h1 {
+    font-family: 'Montserrat', 'Times New Roman', Times, serif;
+    font-weight: 600;
+}
+
+p {
+    font-family: 'Lato', Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: $primary;
+    font-family: 'Lato', Arial, Helvetica, sans-serif;
+}

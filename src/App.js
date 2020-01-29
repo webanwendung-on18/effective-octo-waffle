@@ -19,15 +19,17 @@ function App() {
   return (
     <FirestoreProvider {...config} firebase={firebase}>
       <Navbar />
-      <Router>
-        <Home path="/" />
-        {/* <Login path="/login" />
-      <Register path="/register" /> */}
-        <Feed path="/recipes" />
-        {/* <Recipe path="/recipes/:recipeId" />
-      <Profile path="/profile/:userId" /> */}
-        <Form path="/add-recipe" />
-      </Router>
+      <div className="container">
+        <Router>
+          <Home path="/" />
+          {/* <Login path="/login" />
+        <Register path="/register" /> */}
+          <Feed path="/recipes" />
+          {/* <Recipe path="/recipes/:recipeId" />
+        <Profile path="/profile/:userId" /> */}
+          <Form path="/add-recipe" />
+        </Router>
+      </div>
     </FirestoreProvider>
   );
 }
