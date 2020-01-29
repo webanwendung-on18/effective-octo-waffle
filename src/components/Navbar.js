@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import { FaUser } from "react-icons/fa";
-import { FiPlusCircle } from "react-icons/fi";
+import { FiSearch, FiPlusCircle, FiUser, FiLogOut } from "react-icons/fi";
 
 class Navbar extends Component {
   render() {
@@ -23,6 +22,18 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon"></span>
           </button>
 
+          <form class="form-inline">
+            <input
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+              <FiSearch />
+            </button>
+          </form>
+
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto my-2 my-lg-0">
               <li className="nav-item">
@@ -33,13 +44,12 @@ class Navbar extends Component {
               </li>
               <li className="nav-item">
                 <Link to="/profile" className="nav-link">
-                  <FaUser className="mr-1" />
-                  Profile
+                  <FiUser />
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/" className="nav-link">
-                  Logout
+                  <FiLogOut />
                 </Link>
               </li>
             </ul>
