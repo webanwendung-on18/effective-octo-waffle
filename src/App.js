@@ -6,6 +6,7 @@ import Feed from "../src/components/Feed";
 import Home from "../src/components/Home";
 import Form from "../src/components/Form";
 import Navbar from "../src/components/Navbar";
+import DatabaseTests from "../src/components/DatabaseTests";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           {/* <Recipe path="/recipes/:recipeId" />
         <Profile path="/profile/:userId" /> */}
           <Form path="/add-recipe" />
+          <DatabaseTests path="/database-tests" />
         </Router>
       </div>
     </>
