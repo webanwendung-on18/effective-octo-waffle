@@ -7,15 +7,17 @@ import Home from "../src/components/Home";
 
 function App() {
   return (
-    <Router>
-      <Home path="/" />
-      {/* <Login path="/login" />
+    <div className="container">
+      <Router>
+        <Home path="/" />
+        {/* <Login path="/login" />
       <Register path="/register" /> */}
-      <Feed path="/recipes" />
-      {/* <Recipe path="/recipes/:recipeId" />
+        <Feed path="/recipes" />
+        {/* <Recipe path="/recipes/:recipeId" />
       <Profile path="/profile/:userId" />
       <Form path="/add-recipe" /> */}
-    </Router>
+      </Router>
+    </div>
   );
 }
 
