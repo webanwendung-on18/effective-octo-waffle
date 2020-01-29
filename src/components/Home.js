@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import firebase from "./../firebase/config";
-import Navbar from "./Navbar";
 
 const db = firebase.firestore();
 let userRef = db.collection("Users").doc("gWIgDT2As3jguTdJ7rAi");
@@ -25,7 +24,6 @@ class Home extends Component {
   render() {
     return (
       <>
-        <Navbar />
         <h1>Home</h1>
         <Link to="/recipes">Recipes</Link>
       </>
