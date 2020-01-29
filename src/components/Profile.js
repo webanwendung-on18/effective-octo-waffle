@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 
 import CollectionPreview from "./CollectionPreview";
+import RecipePreview from "./RecipePreview";
 
 class Profile extends Component {
   render() {
@@ -37,6 +38,15 @@ class Profile extends Component {
             <CollectionPreview />
             <CollectionPreview />
             <CollectionPreview />
+          </div>
+
+          <h4 className="mt-5">Deine Rezepte</h4>
+
+          <div className="row">
+            <RecipePreview />
+            <RecipePreview />
+            <RecipePreview />
+            <RecipePreview />
           </div>
         </div>
       </>
