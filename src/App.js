@@ -4,6 +4,7 @@ import { Router } from "@reach/router";
 
 import Feed from "../src/components/Feed";
 import Home from "../src/components/Home";
+import Form from "../src/components/Form";
 
 function App() {
   return (
@@ -13,8 +14,8 @@ function App() {
       <Register path="/register" /> */}
       <Feed path="/recipes" />
       {/* <Recipe path="/recipes/:recipeId" />
-      <Profile path="/profile/:userId" />
-      <Form path="/add-recipe" /> */}
+      <Profile path="/profile/:userId" /> */}
+      <Form path="/add-recipe" />
     </Router>
   );
 }
