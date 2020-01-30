@@ -1,26 +1,55 @@
 import React, { Component } from "react";
+import { Link } from "@reach/router";
+// Text fit sorgt dafür es kein Umbruch im Titel gibt, egal wie lang.
+import { Textfit } from "react-textfit";
+import { IoIosTime } from "react-icons/io";
 
 class RecipeCard extends Component {
   render() {
+    const {
+      id,
+      name,
+      flags,
+      index,
+      title,
+      duration,
+      imageUrl,
+      difficulty,
+      description
+    } = this.props;
+    const recipeIndex = index + 1;
+    console.log(flags);
     return (
       <div className="card-container">
         <div className="card-outline d-flex">
-          <div className="card-body w-40 mr-4">
-            <span className="card-number card-circle subtle">01</span>
-            <span className="card-author subtle">John Smith</span>
-            <h2 className="card-title">New Brunch Recipe</h2>
-            <span className="card-description subtle">
-              These last few weeks I have been working hard on a new brunch
-              recipe for you all.
+          <div className="card-content mr-4">
+            <span className="card-number card-circle subtle">
+              {("0" + recipeIndex).slice(-2)}
             </span>
-            <div className="card-read">Cook</div>
-            <span className="card-tag card-circle subtle">C</span>
+            <span className="ml-2">
+              {flags.map(flag => (
+                <span className="flag">{flag}</span>
+              ))}
+            </span>
+            <span className="card-author subtle">{name}</span>
+            <h2 className="card-title">
+              <Textfit mode="single">{title}</Textfit>
+            </h2>
+            <span className="card-description subtle">{description}</span>
+            <Link to={`/recipes/${id}`} className="card-read">
+              <span className="underline--magical">Read more</span>
+            </Link>
+            <span style={{ fontWeight: "600" }}>Difficulty: </span> {difficulty}
+            <span>
+              <IoIosTime
+                size={"1.5em"}
+                color={"#333"}
+                className={"ml-5 mr-1 mb-1"}
+              />
+              {`${duration} minutes`}
+            </span>
           </div>
-          <img
-            src="https://s15.postimg.cc/temvv7u4r/recipe.jpg"
-            alt=""
-            className="card-media img img-fluid"
-          />
+          <img src={imageUrl} alt="recipeImage" className="card-media" />
         </div>
       </div>
     );

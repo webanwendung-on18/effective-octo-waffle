@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
@@ -8,7 +9,7 @@ var db = firebase.firestore();
 class Feed extends Component {
   constructor(props) {
     super(props);
-    this.state = { recipes: [] };
+    this.state = { recipes: [], loading: false };
   }
 
   getAllRecipes = async () => {
@@ -16,23 +17,54 @@ class Feed extends Component {
     const allRecipes = [];
     snapshot.forEach(doc => (allRecipes[doc.id] = doc.data()));
     this.setState({ recipes: allRecipes });
-    console.log(allRecipes);
-    return this.state.recipes;
   };
 
-  async componentDidMount() {
-    const allrecipes = await this.getAllRecipes();
+  componentDidMount() {
+    this.setState({ loading: true });
+    db.collection("Recipes").onSnapshot(snapshot => {
+      let recipes = [];
+      snapshot.forEach(doc => recipes.push({ ...doc.data(), uid: doc.id }));
+      this.setState({
+        recipes,
+        loading: false
+      });
+    });
   }
 
   render() {
     return (
       <>
-        <h1>Feed</h1>
-        {this.state.recipes.map(recipe => {
-          return <p>{recipe.id}</p>;
-        })}
-        <RecipeCard />
-        <RecipeCard />
+        <h1 className="headline-feed">
+          <span className="underline--magical">Feed</span>
+        </h1>
+        {!this.state.loading && this.state.recipes.length > 0 ? (
+          this.state.recipes.map((recipe, index) => (
+            <RecipeCard
+              index={index}
+              id={recipe.uid}
+              key={recipe.uid}
+              title={recipe.title}
+              flags={recipe.flags}
+              name={recipe.user_name}
+              duration={recipe.duration}
+              imageUrl={recipe.imageUrl}
+              difficulty={recipe.difficulty}
+              description={recipe.description}
+            />
+          ))
+        ) : (
+          <div>
+            <ClipLoader
+              css={`
+                display: block;
+                margin: 0 auto;
+              `}
+              size={150}
+              color={"#333"}
+              loading={this.state.loading}
+            />
+          </div>
+        )}
       </>
     );
   }
