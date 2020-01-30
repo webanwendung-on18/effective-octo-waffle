@@ -26,11 +26,10 @@ class Form extends Component {
             <div className="form-row">
               <textarea
                 className="form-control"
-                id="validationTextarea"
                 placeholder="Short description"
                 required
               />
-              <small id="passwordHelpBlock" className="form-text text-muted">
+              <small className="form-text text-muted">
                 This description will be displayed together with the title in
                 the feed
               </small>
@@ -50,38 +49,17 @@ class Form extends Component {
                       <input
                         className="form-check-input"
                         type="radio"
-                        name="gridRadios"
-                        id="gridRadios1"
-                        value="option1"
                         checked
                       />
-                      <label className="form-check-label" for="gridRadios1">
-                        Easy
-                      </label>
+                      <label className="form-check-label">Easy</label>
                     </div>
                     <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="gridRadios"
-                        id="gridRadios2"
-                        value="option2"
-                      />
-                      <label className="form-check-label" for="gridRadios2">
-                        Advanced
-                      </label>
+                      <input className="form-check-input" type="radio" />
+                      <label className="form-check-label">Advanced</label>
                     </div>
                     <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="gridRadios"
-                        id="gridRadios3"
-                        value="option3"
-                      />
-                      <label className="form-check-label" for="gridRadios3">
-                        Difficult
-                      </label>
+                      <input className="form-check-input" type="radio" />
+                      <label className="form-check-label">Difficult</label>
                     </div>
                   </div>
                 </div>
@@ -89,29 +67,19 @@ class Form extends Component {
               <div className="col">
                 <div className="input-group">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control col-sm-5"
                     placeholder="Duration"
-                    aria-label="Recipient's username"
-                    aria-describedby="basic-addon2"
                   />
                   <div className="input-group-append">
-                    <span className="input-group-text" id="basic-addon2">
-                      min
-                    </span>
+                    <span className="input-group-text">min</span>
                   </div>
                 </div>
               </div>
               <div className="col">
                 <div className="custom-control custom-switch">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="customSwitch1"
-                  />
-                  <label className="custom-control-label" for="customSwitch1">
-                    Private
-                  </label>
+                  <input type="checkbox" className="custom-control-input" />
+                  <label className="custom-control-label">Private</label>
                 </div>
               </div>
             </div>
@@ -122,11 +90,13 @@ class Form extends Component {
             <div className="form-row">
               <div className="col-4">
                 <div className="row">
-                  <label for="inputEmail3" className="col-md-2 col-form-label">
-                    Servings
-                  </label>
+                  <label className="col-md-2 col-form-label">Servings</label>
                   <div className="col-md-3">
-                    <input type="text" className="form-control" />
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="4"
+                    />
                   </div>
                 </div>
               </div>
@@ -170,24 +140,24 @@ class Form extends Component {
             <div className="input-group-prepend">
               <span className="input-group-text">Step 1</span>
             </div>
-            <textarea className="form-control" aria-label="With textarea" />
+            <textarea className="form-control" />
           </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">Step 2</span>
             </div>
-            <textarea className="form-control" aria-label="With textarea" />
+            <textarea className="form-control" />
           </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span className="input-group-text">Step 3</span>
             </div>
-            <textarea className="form-control" aria-label="With textarea" />
+            <textarea className="form-control" />
           </div>
 
           {/* BUTTONS */}
           <div className="form-row">
-            <div className="col-md-2">
+            <div className="col-md-2 mb-3">
               <button type="submit" className="btn btn-primary">
                 <FiPlusCircle className="mr-2" />
                 Add recipe
