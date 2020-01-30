@@ -2,31 +2,40 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 import firebase from "./../firebase/config";
 
-const db = firebase.firestore();
-let userRef = db.collection("Users").doc("gWIgDT2As3jguTdJ7rAi");
-userRef
-  .get()
-  .then(function(doc) {
-    if (doc.exists) {
-      console.log("Document data:", doc.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  })
-  .catch(function(error) {
-    console.log("Error getting document:", error);
-  });
-
-// Create a query against the collection
-
 class Home extends Component {
   render() {
     return (
-      <>
-        <h1>Home</h1>
-        <Link to="/recipes">Recipes</Link>
-      </>
+      <div id="home">
+        <div className="row justify-content-center align-items-center vh-100">
+          <div className="col-8">
+            <div className="text-center">
+              <h1 className="h2">Effective Octo Waffle</h1>
+              <p className="lead mb-5">
+                You want to explore new recipes and share your own ones with
+                your friends and the community? Octo Waffle is a social recipe
+                book and a must have for everyone who loves cooking.
+              </p>
+              <div className="d-flex justify-content-center">
+                <div className="w-75">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-block mb-3"
+                  >
+                    Get started
+                  </button>
+                </div>
+              </div>
+              <div className="d-flex justify-content-center">
+                <div className="w-75">
+                  <button type="button" className="btn btn-light btn-block">
+                    Login
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
