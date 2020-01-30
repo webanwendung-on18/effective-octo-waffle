@@ -22,14 +22,17 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <form class="form-inline">
+          <form className="form-inline">
             <input
-              class="form-control mr-sm-2"
+              className="form-control mr-sm-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+            >
               <FiSearch />
             </button>
           </form>
