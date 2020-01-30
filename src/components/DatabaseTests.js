@@ -25,9 +25,9 @@ class DatabaseTests extends Component {
     this.state = { name: "", email: "", imageUrl: "", docRefId: "" };
 
     // This binding is necessary to make `this` work in the callback
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNewUserSubmit = this.handleNewUserSubmit.bind(this);
   }
-  handleSubmit = e => {
+  handleNewUserSubmit = e => {
     e.preventDefault();
     db.collection("Users")
       .add({
@@ -42,13 +42,20 @@ class DatabaseTests extends Component {
       .catch(err => {
         console.log(`Error adding document: ${err}`);
       });
+    this.getUsers();
+  };
+  getUsers = async () => {
+    const snapshot = await db.collection("Users").get();
+    const document = [];
+    snapshot.forEach(doc => (document[doc.id] = doc.data()));
+    console.log("docs", document);
   };
   render() {
     return (
       <>
         <h1>DatabaseTests</h1>
         <form
-          onSubmit={e => this.handleSubmit(e)}
+          onSubmit={e => this.handleNewUserSubmit(e)}
           className="align-items-center d-flex flex-column"
         >
           <div className="w-50">
