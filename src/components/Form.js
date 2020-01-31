@@ -69,9 +69,15 @@ class Form extends Component {
         console.log("ingredients:", this.state)
       );
     } else {
-      this.setState({ [e.target.name]: e.target.value }, () => {
-        console.log("else state", this.state);
-      });
+      this.setState(
+        {
+          [e.target.name]:
+            e.target.type === "checkbox" ? e.target.checked : e.target.value
+        },
+        () => {
+          console.log("else state", this.state);
+        }
+      );
     }
   };
 
@@ -204,10 +210,16 @@ class Form extends Component {
                     type="checkbox"
                     className="custom-control-input"
                     name="private"
-                    value={this.state.private}
-                    onChange={() => {}}
+                    id="privateSwitch"
+                    checked={this.state.private}
+                    readOnly
                   />
-                  <label className="custom-control-label">Private</label>
+                  <label
+                    className="custom-control-label"
+                    htmlFor="privateSwitch"
+                  >
+                    Private
+                  </label>
                 </div>
               </div>
             </div>
