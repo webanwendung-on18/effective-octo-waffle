@@ -11,7 +11,7 @@ class Form extends Component {
     this.state = {
       title: "",
       description: "",
-      difficulty: "",
+      difficulty: "easy",
       duration: 0,
       private: false,
       servings: 0,
@@ -58,7 +58,7 @@ class Form extends Component {
       // Bsp steps[0]["step"] = "Als erstes..."
       steps[e.target.dataset.id][[...e.target.classList][0].match("step")[0]] =
         e.target.value;
-      this.setState({ steps }, () => console.log(this.state));
+      this.setState({ steps }, () => console.log("step", this.state));
     }
     if (/unit|amount|ingredient/gi.test(e.target.className)) {
       let ingredients = [...this.state.ingredients];
@@ -142,23 +142,43 @@ class Form extends Component {
                   </legend>
                   <div className="col-xl-10">
                     <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        checked
-                        name="difficulty"
-                        value={this.state.difficulty}
-                        onChange={() => {}}
-                      />
-                      <label className="form-check-label">Easy</label>
+                      <label className="form-check-label">
+                        <input
+                          value="easy"
+                          type="radio"
+                          name="difficulty"
+                          onChange={() => {}}
+                          className="form-check-input"
+                          checked={this.state.difficulty === "easy"}
+                        />
+                        Easy
+                      </label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="radio" />
-                      <label className="form-check-label">Advanced</label>
+                      <label className="form-check-label">
+                        <input
+                          type="radio"
+                          value="advanced"
+                          name="difficulty"
+                          className="form-check-input"
+                          onChange={() => {}}
+                          checked={this.state.difficulty === "advanced"}
+                        />
+                        Advanced
+                      </label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="radio" />
-                      <label className="form-check-label">Difficult</label>
+                      <label className="form-check-label">
+                        <input
+                          type="radio"
+                          value="difficult"
+                          name="difficulty"
+                          className="form-check-input"
+                          onChange={() => {}}
+                          checked={this.state.difficulty === "difficult"}
+                        />
+                        Difficult
+                      </label>
                     </div>
                   </div>
                 </div>
