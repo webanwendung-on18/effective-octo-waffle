@@ -69,10 +69,9 @@ class Form extends Component {
         console.log("ingredients:", this.state)
       );
     } else {
-      this.setState(
-        { [e.target.name]: e.target.value },
-        console.log("else target", e.target)
-      );
+      this.setState({ [e.target.name]: e.target.value }, () => {
+        console.log("else state", this.state);
+      });
     }
   };
 
@@ -108,7 +107,8 @@ class Form extends Component {
                 type="text"
                 placeholder="Title"
                 value={this.state.title}
-                onChange={e => this.setState({ title: e.target.value })}
+                name="title"
+                onChange={() => {}}
                 required
               />
             </div>
@@ -121,7 +121,8 @@ class Form extends Component {
                 className="form-control"
                 placeholder="Short description"
                 value={this.state.description}
-                onChange={e => this.setState({ description: e.target.value })}
+                name="description"
+                onChange={() => {}}
                 required
               />
               <small className="form-text text-muted">
@@ -145,10 +146,9 @@ class Form extends Component {
                         className="form-check-input"
                         type="radio"
                         checked
+                        name="difficulty"
                         value={this.state.difficulty}
-                        onChange={e =>
-                          this.setState({ difficulty: e.target.value })
-                        }
+                        onChange={() => {}}
                       />
                       <label className="form-check-label">Easy</label>
                     </div>
@@ -169,8 +169,9 @@ class Form extends Component {
                     type="number"
                     className="form-control col-sm-4 col-md-3 col-lg-2"
                     placeholder="Duration"
+                    name="duration"
                     value={this.state.duration}
-                    onChange={e => this.setState({ duration: e.target.value })}
+                    onChange={() => {}}
                   />
                   <div className="input-group-append">
                     <span className="input-group-text">min</span>
@@ -182,8 +183,9 @@ class Form extends Component {
                   <input
                     type="checkbox"
                     className="custom-control-input"
+                    name="private"
                     value={this.state.private}
-                    onChange={e => this.setState({ private: e.target.value })}
+                    onChange={() => {}}
                   />
                   <label className="custom-control-label">Private</label>
                 </div>
@@ -202,10 +204,9 @@ class Form extends Component {
                       type="number"
                       className="form-control"
                       placeholder="4"
+                      name="servings"
                       value={this.state.servings}
-                      onChange={e =>
-                        this.setState({ servings: e.target.value })
-                      }
+                      onChange={() => {}}
                     />
                   </div>
                 </div>
