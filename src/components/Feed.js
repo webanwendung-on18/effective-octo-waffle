@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
-import RecipeCard from "./RecipeCard";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
+import ClipLoader from "react-spinners/ClipLoader";
+
+import Navbar from "./Navbar";
+import RecipeCard from "./RecipeCard";
 
 var db = firebase.firestore();
 
@@ -34,37 +36,40 @@ class Feed extends Component {
   render() {
     return (
       <>
-        <h1 className="headline-feed">
-          <span className="underline--magical">Feed</span>
-        </h1>
-        {!this.state.loading && this.state.recipes.length > 0 ? (
-          this.state.recipes.map((recipe, index) => (
-            <RecipeCard
-              index={index}
-              id={recipe.uid}
-              key={recipe.uid}
-              title={recipe.title}
-              flags={recipe.flags}
-              name={recipe.user_name}
-              duration={recipe.duration}
-              imageUrl={recipe.imageUrl}
-              difficulty={recipe.difficulty}
-              description={recipe.description}
-            />
-          ))
-        ) : (
-          <div>
-            <ClipLoader
-              css={`
-                display: block;
-                margin: 0 auto;
-              `}
-              size={150}
-              color={"#333"}
-              loading={this.state.loading}
-            />
-          </div>
-        )}
+        <Navbar />
+        <div className="container">
+          <h1 className="headline-feed">
+            <span className="underline--magical">Feed</span>
+          </h1>
+          {!this.state.loading && this.state.recipes.length > 0 ? (
+            this.state.recipes.map((recipe, index) => (
+              <RecipeCard
+                index={index}
+                id={recipe.uid}
+                key={recipe.uid}
+                title={recipe.title}
+                flags={recipe.flags}
+                name={recipe.user_name}
+                duration={recipe.duration}
+                imageUrl={recipe.imageUrl}
+                difficulty={recipe.difficulty}
+                description={recipe.description}
+              />
+            ))
+          ) : (
+            <div>
+              <ClipLoader
+                css={`
+                  display: block;
+                  margin: 0 auto;
+                `}
+                size={150}
+                color={"#333"}
+                loading={this.state.loading}
+              />
+            </div>
+          )}
+        </div>
       </>
     );
   }

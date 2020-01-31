@@ -40,7 +40,9 @@ class RecipeCard extends Component {
               <span className="underline--magical">Read more</span>
             </Link>
             <div className="d-flex flex-wrap">
-              <span style={{ fontWeight: "600" }}>Difficulty: </span>{" "}
+              <span className="mr-1" style={{ fontWeight: "600" }}>
+                Difficulty:{" "}
+              </span>
               {difficulty}
               <span className="mt-sm-2 mt-lg-0">
                 <IoIosTime
