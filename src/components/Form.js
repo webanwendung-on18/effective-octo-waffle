@@ -16,25 +16,17 @@ class Form extends Component {
       private: false,
       servings: 0,
       flags: [],
-      ingredients: [],
+      ingredients: [{ ingredient: "", amount: 0, unit: "" }],
       steps: [{ step: "" }],
       user_name: "",
-      user_id: ""
+      user_id: "",
+
+      selectedValue: "amount"
     };
 
     // This binding is necessary to make `this` work in the callback
     this.handleNewRecipeSubmit = this.handleNewRecipeSubmit.bind(this);
   }
-
-  handleChange = e => {
-    if (["step"].includes(e.target.className)) {
-      let steps = [...this.state.steps];
-      steps[e.target.dataset.id][e.target.className] = e.target.value;
-      this.setState({ steps }, () => console.log(this.state.steps));
-    } else {
-      this.setState({ [e.target.name]: e.target.value });
-    }
-  };
 
   handleNewRecipeSubmit = e => {
     e.preventDefault();
@@ -58,13 +50,30 @@ class Form extends Component {
       .catch(err => {
         console.log(`Error adding document: ${err}`);
       });
-    this.getRecipes();
   };
 
-  getRecipes = async () => {
-    const snapshot = await db.collection("Recipes").get();
-    const document = [];
-    snapshot.forEach(doc => (document[doc.id] = doc.data()));
+  handleChange = e => {
+    if (/step/gi.test(e.target.className)) {
+      let steps = [...this.state.steps];
+      // Bsp steps[0]["step"] = "Als erstes..."
+      steps[e.target.dataset.id][[...e.target.classList][0].match("step")[0]] =
+        e.target.value;
+      this.setState({ steps }, () => console.log(this.state));
+    }
+    if (/unit|amount|ingredient/gi.test(e.target.className)) {
+      let ingredients = [...this.state.ingredients];
+      ingredients[e.target.dataset.id][
+        [...e.target.classList][0].match(/unit|amount|ingredient/gi)[0]
+      ] = e.target.value;
+      this.setState({ ingredients }, () =>
+        console.log("ingredients:", this.state)
+      );
+    } else {
+      this.setState(
+        { [e.target.name]: e.target.value },
+        console.log("else target", e.target)
+      );
+    }
   };
 
   addStep = e => {
@@ -73,6 +82,14 @@ class Form extends Component {
     }));
   };
 
+  addIngredient = e => {
+    this.setState(prevState => ({
+      ingredients: [
+        ...prevState.ingredients,
+        { ingredient: "", amount: 0, unit: "" }
+      ]
+    }));
+  };
   render() {
     return (
       <>
@@ -230,63 +247,60 @@ class Form extends Component {
           {/* INGREDIENTS */}
           <h3>Ingredients</h3>
           <div className="form-group">
-            <div className="form-row mb-3">
-              <div className="col-sm-2 col-md-1">
-                <input type="number" className="form-control" />
-              </div>
-              <div className="col-sm-3 col-md-2">
-                <select class="custom-select">
-                  <option defaultValue>amount</option>
-                  <option value="1">piece</option>
-                  <option value="2">ml</option>
-                  <option value="3">g</option>
-                  <option value="4">tsp</option>
-                  <option value="5">tbsp</option>
-                </select>
-              </div>
-              <div className="col-sm-7 col-md-4">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-row mb-3">
-              <div className="col-sm-2 col-md-1">
-                <input type="number" className="form-control" />
-              </div>
-              <div className="col-sm-3 col-md-2">
-                <select class="custom-select">
-                  <option defaultValue>amount</option>
-                  <option value="1">piece</option>
-                  <option value="2">ml</option>
-                  <option value="3">g</option>
-                  <option value="4">tsp</option>
-                  <option value="5">tbsp</option>
-                </select>
-              </div>
-              <div className="col-sm-7 col-md-4">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="form-row mb-3">
-              <div className="col-sm-2 col-md-1">
-                <input type="number" className="form-control" />
-              </div>
-              <div className="col-sm-3 col-md-2">
-                <select class="custom-select">
-                  <option defaultValue>amount</option>
-                  <option value="1">piece</option>
-                  <option value="2">ml</option>
-                  <option value="3">g</option>
-                  <option value="4">tsp</option>
-                  <option value="5">tbsp</option>
-                </select>
-              </div>
-              <div className="col-sm-7 col-md-4">
-                <input type="text" className="form-control" />
-              </div>
-            </div>
+            {this.state.ingredients.map((ing, idx) => {
+              let ingId = `ing-${idx}`;
+              let amountId = `amount-${idx}`;
+              let unitId = `unit-${idx}`;
+              return (
+                <div className="form-row mb-3" key={idx}>
+                  <div className="col-sm-2 col-md-1">
+                    <input
+                      onChange={() => {}}
+                      type="number"
+                      name={amountId}
+                      data-id={idx}
+                      id={amountId}
+                      value={this.state.ingredients[idx].amount}
+                      className="amount form-control"
+                    />
+                  </div>
+                  <div className="col-sm-3 col-md-2">
+                    <select
+                      value={this.state.ingredients[idx].unit}
+                      className="unit custom-select"
+                      id={unitId}
+                      name={unitId}
+                      data-id={idx}
+                      onChange={() => {}}
+                    >
+                      <option value="piece">piece</option>
+                      <option value="ml">ml</option>
+                      <option value="g">g</option>
+                      <option value="tsp">tsp</option>
+                      <option value="tbsp">tbsp</option>
+                    </select>
+                  </div>
+                  <div className="col-sm-7 col-md-4">
+                    <input
+                      type="text"
+                      className="ingredient form-control"
+                      id={ingId}
+                      name={ingId}
+                      data-id={idx}
+                      value={this.state.ingredients[idx].ingredient}
+                      onChange={() => {}}
+                    />
+                  </div>
+                </div>
+              );
+            })}
             <div className="form-row mb-3">
               <div className="col-lg-3">
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.addIngredient}
+                >
                   <FiPlusCircle className="mr-2 mb-1" />
                   Add ingredient
                 </button>
@@ -296,15 +310,6 @@ class Form extends Component {
 
           {/* PREPARATION */}
           <h3>Preparation</h3>
-          <div className="form-group">
-            <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <span className="input-group-text">Step 1</span>
-              </div>
-              <textarea className="form-control" />
-            </div>
-          </div>
-
           {this.state.steps.map((step, idx) => {
             let stepIdx = idx + 1;
             let stepId = `step-${stepIdx}`;
@@ -318,7 +323,10 @@ class Form extends Component {
                   name={stepId}
                   data-id={idx}
                   id={stepId}
-                  className="step"
+                  alt="step"
+                  className="step form-control"
+                  value={this.state.steps[idx].step}
+                  onChange={() => {}}
                 />
               </div>
             );
