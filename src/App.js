@@ -5,10 +5,12 @@ import { Router } from "@reach/router";
 import Feed from "../src/components/Feed";
 import Home from "../src/components/Home";
 import Form from "../src/components/Form";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
+      <Navbar />
       <Router>
         <Home path="/" />
         {/* <Login path="/login" />
