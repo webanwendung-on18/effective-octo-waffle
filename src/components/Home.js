@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import firebase from "./../firebase/config";
 
 class Home extends Component {
   render() {
