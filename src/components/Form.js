@@ -41,8 +41,8 @@ class Form extends Component {
         flags: this.state.flags,
         ingredients: this.state.ingredients,
         steps: this.state.steps,
-        user_name: this.props.user.userName,
-        user_id: this.props.user.userID,
+        user_name: this.props.user.displayName,
+        user_id: this.props.user.uid,
         imageUrl: this.state.imageUrl
       })
       .then(docRef => {
@@ -69,7 +69,7 @@ class Form extends Component {
         [...e.target.classList][0].match(/unit|amount|ingredient/gi)[0]
       ] = e.target.value;
       this.setState({ ingredients }, () =>
-        console.log("ingredients:", this.state)
+        console.log("ingredients:", this.props)
       );
     } else {
       this.setState(
