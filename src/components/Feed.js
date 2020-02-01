@@ -5,8 +5,10 @@ class Feed extends Component {
   render() {
     return (
       <>
-        <h1>Feed</h1>
-        <Link to="/">Home</Link>
+        <div className="container">
+          <h1>Feed</h1>
+          <Link to="/">Home</Link>
+        </div>
       </>
     );
   }
