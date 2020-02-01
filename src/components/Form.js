@@ -20,7 +20,6 @@ class Form extends Component {
       steps: [{ step: "" }],
       user_name: "",
       user_id: "",
-
       selectedValue: "amount"
     };
 
@@ -95,9 +94,22 @@ class Form extends Component {
       ]
     }));
   };
+
+  handleCheckbox = e => {
+    if (e.target.name === e.target.value && e.target.type === "checkbox") {
+      var flagsArr = [...this.state.flags];
+      var index = flagsArr.indexOf(e.target.value);
+      if (index !== -1) {
+        flagsArr.splice(index, 1);
+        this.setState({ flags: flagsArr });
+      } else {
+        this.setState({ flags: [...this.state.flags, e.target.value] });
+      }
+    }
+  };
   render() {
     return (
-      <>
+      <div className="container">
         <h1>Add a recipe</h1>
         <p>Here you can add your own recipe</p>
 
@@ -200,7 +212,7 @@ class Form extends Component {
                     onChange={() => {}}
                   />
                   <div className="input-group-append">
-                    <span className="input-group-text">min</span>
+                    <span className="input-group-text">minutes</span>
                   </div>
                 </div>
               </div>
@@ -251,7 +263,10 @@ class Form extends Component {
                     class="form-check-input"
                     type="checkbox"
                     id="inlineCheckbox1"
-                    value="Vegetarian"
+                    onClick={this.handleCheckbox}
+                    value="vegetarian"
+                    name="vegetarian"
+                    readOnly
                   />
                   <label class="form-check-label">Vegetarian</label>
                 </div>
@@ -260,7 +275,9 @@ class Form extends Component {
                     class="form-check-input"
                     type="checkbox"
                     id="inlineCheckbox1"
-                    value="Vegan"
+                    onClick={this.handleCheckbox}
+                    name="vegan"
+                    value="vegan"
                   />
                   <label class="form-check-label">Vegan</label>
                 </div>
@@ -268,8 +285,10 @@ class Form extends Component {
                   <input
                     class="form-check-input"
                     type="checkbox"
+                    onClick={this.handleCheckbox}
+                    name="fruitarian"
                     id="inlineCheckbox1"
-                    value="Fruitarian"
+                    value="fruitarian"
                   />
                   <label class="form-check-label">Fruitarian</label>
                 </div>
@@ -386,7 +405,7 @@ class Form extends Component {
             </div>
           </div>
         </form>
-      </>
+      </div>
     );
   }
 }
