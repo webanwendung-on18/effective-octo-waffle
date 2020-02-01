@@ -18,7 +18,7 @@ class Profile extends Component {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-4 col-md-3 ml-4 shadow">
+            <div className="col-4 col-md-3 ml-4 shadow ">
               <img
                 src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
                 alt=""
@@ -27,24 +27,24 @@ class Profile extends Component {
             </div>
           </div>
 
-          <div className="row profileInformation mt-4">
+          <div className="row profileInformation mt-5">
             <div className="col-6 ml-auto">
               <h4>Name</h4>
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-12 col-md-2 ml-auto">
+            <div className="col-4 col-md-2 ml-auto">
               <p># Rezepte hinzugefügt</p>
             </div>
-            <div className="col-sm-12 col-md-2 ml-sm-auto ml-md-0">
+            <div className="col-4 col-md-2 ml-sm-auto ml-md-0">
               <p># Follower</p>
             </div>
-            <div className="col-sm-12 col-md-2 ml-sm-auto ml-md-0">
+            <div className="col-4 col-md-2 ml-sm-auto ml-md-0">
               <p># Ich folge</p>
             </div>
           </div>
 
-          <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
+          <h4 className="mt-3 mb-2">Deine Sammlungen</h4>
           <p>
             <Link to="/" className="nav-link addButton">
               <FiPlusCircle className="" /> Neue hinzufügen
@@ -59,9 +59,9 @@ class Profile extends Component {
           </div>
 
           <h4 className="mt-5 mb-2">Deine Rezepte</h4>
-          <p className="p-0 m-0">
+          <p className="px-0 mx-0">
             <Link to="/add-recipe" className="nav-link addButton">
-              <FiPlusCircle className="" /> Neues hinzufügen
+              <FiPlusCircle className="addButton" /> Neues hinzufügen
             </Link>
           </p>
 
