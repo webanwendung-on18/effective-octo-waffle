@@ -27,7 +27,7 @@ class App extends Component {
       if (FBUser) {
         this.setState({
           user: FBUser,
-          userName: FBUser.userName,
+          userName: FBUser.displayName,
           userID: FBUser.uid
         });
       } else {
@@ -39,11 +39,11 @@ class App extends Component {
   registerUser = userName => {
     firebase.auth().onAuthStateChanged(FBUser => {
       FBUser.updateProfile({
-        userName: userName
+        displayName: userName
       }).then(() => {
         this.setState({
           user: FBUser,
-          userName: FBUser.userName,
+          userName: FBUser.displayName,
           userID: FBUser.uid
         });
         navigate("/recipes");
@@ -78,7 +78,7 @@ class App extends Component {
           <Feed path="/recipes" />
           {/* <Recipe path="/recipes/:recipeId" />
         <Profile path="/profile/:userId" /> */}
-          <Form path="/add-recipe" />
+          <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
         </Router>
       </>

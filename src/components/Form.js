@@ -11,6 +11,7 @@ class Form extends Component {
     this.state = {
       title: "",
       description: "",
+      imageUrl: "",
       difficulty: "easy",
       duration: 0,
       private: false,
@@ -19,8 +20,7 @@ class Form extends Component {
       ingredients: [{ ingredient: "", amount: 0, unit: "" }],
       steps: [{ step: "" }],
       user_name: "",
-      user_id: "",
-      selectedValue: "amount"
+      user_id: ""
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -40,10 +40,14 @@ class Form extends Component {
         //Arrays
         flags: this.state.flags,
         ingredients: this.state.ingredients,
-        steps: this.state.steps
+        steps: this.state.steps,
+        user_name: this.props.user.userName,
+        user_id: this.props.user.userID,
+        imageUrl: this.state.imageUrl
       })
       .then(docRef => {
         this.setState({ docRefId: docRef.id });
+        //naviagte(`/recipes/${docRefId}`)
         console.log("Document created: ", docRef);
       })
       .catch(err => {
@@ -74,7 +78,7 @@ class Form extends Component {
             e.target.type === "checkbox" ? e.target.checked : e.target.value
         },
         () => {
-          console.log("else state", this.state);
+          console.log("else state", this.props.user);
         }
       );
     }
@@ -147,6 +151,15 @@ class Form extends Component {
                 This description will be displayed together with the title in
                 the feed
               </small>
+              <input
+                className="form-control form-control mt-2"
+                type="text"
+                placeholder="Image URL"
+                value={this.state.imageUrl}
+                name="imageUrl"
+                onChange={() => {}}
+                required
+              />
             </div>
           </div>
 
@@ -258,9 +271,9 @@ class Form extends Component {
 
               {/* FLAGS */}
               <div className="col-4">
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     id="inlineCheckbox1"
                     onClick={this.handleCheckbox}
@@ -268,29 +281,29 @@ class Form extends Component {
                     name="vegetarian"
                     readOnly
                   />
-                  <label class="form-check-label">Vegetarian</label>
+                  <label className="form-check-label">Vegetarian</label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     id="inlineCheckbox1"
                     onClick={this.handleCheckbox}
                     name="vegan"
                     value="vegan"
                   />
-                  <label class="form-check-label">Vegan</label>
+                  <label className="form-check-label">Vegan</label>
                 </div>
-                <div class="form-check form-check-inline">
+                <div className="form-check form-check-inline">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     onClick={this.handleCheckbox}
                     name="fruitarian"
                     id="inlineCheckbox1"
                     value="fruitarian"
                   />
-                  <label class="form-check-label">Fruitarian</label>
+                  <label className="form-check-label">Fruitarian</label>
                 </div>
               </div>
             </div>
