@@ -1,6 +1,34 @@
 .profilePicture {
   position: absolute;
-  border: white solid 8px;
-  top: -90px;
-  width: 80%;
+  top: -70px;
+}
+
+@media only screen and (min-width: 991px) {
+  .profilePicture {
+    position: absolute;
+    top: -90px;
+    left: -15px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .profilePicture {
+    position: absolute;
+    top: -120px;
+    left: -15px;
+  }
+
+  .headerImage {
+    height: 50%;
+  }
+}
+
+.profileInformation {
+  position: relative;
+  padding-left: 15px;
+}
+
+.addButton {
+  padding: 0px;
+  margin: 0px;
 }

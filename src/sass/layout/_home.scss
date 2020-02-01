@@ -1,0 +1,22 @@
+#home {
+  background-image: linear-gradient(
+      to bottom right,
+      rgba(20, 30, 20, 0.7),
+      rgba(30, 30, 50, 0.7)
+    ),
+    url(https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#home-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 40rem;
+}

@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import { FiChevronsRight } from "react-icons/fi";
 
 class RecipePreview extends Component {
   render() {
     return (
       <>
         <div className="col-xs-12 col-md-6 col-lg-4">
-          <div class="card mb-3" style={{ maxWidth: 540 }}>
-            <div class="row no-gutters">
-              <div class="col-md-4">
+          <div className="card mb-3" style={{ maxWidth: 540 }}>
+            <div className="row no-gutters">
+              <div className="col-md-4">
                 <svg
-                  class="bd-placeholder-img"
+                  className="bd-placeholder-img"
                   width="100%"
                   height="250"
                   xmlns="http://www.w3.org/2000/svg"
@@ -25,24 +26,25 @@ class RecipePreview extends Component {
                   </text>
                 </svg>
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">
+              <div className="col-md-8">
+                <div className="card-body">
+                  <h5 className="card-title">Card title</h5>
+                  <p className="card-text">
                     It's a broader card with text below as a natural lead-in to
                     extra content. This content is a little longer.
                   </p>
-                  <p class="card-text">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+                  <p className="card-text">
+                    <small className="text-muted">
+                      Last updated 3 mins ago
+                    </small>
                   </p>
-                  <a
-                    href="#!"
+                  <Link
+                    to="#!"
                     className="black-text d-flex justify-content-end"
                   >
-                    <h5>
-                      Read more <i className="fas fa-angle-double-right"></i>
-                    </h5>
-                  </a>
+                    <h5>Read more</h5>
+                    <FiChevronsRight className="" />
+                  </Link>
                 </div>
               </div>
             </div>

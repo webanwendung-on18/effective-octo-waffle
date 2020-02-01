@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import { FiChevronsRight } from "react-icons/fi";
 
 class CollectionPreview extends Component {
   render() {
@@ -16,12 +17,6 @@ class CollectionPreview extends Component {
               alt="Card cap"
             ></img>
           </div>
-          <a
-            className="btn-floating btn-action ml-auto mr-4 mdb-color lighten-3"
-            href="/"
-          >
-            <i className="fas fa-chevron-right pl-1"></i>
-          </a>
           <div className="card-body">
             <h4 className="card-title">Card title</h4>
             <p className="card-text">
@@ -29,11 +24,10 @@ class CollectionPreview extends Component {
               bulk of the card's content.
             </p>
           </div>
-          <a href="#!" className="black-text d-flex justify-content-end">
-            <h5>
-              Read more <i className="fas fa-angle-double-right"></i>
-            </h5>
-          </a>
+          <Link to="/" className="black-text d-flex justify-content-end">
+            <h5>Read more</h5>
+            <FiChevronsRight className="" />
+          </Link>
         </div>
       </div>
     );
