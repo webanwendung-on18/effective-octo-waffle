@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import firebase from "./../firebase/config";
+import { navigate } from "@reach/router";
 import "firebase/firestore";
 
 var db = firebase.firestore();
@@ -14,7 +15,7 @@ class Form extends Component {
       imageUrl: "",
       difficulty: "easy",
       duration: 0,
-      private: false,
+      isPrivate: false,
       servings: 0,
       flags: [],
       ingredients: [{ ingredient: "", amount: 0, unit: "" }],
@@ -28,27 +29,38 @@ class Form extends Component {
   }
 
   handleNewRecipeSubmit = e => {
+    const {
+      title,
+      flags,
+      steps,
+      duration,
+      servings,
+      imageUrl,
+      isPrivate,
+      difficulty,
+      ingredients,
+      description
+    } = this.state;
+    const { user } = this.props;
     e.preventDefault();
     db.collection("Recipes")
       .add({
-        title: this.state.title,
-        description: this.state.description,
-        difficulty: this.state.difficulty,
-        duration: this.state.duration,
-        private: this.state.private,
-        servings: this.state.servings,
-        //Arrays
-        flags: this.state.flags,
-        ingredients: this.state.ingredients,
-        steps: this.state.steps,
-        user_name: this.props.user.displayName,
-        user_id: this.props.user.uid,
-        imageUrl: this.state.imageUrl
+        title,
+        flags,
+        steps,
+        duration,
+        imageUrl,
+        servings,
+        isPrivate,
+        difficulty,
+        description,
+        ingredients,
+        user_id: user.uid,
+        user_name: user.displayName
       })
       .then(docRef => {
         this.setState({ docRefId: docRef.id });
-        //naviagte(`/recipes/${docRefId}`)
-        console.log("Document created: ", docRef);
+        navigate(`/recipes/${docRef.id}`);
       })
       .catch(err => {
         console.log(`Error adding document: ${err}`);
@@ -58,29 +70,21 @@ class Form extends Component {
   handleChange = e => {
     if (/step/gi.test(e.target.className)) {
       let steps = [...this.state.steps];
-      // Bsp steps[0]["step"] = "Als erstes..."
       steps[e.target.dataset.id][[...e.target.classList][0].match("step")[0]] =
         e.target.value;
-      this.setState({ steps }, () => console.log("step", this.state));
+      this.setState({ steps });
     }
     if (/unit|amount|ingredient/gi.test(e.target.className)) {
       let ingredients = [...this.state.ingredients];
       ingredients[e.target.dataset.id][
         [...e.target.classList][0].match(/unit|amount|ingredient/gi)[0]
       ] = e.target.value;
-      this.setState({ ingredients }, () =>
-        console.log("ingredients:", this.props)
-      );
+      this.setState({ ingredients });
     } else {
-      this.setState(
-        {
-          [e.target.name]:
-            e.target.type === "checkbox" ? e.target.checked : e.target.value
-        },
-        () => {
-          console.log("else state", this.props.user);
-        }
-      );
+      this.setState({
+        [e.target.name]:
+          e.target.type === "checkbox" ? e.target.checked : e.target.value
+      });
     }
   };
 
@@ -234,9 +238,9 @@ class Form extends Component {
                   <input
                     type="checkbox"
                     className="custom-control-input"
-                    name="private"
+                    name="isPrivate"
                     id="privateSwitch"
-                    checked={this.state.private}
+                    checked={this.state.isPrivate}
                     readOnly
                   />
                   <label
