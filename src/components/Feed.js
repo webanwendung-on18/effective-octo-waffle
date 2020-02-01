@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
-
-import Navbar from "./Navbar";
 import RecipeCard from "./RecipeCard";
 
 var db = firebase.firestore();
@@ -36,7 +34,6 @@ class Feed extends Component {
   render() {
     return (
       <>
-        <Navbar />
         <div className="container">
           <h1 className="headline-feed">
             <span className="underline--magical">Feed</span>
