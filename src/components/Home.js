@@ -1,5 +1,5 @@
-import React, { Component } from "react";
 import { Link } from "@reach/router";
+import React, { Component } from "react";
 
 class Home extends Component {
   render() {

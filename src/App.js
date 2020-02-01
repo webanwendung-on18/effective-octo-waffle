@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import "./App.css";
 import { Router, navigate } from "@reach/router";
 import firebase from "./firebase/config";
+import "firebase/auth";
 
+import Navbar from "./components/Navbar";
 import Feed from "../src/components/Feed";
 import Home from "../src/components/Home";
 import Form from "../src/components/Form";
-import Register from "../src/components/Register";
 import Login from "../src/components/Login";
-import Navbar from "./components/Navbar";
+import Register from "../src/components/Register";
+import DatabaseTests from "../src/components/DatabaseTests";
 
 class App extends Component {
   constructor() {
@@ -77,6 +79,7 @@ class App extends Component {
           {/* <Recipe path="/recipes/:recipeId" />
         <Profile path="/profile/:userId" /> */}
           <Form path="/add-recipe" />
+          <DatabaseTests path="/database-tests" />
         </Router>
       </>
     );
