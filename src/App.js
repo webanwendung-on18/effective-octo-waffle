@@ -44,24 +44,25 @@ class App extends Component {
       FBUser.updateProfile({
         displayName: userName
       }).then(() => {
-        this.setState({
-          user: FBUser,
-          userName: FBUser.displayName,
-          userID: FBUser.uid
-        });
-        db.collection("Users")
-          .add({
-            name: this.state.name,
-            email: this.state.email,
-            imageUrl: this.state.imageUrl
-          })
-          .then(docRef => {
-            this.setState({ docRefId: docRef.id });
-            console.log("Document createt: ", docRef);
-          })
-          .catch(err => {
-            console.log(`Error adding document: ${err}`);
-          });
+        this.setState(
+          {
+            user: FBUser,
+            userName: FBUser.displayName,
+            userID: FBUser.uid
+          },
+          () => {
+            db.collection("Users")
+              .doc(FBUser.uid)
+              .set({
+                name: this.state.user.displayName,
+                userId: this.state.usqerID
+              })
+              .catch(err => {
+                console.log(`Error adding document: ${err}`);
+              });
+          }
+        );
+
         navigate("/recipes");
       });
     });
