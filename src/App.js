@@ -7,6 +7,7 @@ import "firebase/auth";
 import Navbar from "./components/Navbar";
 import Feed from "../src/components/Feed";
 import Home from "../src/components/Home";
+import Profile from "../src/components/Profile";
 import Form from "../src/components/Form";
 import Login from "../src/components/Login";
 import Register from "../src/components/Register";
@@ -76,8 +77,8 @@ class App extends Component {
           <Login path="/login" />
           <Register path="/register" registerUser={this.registerUser} />
           <Feed path="/recipes" />
-          {/* <Recipe path="/recipes/:recipeId" />
-        <Profile path="/profile/:userId" /> */}
+          {/*<Recipe path="/recipes/:recipeId" />*/}
+          <Profile path="/profile/" />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
         </Router>
