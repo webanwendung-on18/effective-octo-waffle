@@ -13,6 +13,8 @@ import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 
+var db = firebase.firestore();
+
 class App extends Component {
   constructor() {
     super();
@@ -47,6 +49,19 @@ class App extends Component {
           userName: FBUser.displayName,
           userID: FBUser.uid
         });
+        db.collection("Users")
+          .add({
+            name: this.state.name,
+            email: this.state.email,
+            imageUrl: this.state.imageUrl
+          })
+          .then(docRef => {
+            this.setState({ docRefId: docRef.id });
+            console.log("Document createt: ", docRef);
+          })
+          .catch(err => {
+            console.log(`Error adding document: ${err}`);
+          });
         navigate("/recipes");
       });
     });
@@ -78,7 +93,7 @@ class App extends Component {
           <Register path="/register" registerUser={this.registerUser} />
           <Feed path="/recipes" />
           {/*<Recipe path="/recipes/:recipeId" />*/}
-          <Profile path="/profile/" />
+          <Profile path="/profile/:userId" />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
         </Router>

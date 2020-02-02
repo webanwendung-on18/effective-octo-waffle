@@ -7,6 +7,7 @@ import RecipePreview from "./RecipePreview";
 
 class Profile extends Component {
   render() {
+    console.log(this.props.userId);
     return (
       <>
         <div className="row ">
