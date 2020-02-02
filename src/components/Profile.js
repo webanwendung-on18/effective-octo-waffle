@@ -47,7 +47,7 @@ class Profile extends Component {
           <h4 className="mt-3 mb-2">Deine Sammlungen</h4>
           <p>
             <Link to="/" className="nav-link addButton">
-              <FiPlusCircle className="" /> Neue hinzufügen
+              <FiPlusCircle /> Neue hinzufügen
             </Link>
           </p>
 

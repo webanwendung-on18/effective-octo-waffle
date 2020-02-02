@@ -43,7 +43,7 @@ class RecipePreview extends Component {
                     className="black-text d-flex justify-content-end"
                   >
                     <h5>Read more</h5>
-                    <FiChevronsRight className="" />
+                    <FiChevronsRight />
                   </Link>
                 </div>
               </div>
