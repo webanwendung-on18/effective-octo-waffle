@@ -54,8 +54,8 @@ class App extends Component {
             db.collection("Users")
               .doc(FBUser.uid)
               .set({
-                name: this.state.user.displayName,
-                userId: this.state.user.uid
+                name: FBUser.displayName,
+                userId: FBUser.uid
               })
               .catch(err => {
                 console.log(`Error adding document: ${err}`);
