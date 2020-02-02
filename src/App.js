@@ -55,7 +55,7 @@ class App extends Component {
               .doc(FBUser.uid)
               .set({
                 name: this.state.user.displayName,
-                userId: this.state.usqerID
+                userId: this.state.user.uid
               })
               .catch(err => {
                 console.log(`Error adding document: ${err}`);
