@@ -2,6 +2,16 @@ import { Link } from "@reach/router";
 import React, { Component } from "react";
 
 class HTTP_404 extends Component {
+  constructor(props) {
+    super(props);
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    window.history.back();
+  }
+
   render() {
     return (
       <div id="http_404">
@@ -22,7 +32,11 @@ class HTTP_404 extends Component {
             </div>
             <div className="d-flex justify-content-center">
               <div className="w-75">
-                <Link className="btn btn-outline-light btn-block" to="#">
+                <Link
+                  className="btn btn-outline-light btn-block"
+                  to="#"
+                  onClick={() => this.handleClick()}
+                >
                   Go Back
                 </Link>
               </div>

@@ -81,7 +81,7 @@ class App extends Component {
         <Profile path="/profile/:userId" /> */}
           <Form path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
-          <HTTP_404 path="/404" />
+          <HTTP_404 default />
         </Router>
       </>
     );
