@@ -23,9 +23,7 @@ class Profile extends Component {
         .doc(this.props.userId)
         .get();
       if (userData.exists) {
-        this.setState({ user: userData.data(), loading: false }, () =>
-          console.log("why", this.state)
-        );
+        this.setState({ user: userData.data(), loading: false });
       } else {
         this.setState({ error: "User doesn't exist ☹", loading: false });
       }
