@@ -43,28 +43,28 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(FBUser => {
       FBUser.updateProfile({
         displayName: userName
-      }).then(() => {
-        this.setState(
-          {
+      })
+        .then(() => {
+          this.setState({
             user: FBUser,
             userName: FBUser.displayName,
             userID: FBUser.uid
-          },
-          () => {
-            db.collection("Users")
-              .doc(FBUser.uid)
-              .set({
-                name: FBUser.displayName,
-                userId: FBUser.uid
-              })
-              .catch(err => {
-                console.log(`Error adding document: ${err}`);
-              });
-          }
-        );
-
-        navigate("/recipes");
-      });
+          });
+        })
+        .then(() => {
+          db.collection("Users")
+            .doc(FBUser.uid)
+            .set({
+              name: FBUser.displayName,
+              userId: FBUser.uid
+            })
+            .then(() => console.log("User logged in"))
+            .catch(err => {
+              console.log(`Error adding document: ${err}`);
+            });
+          navigate("/recipes");
+        })
+        .catch(err => console.error("Error", err));
     });
   };
 
