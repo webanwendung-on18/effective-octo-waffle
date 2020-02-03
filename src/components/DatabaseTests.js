@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
+import { MyButton } from "../materialUI/styles";
 
 var db = firebase.firestore();
 
@@ -90,6 +91,7 @@ class DatabaseTests extends Component {
             <button type="submit" className="btn btn-dark">
               Add User
             </button>
+            <MyButton>Hey ho</MyButton>
           </div>
         </form>
       </>
