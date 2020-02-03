@@ -68,9 +68,18 @@ class Profile extends Component {
                     className="img img-fluid rounded profilePicture shadow"
                   />
                 </div>
-                <div className="col-8 ml-auto">
-                  <div className="row profileInformation mt-3">
-                    <h1>{this.state.user.name}</h1>
+                <div className="col-8 ml-auto p0">
+                  <div className="row profileInformation mt-3 p0">
+                    <div className="col p-0">
+                      <h1>{this.state.user.name}</h1>
+                    </div>
+                    <div className="col">
+                      {this.state.user.userId !== this.props.userId ? (
+                        <button class="btn btn-primary" type="submit">
+                          Follow
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
                   <div className="row mt-2 mt-lg-5">
                     <div className="col-4 ml-auto">
@@ -78,7 +87,7 @@ class Profile extends Component {
                         <p> {this.state.recipes.length}</p>
                       </div>
                       <div className="row">
-                        <p>Rezepte</p>
+                        <p>Recipes</p>
                       </div>
                     </div>
                     <div className="col-4 ml-auto">
@@ -94,7 +103,7 @@ class Profile extends Component {
                         <p># </p>
                       </div>
                       <div className="row">
-                        <p>Ich folge</p>
+                        <p>Follows</p>
                       </div>
                     </div>
                   </div>
@@ -125,18 +134,20 @@ class Profile extends Component {
               <div className="row">
                 {!this.state.loading && this.state.recipes.length > 0 ? (
                   this.state.recipes.map((recipe, index) => (
-                    <RecipeCard
-                      index={index}
-                      id={recipe.uid}
-                      key={recipe.uid}
-                      title={recipe.title}
-                      flags={recipe.flags}
-                      name={recipe.user_name}
-                      duration={recipe.duration}
-                      imageUrl={recipe.imageUrl}
-                      difficulty={recipe.difficulty}
-                      description={recipe.description}
-                    />
+                    <div className="col-12 col-lg-6 mr-auto">
+                      <RecipeCard
+                        index={index}
+                        id={recipe.uid}
+                        key={recipe.uid}
+                        title={recipe.title}
+                        flags={recipe.flags}
+                        name={recipe.user_name}
+                        duration={recipe.duration}
+                        imageUrl={recipe.imageUrl}
+                        difficulty={recipe.difficulty}
+                        description={recipe.description}
+                      />
+                    </div>
                   ))
                 ) : (
                   <div>
