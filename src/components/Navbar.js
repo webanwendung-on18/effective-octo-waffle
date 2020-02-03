@@ -45,7 +45,10 @@ class Navbar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/profile" className="nav-link">
+                  <Link
+                    to={`/profile/${this.props.user.uid}`}
+                    className="nav-link"
+                  >
                     <FiUser className="mb-1" />
                   </Link>
                 </li>
