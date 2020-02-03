@@ -13,6 +13,8 @@ import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 
+var db = firebase.firestore();
+
 class App extends Component {
   constructor() {
     super();
@@ -41,14 +43,28 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(FBUser => {
       FBUser.updateProfile({
         displayName: userName
-      }).then(() => {
-        this.setState({
-          user: FBUser,
-          userName: FBUser.displayName,
-          userID: FBUser.uid
-        });
-        navigate("/recipes");
-      });
+      })
+        .then(() => {
+          this.setState({
+            user: FBUser,
+            userName: FBUser.displayName,
+            userID: FBUser.uid
+          });
+        })
+        .then(() => {
+          db.collection("Users")
+            .doc(FBUser.uid)
+            .set({
+              name: FBUser.displayName,
+              userId: FBUser.uid
+            })
+            .then(() => console.log("User logged in"))
+            .catch(err => {
+              console.log(`Error adding document: ${err}`);
+            });
+          navigate("/recipes");
+        })
+        .catch(err => console.error("Error", err));
     });
   };
 
@@ -78,7 +94,7 @@ class App extends Component {
           <Register path="/register" registerUser={this.registerUser} />
           <Feed path="/recipes" />
           {/*<Recipe path="/recipes/:recipeId" />*/}
-          <Profile path="/profile/" />
+          <Profile path="/profile/:userId" />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
         </Router>
