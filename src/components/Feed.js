@@ -38,20 +38,23 @@ class Feed extends Component {
           <h1 className="headline-feed">
             <span className="underline--magical">Feed</span>
           </h1>
+
           {!this.state.loading && this.state.recipes.length > 0 ? (
             this.state.recipes.map((recipe, index) => (
-              <RecipeCard
-                index={index}
-                id={recipe.uid}
-                key={recipe.uid}
-                title={recipe.title}
-                flags={recipe.flags}
-                name={recipe.user_name}
-                duration={recipe.duration}
-                imageUrl={recipe.imageUrl}
-                difficulty={recipe.difficulty}
-                description={recipe.description}
-              />
+              <div className="card-container">
+                <RecipeCard
+                  index={index}
+                  id={recipe.uid}
+                  key={recipe.uid}
+                  title={recipe.title}
+                  flags={recipe.flags}
+                  name={recipe.user_name}
+                  duration={recipe.duration}
+                  imageUrl={recipe.imageUrl}
+                  difficulty={recipe.difficulty}
+                  description={recipe.description}
+                />
+              </div>
             ))
           ) : (
             <div>
