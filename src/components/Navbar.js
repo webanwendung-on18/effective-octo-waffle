@@ -4,6 +4,8 @@ import { FiSearch, FiPlusCircle, FiUser, FiLogOut } from "react-icons/fi";
 
 class Navbar extends Component {
   render() {
+    const { user, logOutUser } = this.props;
+
     return (
       <>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -34,24 +36,30 @@ class Navbar extends Component {
               </button>
             </form>
 
-            <ul className="navbar-nav ml-auto my-2 my-lg-0">
-              <li className="nav-item">
-                <Link to="/add-recipe" className="nav-link">
-                  <FiPlusCircle className="mr-1 mb-1" />
-                  Add Recipe
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/profile" className="nav-link">
-                  <FiUser className="mb-1" />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  <FiLogOut className="mb-1" />
-                </Link>
-              </li>
-            </ul>
+            {user && (
+              <ul className="navbar-nav ml-auto my-2 my-lg-0">
+                <li className="nav-item">
+                  <Link to="/add-recipe" className="nav-link">
+                    <FiPlusCircle className="mr-1 mb-1" />
+                    Add Recipe
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/profile" className="nav-link">
+                    <FiUser className="mb-1" />
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    to="/"
+                    onClick={e => logOutUser(e)}
+                  >
+                    <FiLogOut className="mb-1" />
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </nav>
       </>

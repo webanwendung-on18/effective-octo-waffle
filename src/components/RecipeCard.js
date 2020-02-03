@@ -18,7 +18,6 @@ class RecipeCard extends Component {
       description
     } = this.props;
     const recipeIndex = index + 1;
-    console.log(flags);
     return (
       <div className="card-container">
         <div className="card-outline d-flex">
@@ -27,8 +26,10 @@ class RecipeCard extends Component {
               {("0" + recipeIndex).slice(-2)}
             </span>
             <span className="ml-2">
-              {flags.map(flag => (
-                <span className="flag">{flag}</span>
+              {flags.map((flag, idx) => (
+                <span key={idx} className="flag">
+                  {flag}
+                </span>
               ))}
             </span>
             <span className="card-author subtle">{name}</span>
