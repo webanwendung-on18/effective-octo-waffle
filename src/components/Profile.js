@@ -2,18 +2,19 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
 import SyncLoader from "react-spinners/SyncLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 
 import CollectionPreview from "./CollectionPreview";
-import RecipePreview from "./RecipePreview";
+import RecipeCard from "./RecipeCard";
 
 var db = firebase.firestore();
 
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, user: null, error: null };
+    this.state = { loading: false, user: null, error: null, recipes: [] };
   }
   async componentDidMount() {
     try {
@@ -22,6 +23,7 @@ class Profile extends Component {
         .collection("Users")
         .doc(this.props.userId)
         .get();
+
       if (userData.exists) {
         this.setState({ user: userData.data(), loading: false });
       } else {
@@ -29,6 +31,24 @@ class Profile extends Component {
       }
     } catch (err) {
       console.error("Error", err.message);
+    }
+    try {
+      var recipeData = db.collection("Recipes");
+
+      var query = await recipeData
+        .where("user_id", "==", this.props.userId)
+        .get();
+
+      if (query.empty) {
+        console.log("No matching documents.");
+        return;
+      }
+
+      query.forEach(doc => {
+        this.setState({ recipes: [...this.state.recipes, doc.data()] });
+      });
+    } catch (err) {
+      console.error("error", err.message);
     }
   }
 
@@ -39,43 +59,51 @@ class Profile extends Component {
         {this.state.error && <h1>{this.state.error}</h1>}
         {!this.state.loading && this.state.user !== null ? (
           <>
-            <div className="row ">
-              <img
-                src="https://coverfiles.alphacoders.com/460/46067.jpg"
-                alt=""
-                className="img img-fluid w-100 headerImage"
-              />
-            </div>
             <div className="container">
               <div className="row">
-                <div className="col-4 col-md-3 ml-4 shadow ">
+                <div className="col-4 col-md-3 ml-0 mt-4">
                   <img
                     src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
                     alt=""
-                    className="img img-fluid rounded profilePicture"
+                    className="img img-fluid rounded profilePicture shadow"
                   />
                 </div>
-              </div>
-              <div className="row profileInformation mt-5">
-                <div className="col-6 ml-auto">
-                  <h4>{this.state.user.name}</h4>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4 col-md-2 ml-auto">
-                  <p># Rezepte hinzugefügt</p>
-                </div>
-                <div className="col-4 col-md-2 ml-sm-auto ml-md-0">
-                  <p># Follower</p>
-                </div>
-                <div className="col-4 col-md-2 ml-sm-auto ml-md-0">
-                  <p># Ich folge</p>
+                <div className="col-8 ml-auto">
+                  <div className="row profileInformation mt-3">
+                    <h1>{this.state.user.name}</h1>
+                  </div>
+                  <div className="row mt-2 mt-lg-5">
+                    <div className="col-4 ml-auto">
+                      <div className="row">
+                        <p> {this.state.recipes.length}</p>
+                      </div>
+                      <div className="row">
+                        <p>Rezepte</p>
+                      </div>
+                    </div>
+                    <div className="col-4 ml-auto">
+                      <div className="row">
+                        <p># </p>
+                      </div>
+                      <div className="row">
+                        <p>Follower</p>
+                      </div>
+                    </div>
+                    <div className="col-4 ml-auto">
+                      <div className="row">
+                        <p># </p>
+                      </div>
+                      <div className="row">
+                        <p>Ich folge</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <h4 className="mt-3 mb-2">Deine Sammlungen</h4>
+              <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
               <p>
-                <Link to="/" className="nav-link addButton">
+                <Link to="/add-recipe" className="nav-link addButton">
                   <FiPlusCircle /> Neue hinzufügen
                 </Link>
               </p>
@@ -95,10 +123,34 @@ class Profile extends Component {
               </p>
 
               <div className="row">
-                <RecipePreview />
-                <RecipePreview />
-                <RecipePreview />
-                <RecipePreview />
+                {!this.state.loading && this.state.recipes.length > 0 ? (
+                  this.state.recipes.map((recipe, index) => (
+                    <RecipeCard
+                      index={index}
+                      id={recipe.uid}
+                      key={recipe.uid}
+                      title={recipe.title}
+                      flags={recipe.flags}
+                      name={recipe.user_name}
+                      duration={recipe.duration}
+                      imageUrl={recipe.imageUrl}
+                      difficulty={recipe.difficulty}
+                      description={recipe.description}
+                    />
+                  ))
+                ) : (
+                  <div>
+                    <ClipLoader
+                      css={`
+                        display: block;
+                        margin: 0 auto;
+                      `}
+                      size={150}
+                      color={"#333"}
+                      loading={this.state.loading}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </>
