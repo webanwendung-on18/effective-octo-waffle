@@ -36,7 +36,6 @@ class Profile extends Component {
   render() {
     return (
       <>
-        {/* In Zukunft sollte der Error vielleicht an eine 404 Komponente weitergeleitet werden */}
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.user !== null ? (
           <>
