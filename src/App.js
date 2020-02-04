@@ -14,6 +14,7 @@ import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 import HTTP_404 from "./components/HTTP_404";
+import TestForm from "./components/Checkout";
 
 var db = firebase.firestore();
 
@@ -101,6 +102,7 @@ class App extends Component {
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
           <HTTP_404 default />
+          <TestForm path="/testform" />
         </Router>
       </>
     );
