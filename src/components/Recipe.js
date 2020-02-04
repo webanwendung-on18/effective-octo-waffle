@@ -12,7 +12,7 @@ class Recipe extends Component {
   }
   async componentDidMount() {
     try {
-      this.setState({ laoding: true });
+      this.setState({ loading: true });
       const recipe = await db
         .collection("Recipes")
         .doc(this.props.recipeId)
@@ -31,18 +31,18 @@ class Recipe extends Component {
   }
   render() {
     let seen = [];
-    const {
-      title,
-      flags,
-      steps,
-      duration,
-      serving,
-      imageUrl,
-      isPrivate,
-      diffculty,
-      ingredients,
-      description
-    } = this.state;
+    // const {
+    //   title,
+    //   flags,
+    //   steps,
+    //   duration,
+    //   serving,
+    //   imageUrl,
+    //   isPrivate,
+    //   diffculty,
+    //   ingredients,
+    //   description
+    // } = this.state;
     return (
       <>
         {!this.state.loading && this.state.recipe !== null ? (
