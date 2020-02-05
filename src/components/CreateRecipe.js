@@ -178,6 +178,7 @@ export default class CreateRecipe extends Component {
           onChange={this.handleChange}
         >
           <Grid container spacing={3}>
+            {/* Title Field */}
             <Grid item xs={12}>
               <TextField
                 required
@@ -188,6 +189,7 @@ export default class CreateRecipe extends Component {
                 fullWidth
               />
             </Grid>
+            {/* Description */}
             <Grid item xs={12} sm={6}>
               <TextField
                 required
@@ -199,6 +201,7 @@ export default class CreateRecipe extends Component {
                 fullWidth
               />
             </Grid>
+            {/* Image URL */}
             <Grid item xs={12} sm={6}>
               <TextField
                 required
@@ -209,22 +212,163 @@ export default class CreateRecipe extends Component {
                 fullWidth
               />
             </Grid>
+            {/* Ingredients  Title*/}
+            <Grid item xs={12}>
+              <Typography variant="h6" id="difficulty-slider" display="block">
+                Ingredients
+              </Typography>
+            </Grid>
+            {/* Ingredients */}
+            <Paper variant="outlined">
+              <Grid container item xs={12} spacing={4} className="ml-1 my-2">
+                {this.state.ingredients.map((step, idx) => {
+                  let ingId = `ing-${idx}`;
+                  let amountId = `amount-${idx}`;
+                  let unitId = `unit-${idx}`;
+                  return (
+                    <Grid container item xs={12} spacing={2} key={idx}>
+                      <Grid item xs={2}>
+                        <TextField
+                          type="number"
+                          label="Amount"
+                          name={amountId}
+                          id={amountId}
+                          alt="amount"
+                          value={this.state.ingredients[idx].amount}
+                          onChange={() => {}}
+                          inputProps={{
+                            "data-id": idx,
+                            "data-field-type": "amount"
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <InputLabel
+                          style={{ fontSize: "12px" }}
+                          htmlFor="age-native-simple"
+                        >
+                          Unit
+                        </InputLabel>
+                        <Select
+                          native
+                          value={this.state.ingredients[idx].unit}
+                          name={unitId}
+                          id={unitId}
+                          alt="unit"
+                          label="Unit"
+                          inputProps={{
+                            "data-id": idx,
+                            "data-field-type": "unit"
+                          }}
+                        >
+                          <option value="" />
+                          <option value={"piece"}>piece</option>
+                          <option value={"ml"}>ml</option>
+                          <option value={"g"}>g</option>
+                          <option value={"tsp"}>tsp</option>
+                          <option value={"tbsp"}>tbsp</option>
+                        </Select>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <TextField
+                          fullWidth
+                          key={idx}
+                          name={ingId}
+                          label="Ingredient"
+                          id={ingId}
+                          alt="ingredient"
+                          value={this.state.ingredients[idx].ingredient}
+                          onChange={() => {}}
+                          inputProps={{
+                            "data-id": idx,
+                            "data-field-type": "ingredient"
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                  );
+                })}
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<FiPlusCircle />}
+                    onClick={this.addIngredient}
+                  >
+                    Add Ingredient
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+            {/* Preparation Title */}
+            <Grid item xs={12}>
+              <Typography variant="h6" id="difficulty-slider">
+                Preparation
+              </Typography>
+            </Grid>
+            {/* Preparation */}
+            <Paper variant="outlined" className="w-100 p-3">
+              <Grid container item xs={12}>
+                {this.state.steps.map((step, idx) => {
+                  let stepIdx = idx + 1;
+                  let stepId = `step-${stepIdx}`;
+                  return (
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        key={idx}
+                        type="text"
+                        name={stepId}
+                        id={stepId}
+                        alt="step"
+                        className="mb-4"
+                        value={this.state.steps[idx].step}
+                        onChange={() => {}}
+                        inputProps={{
+                          "data-id": idx,
+                          "data-field-type": "step"
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <Grid item xs={12}>
+                              <InputAdornment position="start">
+                                Step {stepIdx}
+                              </InputAdornment>
+                            </Grid>
+                          )
+                        }}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<FiPlusCircle />}
+                  onClick={this.addStep}
+                >
+                  Add Step
+                </Button>
+              </Grid>
+            </Paper>
+            {/* Other Parameter Title */}
             <Grid item xs={12}>
               <Typography variant="h6" id="difficulty-slider">
                 Other Parameter
               </Typography>
             </Grid>
-            <Paper variant="outlined" xs={12} width="100%">
-              <Grid container item xs={12}>
-                <Grid item xs={12} sm={6}>
-                  <FormLabel width={1} className="m-3">
-                    Difficulty
-                  </FormLabel>
+            {/* Other Parameter */}
+            <Paper variant="outlined">
+              <Grid container item xs={12} spacing={4} className="m-1">
+                <Grid item xs={9} sm={6}>
+                  <FormLabel width={1}>Difficulty</FormLabel>
                   <Slider
                     aria-labelledby="diffuculty-slider"
                     valueLabelDisplay="off"
                     step={1}
-                    className="ml-sm-4 w-xs-50"
+                    className="ml-sm-4"
                     min={1}
                     max={3}
                     marks={marks}
@@ -262,7 +406,7 @@ export default class CreateRecipe extends Component {
                 />
               </RadioGroup> */}
                 </Grid>
-                <Grid item xs={12} sm={7}>
+                <Grid container item xs={12} sm={7}>
                   <TextField
                     type="number"
                     value={this.state.servings}
@@ -318,6 +462,7 @@ export default class CreateRecipe extends Component {
                         onClick={this.handleCheckbox}
                         value="vegan"
                         name="vegan"
+                        variant="primary"
                       />
                     }
                     label="Vegan"
@@ -336,141 +481,6 @@ export default class CreateRecipe extends Component {
                 </Grid>
               </Grid>
             </Paper>
-            <Grid item xs={12}>
-              <Typography
-                variant="h6"
-                id="difficulty-slider"
-                display="block"
-                gutterBottom
-              >
-                Ingredients
-              </Typography>
-            </Grid>
-            <Grid item>
-              {this.state.ingredients.map((step, idx) => {
-                let ingId = `ing-${idx}`;
-                let amountId = `amount-${idx}`;
-                let unitId = `unit-${idx}`;
-                return (
-                  <Grid
-                    container
-                    item
-                    xs={12}
-                    spacing={2}
-                    key={idx}
-                    className="mb-3"
-                  >
-                    <Grid item xs={2}>
-                      <TextField
-                        type="number"
-                        label="Amount"
-                        name={amountId}
-                        id={amountId}
-                        alt="amount"
-                        value={this.state.ingredients[idx].amount}
-                        onChange={() => {}}
-                        inputProps={{
-                          "data-id": idx,
-                          "data-field-type": "amount"
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <InputLabel
-                        style={{ fontSize: "12px" }}
-                        htmlFor="age-native-simple"
-                      >
-                        Unit
-                      </InputLabel>
-                      <Select
-                        native
-                        value={this.state.ingredients[idx].unit}
-                        name={unitId}
-                        id={unitId}
-                        alt="unit"
-                        label="Unit"
-                        inputProps={{
-                          "data-id": idx,
-                          "data-field-type": "unit"
-                        }}
-                      >
-                        <option value="" />
-                        <option value={"piece"}>piece</option>
-                        <option value={"ml"}>ml</option>
-                        <option value={"g"}>g</option>
-                        <option value={"tsp"}>tsp</option>
-                        <option value={"tbsp"}>tbsp</option>
-                      </Select>
-                    </Grid>
-
-                    <Grid item xs={8}>
-                      <TextField
-                        fullWidth
-                        key={idx}
-                        name={ingId}
-                        label="Ingredient"
-                        id={ingId}
-                        alt="ingredient"
-                        value={this.state.ingredients[idx].ingredient}
-                        onChange={() => {}}
-                        inputProps={{
-                          "data-id": idx,
-                          "data-field-type": "ingredient"
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<FiPlusCircle />}
-              onClick={this.addIngredient}
-            >
-              Add Ingredient
-            </Button>
-            <Grid item xs={12}>
-              <Typography variant="h6" id="difficulty-slider" gutterBottom>
-                Preparation
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              {this.state.steps.map((step, idx) => {
-                let stepIdx = idx + 1;
-                let stepId = `step-${stepIdx}`;
-                return (
-                  <TextField
-                    fullWidth
-                    key={idx}
-                    type="text"
-                    name={stepId}
-                    id={stepId}
-                    alt="step"
-                    className="mb-4"
-                    value={this.state.steps[idx].step}
-                    onChange={() => {}}
-                    inputProps={{ "data-id": idx, "data-field-type": "step" }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          Step {stepIdx}
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                );
-              })}
-            </Grid>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<FiPlusCircle />}
-              onClick={this.addStep}
-            >
-              Add Step
-            </Button>
           </Grid>
         </form>
       </>
