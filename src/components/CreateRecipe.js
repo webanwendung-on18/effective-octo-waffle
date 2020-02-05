@@ -311,7 +311,7 @@ export default class CreateRecipe extends Component {
                   let stepIdx = idx + 1;
                   let stepId = `step-${stepIdx}`;
                   return (
-                    <Grid item xs={12}>
+                    <Grid item xs={12} key={idx}>
                       <TextField
                         fullWidth
                         key={idx}
