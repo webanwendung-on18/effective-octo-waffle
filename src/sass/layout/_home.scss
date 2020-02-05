@@ -1,5 +1,4 @@
-#home,
-#login {
+#home {
   background-image: linear-gradient(
       to bottom right,
       rgba(20, 30, 20, 0.7),
@@ -14,8 +13,7 @@
   height: 100vh;
 }
 
-#home-content,
-#login-content {
+#home-content {
   position: absolute;
   top: 50%;
   left: 50%;

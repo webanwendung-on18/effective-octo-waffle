@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import firebase from "../firebase/config";
 import FormError from "./FormError";
-import { navigate } from "@reach/router";
-import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Button } from "@material-ui/core/";
-import { Link } from "@reach/router";
+import { navigate, Link } from "@reach/router";
 import { BtnPrimary, TFPrimary } from "../materialUI/styles";
 
 class Login extends Component {
@@ -54,8 +51,8 @@ class Login extends Component {
 
   render() {
     return (
-      <div id="login">
-        <div id="login-content">
+      <div id="home">
+        <div id="home-content">
           <div className="card card-login">
             <div className="card-body">
               <h1 className="h2 text-center mt-2">Login</h1>
