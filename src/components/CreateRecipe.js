@@ -13,6 +13,8 @@ import Slider from "@material-ui/core/Slider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import Paper from "@material-ui/core/Paper";
+import FormLabel from "@material-ui/core/FormLabel";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
@@ -87,11 +89,12 @@ export default class CreateRecipe extends Component {
       this.setState({ steps }, () => console.log(this.state));
     }
     if (["amount", "unit", "ingredient"].includes(e.target.dataset.fieldType)) {
-      console.log("hey");
       let ingredients = [...this.state.ingredients];
       ingredients[e.target.dataset.id][e.target.dataset.fieldType] =
         e.target.value;
-      this.setState({ ingredients }, () => console.log("ho", this.state));
+      this.setState({ ingredients }, () =>
+        console.log("ingredients", this.state.ingredients)
+      );
     } else {
       this.setState({
         [e.target.name]:
@@ -133,6 +136,21 @@ export default class CreateRecipe extends Component {
     return `${value}°C`;
   }
   handleDragStop = () => this.props.update(this.state.value);
+
+  handleSlider(event, value) {
+    this.setState(() => {
+      switch (value) {
+        case 1:
+          return { difficulty: "easy" };
+        case 2:
+          return { difficulty: "advanced" };
+        case 3:
+          return { difficulty: "difficult" };
+        default:
+          break;
+      }
+    });
+  }
 
   render() {
     const marks = [
@@ -191,25 +209,30 @@ export default class CreateRecipe extends Component {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              {/* <Typography id="difficulty-slider" gutterBottom>
-                Difficulty
-              </Typography> */}
-              {/* <Slider
-                // defaultValue={1}
-                // getAriaValueText={this.valuetext}
-                aria-labelledby="diffuculty-slider"
-                valueLabelDisplay="off"
-                step={1}
-                min={1}
-                max={3}
-                marks={marks}
-                value={this.state.difficulty}
-                onChange={this.handleChange}
-                // onDragStop={this.handleDragStop}
-                name="difficulty"
-              /> */}
-              <RadioGroup row>
+            <Grid item xs={12}>
+              <Typography variant="h6" id="difficulty-slider">
+                Other Parameter
+              </Typography>
+            </Grid>
+            <Paper variant="outlined" xs={12} width="100%">
+              <Grid container item xs={12}>
+                <Grid item xs={12} sm={6}>
+                  <FormLabel width={1} className="m-3">
+                    Difficulty
+                  </FormLabel>
+                  <Slider
+                    aria-labelledby="diffuculty-slider"
+                    valueLabelDisplay="off"
+                    step={1}
+                    className="ml-sm-4 w-xs-50"
+                    min={1}
+                    max={3}
+                    marks={marks}
+                    onChange={(event, value) => this.handleSlider(event, value)}
+                    name="difficulty"
+                  />
+
+                  {/* <RadioGroup row>
                 <FormControlLabel
                   control={<Radio color="default" size="small" />}
                   label="Easy"
@@ -237,76 +260,82 @@ export default class CreateRecipe extends Component {
                   name="difficulty"
                   checked={this.state.difficulty === "difficult"}
                 />
-              </RadioGroup>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                type="number"
-                value={this.state.servings}
-                name="servings"
-                id="standard-start-adornment"
-                style={{ width: "100px" }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">Servings</InputAdornment>
-                  )
-                }}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <TextField
-                type="number"
-                value={this.state.duration}
-                name="duration"
-                id="standard-start-adornment"
-                className="ml-5"
-                style={{ width: "100px" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">minutes</InputAdornment>
-                  )
-                }}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    type="checkbox"
-                    onClick={this.handleCheckbox}
-                    value="vegetarian"
-                    name="vegetarian"
+              </RadioGroup> */}
+                </Grid>
+                <Grid item xs={12} sm={7}>
+                  <TextField
+                    type="number"
+                    value={this.state.servings}
+                    name="servings"
+                    id="standard-start-adornment"
+                    style={{ width: "100px" }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          Servings
+                        </InputAdornment>
+                      )
+                    }}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
-                }
-                label="Vegetarian"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    type="checkbox"
-                    onClick={this.handleCheckbox}
-                    value="vegan"
-                    name="vegan"
+                  <TextField
+                    type="number"
+                    value={this.state.duration}
+                    name="duration"
+                    id="standard-start-adornment"
+                    className="ml-5"
+                    style={{ width: "100px" }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          minutes
+                        </InputAdornment>
+                      )
+                    }}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
                   />
-                }
-                label="Vegan"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    type="checkbox"
-                    onClick={this.handleCheckbox}
-                    value="fruitarian"
-                    name="fruitarian"
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        type="checkbox"
+                        onClick={this.handleCheckbox}
+                        value="vegetarian"
+                        name="vegetarian"
+                      />
+                    }
+                    label="Vegetarian"
                   />
-                }
-                label="Fruitarian"
-              />
-            </Grid>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        type="checkbox"
+                        onClick={this.handleCheckbox}
+                        value="vegan"
+                        name="vegan"
+                      />
+                    }
+                    label="Vegan"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        type="checkbox"
+                        onClick={this.handleCheckbox}
+                        value="fruitarian"
+                        name="fruitarian"
+                      />
+                    }
+                    label="Fruitarian"
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
             <Grid item xs={12}>
               <Typography
                 variant="h6"
@@ -317,82 +346,90 @@ export default class CreateRecipe extends Component {
                 Ingredients
               </Typography>
             </Grid>
-            {this.state.ingredients.map((step, idx) => {
-              let ingId = `ing-${idx}`;
-              let amountId = `amount-${idx}`;
-              let unitId = `unit-${idx}`;
-              return (
-                <Grid container key={idx}>
-                  <Grid item xs={2}>
-                    <TextField
-                      type="number"
-                      label="Amount"
-                      name={amountId}
-                      id={amountId}
-                      alt="amount"
-                      className="mb-4"
-                      value={this.state.ingredients[idx].amount}
-                      onChange={() => {}}
-                      inputProps={{
-                        "data-id": idx,
-                        "data-field-type": "amount"
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <InputLabel
-                      style={{ fontSize: "12px" }}
-                      htmlFor="age-native-simple"
-                    >
-                      Unit
-                    </InputLabel>
-                    <Select
-                      native
-                      value={this.state.ingredients[idx].unit}
-                      name={unitId}
-                      id={unitId}
-                      alt="unit"
-                      label="Unit"
-                      inputProps={{
-                        "data-id": idx,
-                        "data-field-type": "unit"
-                      }}
-                    >
-                      <option value="" />
-                      <option value={"piece"}>piece</option>
-                      <option value={"ml"}>ml</option>
-                      <option value={"g"}>g</option>
-                      <option value={"tsp"}>tsp</option>
-                      <option value={"tbsp"}>tbsp</option>
-                    </Select>
-                  </Grid>
+            <Grid item>
+              {this.state.ingredients.map((step, idx) => {
+                let ingId = `ing-${idx}`;
+                let amountId = `amount-${idx}`;
+                let unitId = `unit-${idx}`;
+                return (
+                  <Grid
+                    container
+                    item
+                    xs={12}
+                    spacing={2}
+                    key={idx}
+                    className="mb-3"
+                  >
+                    <Grid item xs={2}>
+                      <TextField
+                        type="number"
+                        label="Amount"
+                        name={amountId}
+                        id={amountId}
+                        alt="amount"
+                        value={this.state.ingredients[idx].amount}
+                        onChange={() => {}}
+                        inputProps={{
+                          "data-id": idx,
+                          "data-field-type": "amount"
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <InputLabel
+                        style={{ fontSize: "12px" }}
+                        htmlFor="age-native-simple"
+                      >
+                        Unit
+                      </InputLabel>
+                      <Select
+                        native
+                        value={this.state.ingredients[idx].unit}
+                        name={unitId}
+                        id={unitId}
+                        alt="unit"
+                        label="Unit"
+                        inputProps={{
+                          "data-id": idx,
+                          "data-field-type": "unit"
+                        }}
+                      >
+                        <option value="" />
+                        <option value={"piece"}>piece</option>
+                        <option value={"ml"}>ml</option>
+                        <option value={"g"}>g</option>
+                        <option value={"tsp"}>tsp</option>
+                        <option value={"tbsp"}>tbsp</option>
+                      </Select>
+                    </Grid>
 
-                  <Grid item xs={8}>
-                    <TextField
-                      fullWidth
-                      key={idx}
-                      name={ingId}
-                      label="Ingredient"
-                      id={ingId}
-                      alt="ingredient"
-                      value={this.state.ingredients[idx].ingredient}
-                      onChange={() => {}}
-                      inputProps={{
-                        "data-id": idx,
-                        "data-field-type": "ingredient"
-                      }}
-                    />
+                    <Grid item xs={8}>
+                      <TextField
+                        fullWidth
+                        key={idx}
+                        name={ingId}
+                        label="Ingredient"
+                        id={ingId}
+                        alt="ingredient"
+                        value={this.state.ingredients[idx].ingredient}
+                        onChange={() => {}}
+                        inputProps={{
+                          "data-id": idx,
+                          "data-field-type": "ingredient"
+                        }}
+                      />
+                    </Grid>
                   </Grid>
-                </Grid>
-              );
-            })}
+                );
+              })}
+            </Grid>
             <Button
               variant="contained"
               color="primary"
               startIcon={<FiPlusCircle />}
               onClick={this.addIngredient}
             >
-              Add Step
+              Add Ingredient
             </Button>
             <Grid item xs={12}>
               <Typography variant="h6" id="difficulty-slider" gutterBottom>
