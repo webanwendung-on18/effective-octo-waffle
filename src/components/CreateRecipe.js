@@ -6,9 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
 import Button from "@material-ui/core/Button";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import Slider from "@material-ui/core/Slider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -18,7 +16,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
-import { FormControl } from "@material-ui/core";
 var db = firebase.firestore();
 
 export default class CreateRecipe extends Component {
@@ -244,7 +241,7 @@ export default class CreateRecipe extends Component {
                       </Grid>
                       <Grid item xs={2}>
                         <InputLabel
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: "12px", paddingTop: "2px" }}
                           htmlFor="age-native-simple"
                         >
                           Unit
@@ -254,6 +251,7 @@ export default class CreateRecipe extends Component {
                           value={this.state.ingredients[idx].unit}
                           name={unitId}
                           id={unitId}
+                          style={{ marginTop: "-6.1px" }}
                           alt="unit"
                           label="Unit"
                           inputProps={{
@@ -430,10 +428,10 @@ export default class CreateRecipe extends Component {
                     name="duration"
                     id="standard-start-adornment"
                     className="ml-5"
-                    style={{ width: "100px" }}
+                    style={{ width: "120px" }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="start">
+                        <InputAdornment position="start" className="ml-1">
                           minutes
                         </InputAdornment>
                       )
@@ -451,6 +449,7 @@ export default class CreateRecipe extends Component {
                         onClick={this.handleCheckbox}
                         value="vegetarian"
                         name="vegetarian"
+                        color="primary"
                       />
                     }
                     label="Vegetarian"
@@ -462,7 +461,7 @@ export default class CreateRecipe extends Component {
                         onClick={this.handleCheckbox}
                         value="vegan"
                         name="vegan"
-                        variant="primary"
+                        color="primary"
                       />
                     }
                     label="Vegan"
@@ -474,6 +473,7 @@ export default class CreateRecipe extends Component {
                         onClick={this.handleCheckbox}
                         value="fruitarian"
                         name="fruitarian"
+                        color="primary"
                       />
                     }
                     label="Fruitarian"
