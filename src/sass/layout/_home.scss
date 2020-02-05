@@ -1,4 +1,5 @@
-#home {
+#home,
+#login {
   background-image: linear-gradient(
       to bottom right,
       rgba(20, 30, 20, 0.7),
@@ -13,10 +14,20 @@
   height: 100vh;
 }
 
-#home-content {
+#home-content,
+#login-content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 40rem;
+}
+
+.card-login {
+  width: 22rem;
+  min-height: 22rem;
+  background-color: rgba(255, 255, 255, 0.726);
+  backdrop-filter: blur(5px);
+  border-radius: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
