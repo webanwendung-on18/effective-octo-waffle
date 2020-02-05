@@ -1,5 +1,18 @@
-$primary: #A7DB42;
 $gradient: linear-gradient(30deg, #69ed66 0%, #7fffce 85%);
 $recipe-title: "Times New Roman",
 Times,
 serif;
+$primary: #2ecc71;
+$primary-dark: #218c74;
+$secondary: #34495e;
+$info: #3498db;
+
+.text-primarydark {
+    color: $primary-dark;
+}
+
+.card-link {
+    &:hover {
+        color: darken($primary-dark, 10%);
+    }
+}
