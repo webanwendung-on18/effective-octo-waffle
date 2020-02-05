@@ -41,11 +41,10 @@ class Feed extends Component {
 
           {!this.state.loading && this.state.recipes.length > 0 ? (
             this.state.recipes.map((recipe, index) => (
-              <div className="card-container">
+              <div className="card-container" key={recipe.uid}>
                 <RecipeCard
                   index={index}
                   id={recipe.uid}
-                  key={recipe.uid}
                   title={recipe.title}
                   flags={recipe.flags}
                   name={recipe.user_name}

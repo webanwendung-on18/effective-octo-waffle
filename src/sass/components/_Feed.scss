@@ -11,7 +11,7 @@
 }
 
 .underline--magical {
-  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  background-image: $gradient;
   background-repeat: no-repeat;
   background-size: 100% 0.2em;
   background-position: 0 88%;

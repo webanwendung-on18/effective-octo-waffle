@@ -1,0 +1,29 @@
+.recipe-outline {
+    background-color: #fff;
+    margin-bottom: 2rem;
+    z-index: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.intro:after {
+    background-color: #cfcfcf;
+    content: "";
+    display: block;
+    margin: 0.5rem 0;
+    height: 1px;
+    width: 80%;
+}
+
+.ingredients-list {
+    list-style-type: none;
+}
+
+.hero-image {
+    background-color: #cccccc;
+    height: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
