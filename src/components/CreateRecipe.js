@@ -11,12 +11,23 @@ import Slider from "@material-ui/core/Slider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import FormLabel from "@material-ui/core/FormLabel";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 var db = firebase.firestore();
+
+// https://material-ui.com/customization/components/#global-css-override
+const GlobalCss = withStyles({
+  "@global": {
+    // You should target [class*="MuiButton-root"] instead if you nest themes.
+    ".MuiButton-root": {
+      color: "#444"
+    }
+  }
+})(() => null);
 
 export default class CreateRecipe extends Component {
   constructor(props) {
@@ -87,15 +98,11 @@ export default class CreateRecipe extends Component {
     }
     if (["amount", "unit", "ingredient"].includes(e.target.dataset.fieldType)) {
       let ingredients = [...this.state.ingredients];
-      ingredients[e.target.dataset.id][e.target.dataset.fieldType] =
-        e.target.value;
-      this.setState({ ingredients }, () =>
-        console.log("ingredients", this.state.ingredients)
-      );
+      ingredients[e.target.dataset.id][e.target.dataset.fieldType] = e.target.value;
+      this.setState({ ingredients }, () => console.log("ingredients", this.state.ingredients));
     } else {
       this.setState({
-        [e.target.name]:
-          e.target.type === "checkbox" ? e.target.checked : e.target.value
+        [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
       });
     }
   };
@@ -109,10 +116,7 @@ export default class CreateRecipe extends Component {
   addIngredient = e => {
     console.log("addIngredient", this.state.ingredients);
     this.setState(prevState => ({
-      ingredients: [
-        ...prevState.ingredients,
-        { ingredient: "", amount: 0, unit: "" }
-      ]
+      ingredients: [...prevState.ingredients, { ingredient: "", amount: 0, unit: "" }]
     }));
   };
 
@@ -167,13 +171,11 @@ export default class CreateRecipe extends Component {
 
     return (
       <>
+        {/* <GlobalCss /> */}
         <Typography variant="h6" gutterBottom>
           Create Recipe
         </Typography>
-        <form
-          onSubmit={e => this.handleNewRecipeSubmit(e)}
-          onChange={this.handleChange}
-        >
+        <form onSubmit={e => this.handleNewRecipeSubmit(e)} onChange={this.handleChange}>
           <Grid container spacing={3}>
             {/* Title Field */}
             <Grid item xs={12}>
@@ -329,9 +331,7 @@ export default class CreateRecipe extends Component {
                         InputProps={{
                           startAdornment: (
                             <Grid item xs={12}>
-                              <InputAdornment position="start">
-                                Step {stepIdx}
-                              </InputAdornment>
+                              <InputAdornment position="start">Step {stepIdx}</InputAdornment>
                             </Grid>
                           )
                         }}
@@ -412,11 +412,7 @@ export default class CreateRecipe extends Component {
                     id="standard-start-adornment"
                     style={{ width: "100px" }}
                     InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          Servings
-                        </InputAdornment>
-                      )
+                      startAdornment: <InputAdornment position="start">Servings</InputAdornment>
                     }}
                     InputLabelProps={{
                       shrink: true

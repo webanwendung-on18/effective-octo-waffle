@@ -6,24 +6,10 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import CreateRecipe from "./CreateRecipe";
 import Review from "./Review";
 import { navigate } from "@reach/router";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="#">
-        Octo Waffle
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -131,7 +117,6 @@ export default function RecipeForm() {
             )}
           </>
         </Paper>
-        <Copyright />
       </main>
     </>
   );
