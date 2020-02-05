@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Slider from "@material-ui/core/Slider";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
@@ -83,12 +85,11 @@ export default class AddressForm extends Component {
       steps[e.target.dataset.id][e.target.dataset.fieldType] = e.target.value;
       this.setState({ steps }, () => console.log(this.state));
     }
-    if (/unit|amount|ingredient/gi.test(e.target.className)) {
+    if (["amount", "unit", "ingredient"].includes(e.target.dataset.fieldType)) {
       let ingredients = [...this.state.ingredients];
-      ingredients[e.target.dataset.id][
-        [...e.target.classList][0].match(/unit|amount|ingredient/gi)[0]
-      ] = e.target.value;
-      this.setState({ ingredients });
+      ingredients[e.target.dataset.id][e.target.dataset.fieldType] =
+        e.target.value;
+      this.setState({ ingredients }, () => console.log(this.state));
     } else {
       this.setState({
         [e.target.name]:
@@ -266,7 +267,7 @@ export default class AddressForm extends Component {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -301,57 +302,105 @@ export default class AddressForm extends Component {
                 label="Fruitarian"
               />
             </Grid>
-            {this.state.ingredients.map((ing, idx) => {
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                id="difficulty-slider"
+                display="block"
+                gutterBottom
+              >
+                Preparation
+              </Typography>
+            </Grid>
+            {this.state.steps.map((step, idx) => {
               let ingId = `ing-${idx}`;
               let amountId = `amount-${idx}`;
               let unitId = `unit-${idx}`;
               return (
-                <div className="form-row mb-3" key={idx}>
-                  <div className="col-sm-2 col-md-1">
-                    <input
-                      onChange={() => {}}
+                <>
+                  <Grid item xs={2}>
+                    <TextField
+                      key={idx}
                       type="number"
+                      label="Amount"
                       name={amountId}
-                      data-id={idx}
                       id={amountId}
+                      alt="amount"
+                      className="mb-4"
                       value={this.state.ingredients[idx].amount}
-                      className="amount form-control"
-                    />
-                  </div>
-                  <div className="col-sm-3 col-md-2">
-                    <select
-                      value={this.state.ingredients[idx].unit}
-                      className="unit custom-select"
-                      id={unitId}
-                      name={unitId}
-                      data-id={idx}
                       onChange={() => {}}
-                    >
-                      <option value="piece">piece</option>
-                      <option value="ml">ml</option>
-                      <option value="g">g</option>
-                      <option value="tsp">tsp</option>
-                      <option value="tbsp">tbsp</option>
-                    </select>
-                  </div>
-                  <div className="col-sm-7 col-md-4">
-                    <input
-                      type="text"
-                      className="ingredient form-control"
-                      id={ingId}
-                      name={ingId}
-                      data-id={idx}
-                      value={this.state.ingredients[idx].ingredient}
-                      onChange={this.handleChange}
+                      inputProps={{
+                        "data-id": idx,
+                        "data-field-type": "amount"
+                      }}
                     />
-                  </div>
-                </div>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <InputLabel
+                      style={{ fontSize: "12px" }}
+                      htmlFor="age-native-simple"
+                    >
+                      Unit
+                    </InputLabel>
+                    <Select
+                      native
+                      value={this.state.ingredients[idx].unit}
+                      name={unitId}
+                      id={unitId}
+                      alt="unit"
+                      label="Unit"
+                      inputProps={{
+                        "data-id": idx,
+                        "data-field-type": "unit"
+                      }}
+                    >
+                      <option value="" />
+                      <option value={"piece"}>piece</option>
+                      <option value={"ml"}>ml</option>
+                      <option value={"g"}>g</option>
+                      <option value={"tsp"}>tsp</option>
+                      <option value={"tbsp"}>tbsp</option>
+                    </Select>
+                  </Grid>
+
+                  <Grid item xs={8}>
+                    <TextField
+                      fullWidth
+                      key={idx}
+                      name={ingId}
+                      id={ingId}
+                      alt="ingredient"
+                      value={this.state.ingredients[idx].ingredient}
+                      onChange={() => {}}
+                      inputProps={{
+                        "data-id": idx,
+                        "data-field-type": "ingredient"
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            Ingredient
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                </>
               );
             })}
-
-            <Typography id="difficulty-slider" gutterBottom>
-              Preparation
-            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<FiPlusCircle />}
+              onClick={this.addIngredient}
+            >
+              Add Step
+            </Button>
+            <Grid item xs={12}>
+              <Typography variant="h6" id="difficulty-slider" gutterBottom>
+                Preparation
+              </Typography>
+            </Grid>
             <Grid item xs={12}>
               {this.state.steps.map((step, idx) => {
                 let stepIdx = idx + 1;
