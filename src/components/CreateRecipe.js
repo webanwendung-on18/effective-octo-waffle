@@ -16,9 +16,10 @@ import Select from "@material-ui/core/Select";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
+import { FormControl } from "@material-ui/core";
 var db = firebase.firestore();
 
-export default class AddressForm extends Component {
+export default class CreateRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,10 +87,11 @@ export default class AddressForm extends Component {
       this.setState({ steps }, () => console.log(this.state));
     }
     if (["amount", "unit", "ingredient"].includes(e.target.dataset.fieldType)) {
+      console.log("hey");
       let ingredients = [...this.state.ingredients];
       ingredients[e.target.dataset.id][e.target.dataset.fieldType] =
         e.target.value;
-      this.setState({ ingredients }, () => console.log(this.state));
+      this.setState({ ingredients }, () => console.log("ho", this.state));
     } else {
       this.setState({
         [e.target.name]:
@@ -105,6 +107,7 @@ export default class AddressForm extends Component {
   };
 
   addIngredient = e => {
+    console.log("addIngredient", this.state.ingredients);
     this.setState(prevState => ({
       ingredients: [
         ...prevState.ingredients,
@@ -206,33 +209,35 @@ export default class AddressForm extends Component {
                 // onDragStop={this.handleDragStop}
                 name="difficulty"
               /> */}
-              <FormControlLabel
-                control={<Radio color="default" size="small" />}
-                label="Easy"
-                type="radio"
-                value="easy"
-                labelPlacement="top"
-                name="difficulty"
-                checked={this.state.difficulty === "easy"}
-              />
-              <FormControlLabel
-                control={<Radio color="default" size="small" />}
-                type="radio"
-                value="advanced"
-                label="Advanced"
-                labelPlacement="top"
-                name="difficulty"
-                checked={this.state.difficulty === "advanced"}
-              />
-              <FormControlLabel
-                control={<Radio color="default" size="small" />}
-                type="radio"
-                value="difficult"
-                label="Difficult"
-                labelPlacement="top"
-                name="difficulty"
-                checked={this.state.difficulty === "difficult"}
-              />
+              <RadioGroup row>
+                <FormControlLabel
+                  control={<Radio color="default" size="small" />}
+                  label="Easy"
+                  type="radio"
+                  value="easy"
+                  labelPlacement="top"
+                  name="difficulty"
+                  checked={this.state.difficulty === "easy"}
+                />
+                <FormControlLabel
+                  control={<Radio color="default" size="small" />}
+                  type="radio"
+                  value="advanced"
+                  label="Advanced"
+                  labelPlacement="top"
+                  name="difficulty"
+                  checked={this.state.difficulty === "advanced"}
+                />
+                <FormControlLabel
+                  control={<Radio color="default" size="small" />}
+                  type="radio"
+                  value="difficult"
+                  label="Difficult"
+                  labelPlacement="top"
+                  name="difficulty"
+                  checked={this.state.difficulty === "difficult"}
+                />
+              </RadioGroup>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -309,18 +314,17 @@ export default class AddressForm extends Component {
                 display="block"
                 gutterBottom
               >
-                Preparation
+                Ingredients
               </Typography>
             </Grid>
-            {this.state.steps.map((step, idx) => {
+            {this.state.ingredients.map((step, idx) => {
               let ingId = `ing-${idx}`;
               let amountId = `amount-${idx}`;
               let unitId = `unit-${idx}`;
               return (
-                <>
+                <Grid container key={idx}>
                   <Grid item xs={2}>
                     <TextField
-                      key={idx}
                       type="number"
                       label="Amount"
                       name={amountId}
@@ -368,6 +372,7 @@ export default class AddressForm extends Component {
                       fullWidth
                       key={idx}
                       name={ingId}
+                      label="Ingredient"
                       id={ingId}
                       alt="ingredient"
                       value={this.state.ingredients[idx].ingredient}
@@ -376,16 +381,9 @@ export default class AddressForm extends Component {
                         "data-id": idx,
                         "data-field-type": "ingredient"
                       }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            Ingredient
-                          </InputAdornment>
-                        )
-                      }}
                     />
                   </Grid>
-                </>
+                </Grid>
               );
             })}
             <Button

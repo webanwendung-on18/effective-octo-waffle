@@ -395,7 +395,6 @@ class Form extends Component {
                   alt="step"
                   className="step form-control"
                   value={this.state.steps[idx].step}
-                  onChange={() => {}}
                 />
               </div>
             );
