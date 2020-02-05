@@ -24,16 +24,13 @@ class HTTP_404 extends Component {
               </span>
             </h1>
             <h2 className="h2">
-              {this.props.message
-                ? this.props.message
-                : "There's nothing to see here"}
+              {this.props.message ? this.props.message : "There's nothing to see here"}
             </h2>
             <div className="d-flex justify-content-center">
               <div className="w-75">
                 <p className="lead mb-5 mt-2">
-                  Whatever you were looking for doesn't currently exist at this
-                  address. Unless you were looking for this error page, in which
-                  case: Congrats! You totally found it.
+                  Whatever you were looking for doesn't currently exist at this address. Unless you
+                  were looking for this error page, in which case: Congrats! You totally found it.
                 </p>
                 <Link className="btn btn-primary btn-block mb-3" to="/">
                   Home

@@ -21,9 +21,7 @@ class RecipeCard extends Component {
     return (
       <div className="card-outline d-flex">
         <div className="card-content mr-4">
-          <span className="card-number card-circle subtle">
-            {("0" + recipeIndex).slice(-2)}
-          </span>
+          <span className="card-number card-circle subtle">{("0" + recipeIndex).slice(-2)}</span>
           <span className="ml-2">
             {flags.map((flag, idx) => (
               <span key={idx} className="flag">
@@ -45,11 +43,7 @@ class RecipeCard extends Component {
             </span>
             {difficulty}
             <span className="mt-sm-2 mt-lg-0">
-              <IoIosTime
-                size={"1.5em"}
-                color={"#333"}
-                className={"ml-lg-5 mr-1 mb-1"}
-              />
+              <IoIosTime size={"1.5em"} color={"#333"} className={"ml-lg-5 mr-1 mb-1"} />
               {`${duration} minutes`}
             </span>
           </div>

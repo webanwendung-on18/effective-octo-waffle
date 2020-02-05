@@ -23,15 +23,8 @@ class Navbar extends Component {
 
           <div className="collapse navbar-collapse">
             <form className="form-inline">
-              <input
-                className="form-control mr-sm-2"
-                type="search"
-                placeholder="Search"
-              />
-              <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-              >
+              <input className="form-control mr-sm-2" type="search" placeholder="Search" />
+              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
                 <FiSearch className="mb-1" />
               </button>
             </form>
@@ -45,19 +38,12 @@ class Navbar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link
-                    to={`/profile/${this.props.user.uid}`}
-                    className="nav-link"
-                  >
+                  <Link to={`/profile/${this.props.user.uid}`} className="nav-link">
                     <FiUser className="mb-1" />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="/"
-                    onClick={e => logOutUser(e)}
-                  >
+                  <Link className="nav-link" to="/" onClick={e => logOutUser(e)}>
                     <FiLogOut className="mb-1" />
                   </Link>
                 </li>
