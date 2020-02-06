@@ -97,7 +97,7 @@ class App extends Component {
           <Feed path="recipes" />
           <Recipe path="recipes/:recipeId" />
           {/*<Recipe path="/recipes/:recipeId" />*/}
-          <Profile path="/profile/:userId" />
+          <Profile path="/profile/:userId" registerUser={this.state.userID} />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
           <HTTP_404 default />

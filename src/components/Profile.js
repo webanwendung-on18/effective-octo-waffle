@@ -15,7 +15,14 @@ var db = firebase.firestore();
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, user: null, error: null, recipes: [] };
+    this.state = {
+      loading: false,
+      user: null,
+      error: null,
+      recipes: [],
+      recipe: null,
+      recipeIds: []
+    };
   }
   async componentDidMount() {
     try {
@@ -48,7 +55,10 @@ class Profile extends Component {
       }
 
       query.forEach(doc => {
-        this.setState({ recipes: [...this.state.recipes, doc.data()] });
+        this.setState({
+          recipes: [...this.state.recipes, doc.data()],
+          recipeIds: [...this.state.recipeIds, doc.id]
+        });
       });
     } catch (err) {
       console.error("error", err.message);
@@ -76,15 +86,7 @@ class Profile extends Component {
                       <h1>{this.state.user.name}</h1>
                     </div>
                     <div className="col">
-                      {
-                        !console.log(
-                          "this is the user stuff",
-                          this.state.user.user_id,
-                          this.state.user.userId,
-                          this.props.userId
-                        )
-                      }
-                      {this.state.user.userId !== this.props.userId ? (
+                      {this.state.user.userId !== this.props.registerUser ? (
                         <button class="btn btn-primary" type="submit">
                           Follow
                         </button>
@@ -121,11 +123,13 @@ class Profile extends Component {
               </div>
 
               <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
-              <p>
-                <Link to="/add-recipe" className="nav-link addButton">
-                  <FiPlusCircle /> Neue hinzufügen
-                </Link>
-              </p>
+              {this.state.user.userId === this.props.registerUser ? (
+                <p>
+                  <Link to="/add-recipe" className="nav-link addButton">
+                    <FiPlusCircle /> Neue hinzufügen
+                  </Link>
+                </p>
+              ) : null}
 
               <div className="row">
                 <CollectionPreview />
@@ -135,11 +139,13 @@ class Profile extends Component {
               </div>
 
               <h4 className="mt-5 mb-2">Deine Rezepte</h4>
-              <p className="px-0 mx-0">
-                <Link to="/add-recipe" className="nav-link addButton">
-                  <FiPlusCircle className="addButton" /> Neues hinzufügen
-                </Link>
-              </p>
+              {this.state.user.userId === this.props.registerUser ? (
+                <p className="px-0 mx-0">
+                  <Link to="/add-recipe" className="nav-link addButton">
+                    <FiPlusCircle className="addButton" /> Neues hinzufügen
+                  </Link>
+                </p>
+              ) : null}
 
               <div className="row">
                 {!this.state.loading && this.state.recipes.length > 0 ? (
@@ -147,7 +153,7 @@ class Profile extends Component {
                     <div className="col-12 col-lg-6 mr-auto">
                       <RecipeCard
                         index={index}
-                        id={recipe.uid}
+                        id={this.state.recipeIds[index]}
                         key={recipe.uid}
                         title={recipe.title}
                         flags={recipe.flags}
