@@ -7,7 +7,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CreateRecipe from "./CreateRecipe";
-import Review from "./Review";
+import RecipeReview from "./RecipeReview";
 import { navigate } from "@reach/router";
 
 import firebase from "./../firebase/config";
@@ -68,7 +68,7 @@ export default class RecipeForm extends Component {
         );
       case 1:
         return (
-          <Review
+          <RecipeReview
             title={this.state.title}
             flags={this.state.flags}
             steps={this.state.steps}
