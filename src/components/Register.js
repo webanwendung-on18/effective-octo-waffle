@@ -42,10 +42,7 @@ class Register extends Component {
 
     firebase
       .auth()
-      .createUserWithEmailAndPassword(
-        registrationInfo.email,
-        registrationInfo.password
-      )
+      .createUserWithEmailAndPassword(registrationInfo.email, registrationInfo.password)
       .then(() => {
         this.props.registerUser(registrationInfo.userName);
       })
@@ -65,9 +62,7 @@ class Register extends Component {
           <div className="card card-login">
             <div className="card-body">
               <h1 className="h2 text-center mt-2">Register</h1>
-              <h6 className="card-subtitle mb-3 text-muted text-center">
-                Create a new account
-              </h6>
+              <h6 className="card-subtitle mb-3 text-muted text-center">Create a new account</h6>
               <form onSubmit={this.handleSubmit}>
                 {this.state.errorMessage !== null ? (
                   <FormError theMessage={this.state.errorMessage} />

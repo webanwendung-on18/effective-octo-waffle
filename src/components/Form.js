@@ -70,8 +70,7 @@ class Form extends Component {
   handleChange = e => {
     if (/step/gi.test(e.target.className)) {
       let steps = [...this.state.steps];
-      steps[e.target.dataset.id][[...e.target.classList][0].match("step")[0]] =
-        e.target.value;
+      steps[e.target.dataset.id][[...e.target.classList][0].match("step")[0]] = e.target.value;
       this.setState({ steps });
     }
     if (/unit|amount|ingredient/gi.test(e.target.className)) {
@@ -82,8 +81,7 @@ class Form extends Component {
       this.setState({ ingredients });
     } else {
       this.setState({
-        [e.target.name]:
-          e.target.type === "checkbox" ? e.target.checked : e.target.value
+        [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
       });
     }
   };
@@ -96,10 +94,7 @@ class Form extends Component {
 
   addIngredient = e => {
     this.setState(prevState => ({
-      ingredients: [
-        ...prevState.ingredients,
-        { ingredient: "", amount: 0, unit: "" }
-      ]
+      ingredients: [...prevState.ingredients, { ingredient: "", amount: 0, unit: "" }]
     }));
   };
 
@@ -121,10 +116,7 @@ class Form extends Component {
         <h1>Add a recipe</h1>
         <p>Here you can add your own recipe</p>
 
-        <form
-          onSubmit={e => this.handleNewRecipeSubmit(e)}
-          onChange={this.handleChange}
-        >
+        <form onSubmit={e => this.handleNewRecipeSubmit(e)} onChange={this.handleChange}>
           {/* TITLE */}
           <div className="form-group">
             <div className="form-row">
@@ -152,8 +144,7 @@ class Form extends Component {
                 required
               />
               <small className="form-text text-muted">
-                This description will be displayed together with the title in
-                the feed
+                This description will be displayed together with the title in the feed
               </small>
               <input
                 className="form-control form-control mt-2"
@@ -172,9 +163,7 @@ class Form extends Component {
             <div className="form-row">
               <div className="col">
                 <div className="row">
-                  <legend className="col-form-label col-xl-2 pt-0">
-                    Difficulty
-                  </legend>
+                  <legend className="col-form-label col-xl-2 pt-0">Difficulty</legend>
                   <div className="col-xl-10">
                     <div className="form-check">
                       <label className="form-check-label">
@@ -243,10 +232,7 @@ class Form extends Component {
                     checked={this.state.isPrivate}
                     readOnly
                   />
-                  <label
-                    className="custom-control-label"
-                    htmlFor="privateSwitch"
-                  >
+                  <label className="custom-control-label" htmlFor="privateSwitch">
                     Private
                   </label>
                 </div>
@@ -365,11 +351,7 @@ class Form extends Component {
             })}
             <div className="form-row mb-3">
               <div className="col-lg-3">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.addIngredient}
-                >
+                <button type="button" className="btn btn-primary" onClick={this.addIngredient}>
                   <FiPlusCircle className="mr-2 mb-1" />
                   Add ingredient
                 </button>
@@ -405,11 +387,7 @@ class Form extends Component {
           <div className="form-group">
             <div className="form-row">
               <div className="col-lg-2 mb-3">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.addStep}
-                >
+                <button type="button" className="btn btn-primary" onClick={this.addStep}>
                   <FiPlusCircle className="mr-2 mb-1" />
                   Add step
                 </button>

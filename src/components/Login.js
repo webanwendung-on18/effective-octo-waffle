@@ -33,10 +33,7 @@ class Login extends Component {
 
     firebase
       .auth()
-      .signInWithEmailAndPassword(
-        registrationInfo.email,
-        registrationInfo.password
-      )
+      .signInWithEmailAndPassword(registrationInfo.email, registrationInfo.password)
       .then(() => {
         navigate("/recipes");
       })
@@ -56,9 +53,7 @@ class Login extends Component {
           <div className="card card-login">
             <div className="card-body">
               <h1 className="h2 text-center mt-2">Login</h1>
-              <h6 className="card-subtitle mb-3 text-muted text-center">
-                Sign into your account
-              </h6>
+              <h6 className="card-subtitle mb-3 text-muted text-center">Sign into your account</h6>
               <form onSubmit={this.handleSubmit}>
                 {this.state.errorMessage !== null ? (
                   <FormError theMessage={this.state.errorMessage} />
