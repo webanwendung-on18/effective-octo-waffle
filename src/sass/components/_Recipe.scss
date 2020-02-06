@@ -1,57 +1,113 @@
 .hero-image {
-  background-color: #eeeeee;
-  height: 600px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  z-index: -1;
+    background-color: #eeeeee;
+    height: 600px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    z-index: -1;
 }
 
 .hero-content {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -350px);
-  padding: 20px 50px 20px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -350px);
+    padding: 20px 50px 20px;
 }
 
 .recipe-outline {
-  background-color: #fff;
-  margin-bottom: 2rem;
-  z-index: 1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background-color: #fff;
+    margin-bottom: 2rem;
+    z-index: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .intro:after {
-  background-color: #cfcfcf;
-  content: "";
-  display: block;
-  margin: 0.5rem 15px;
-  height: 1px;
-  width: 80%;
+    background-color: #cfcfcf;
+    content: "";
+    display: block;
+    margin: 0.5rem 15px;
+    height: 1px;
+    width: 80%;
 }
 
 .recipe-title {
-  font-family: $recipe-title;
-  font-size: 4.5rem;
-  font-weight: 400;
+    font-family: $recipe-title;
+    font-size: 4.5rem;
+    font-weight: 400;
 }
 
 .description {
-  color: #aaaaaa;
-  margin-bottom: 0px;
+    color: #aaaaaa;
+    margin-bottom: 0px;
 }
 
 .list {
-  list-style-type: none;
-  line-height: 1.5;
+    list-style-type: none;
+    line-height: 2;
 }
 
 .steps {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
-.recipe-image {
-  width: 100%;
+img {
+    width: 100%;
+    max-height: 100%;
+
+}
+
+.polaroid {
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+}
+
+.item {
+    display: inline-block;
+    margin-top: 2rem;
+}
+
+.item .polaroid:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transition: all 0.5s;
+}
+
+.item {
+    transform: scale(0.8, 0.8) rotate(-5deg);
+    transition: all 0.5s;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+
+.item .polaroid:before {
+    transform: rotate(-6deg);
+    height: 20%;
+    width: 47%;
+    bottom: 30px;
+    left: 12px;
+    box-shadow: 0 2.1rem 2rem rgba(0, 0, 0, 0.4);
+}
+
+.item:hover {
+    transform: scale(1, 1) rotate(0deg) !important;
+    transition: all 0.5s;
+}
+
+.item:hover .polaroid:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transform: rotate(0deg);
+    height: 90%;
+    width: 90%;
+    bottom: 0%;
+    right: 5%;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+    transition: all 0.5s;
 }

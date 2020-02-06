@@ -19,9 +19,7 @@ class Recipe extends Component {
         .doc(this.props.recipeId)
         .get();
       if (recipe.exists) {
-        this.setState({ recipe: recipe.data(), loading: false }, () =>
-          console.log(this.state.recipe)
-        );
+        this.setState({ recipe: recipe.data(), loading: false });
       } else {
         this.setState({ error: "Recipe doesn't exist", loading: false });
       }
@@ -31,7 +29,6 @@ class Recipe extends Component {
     }
   }
   render() {
-    let seen = [];
     return (
       <>
         {!this.state.loading && this.state.recipe !== null ? (
@@ -61,11 +58,13 @@ class Recipe extends Component {
               </div>
               <div className="row">
                 <div className="col-md-6 col-12">
-                  <h2 className="underline--magical">Ingredients</h2>
+                  <h2>
+                    <span className="underline--magical">Ingredients</span>
+                  </h2>
                   <ul className="list">
                     {this.state.recipe.ingredients.map((ingredient, idx) => (
                       <li key={idx}>
-                        {ingredient.amount} {ingredient.unit}
+                        {ingredient.amount === 0 ? " " : ingredient.amount} {ingredient.unit}
                         {"   "}
                         {ingredient.ingredient}
                       </li>
@@ -73,9 +72,11 @@ class Recipe extends Component {
                   </ul>
                 </div>
                 <div className="col-md-6 col-12">
-                  <h2 className="underline--magical">Details</h2>
+                  <h2>
+                    <span className="underline--magical">Details</span>
+                  </h2>
                   <div>
-                    <span className="mr-1" style={{ fontWeight: "600" }}>
+                    <span className="mr-1 list" style={{ fontWeight: "600" }}>
                       Duration:
                     </span>
                     {this.state.recipe.duration > 1 ? (
@@ -85,7 +86,7 @@ class Recipe extends Component {
                     )}
                   </div>
                   <div>
-                    <span className="mr-1" style={{ fontWeight: "600" }}>
+                    <span className="mr-1 list" style={{ fontWeight: "600" }}>
                       Difficulty:
                     </span>
                     {this.state.recipe.difficulty}
@@ -110,7 +111,9 @@ class Recipe extends Component {
               </div>
               <div className="row">
                 <div className="col-12">
-                  <h2 className="underline--magical">Preparation</h2>
+                  <h2>
+                    <span className="underline--magical">Preparation</span>
+                  </h2>
                   <ul className="list">
                     {this.state.recipe.steps.map((step, idx) => (
                       <li key={idx} className="mb-4">
@@ -122,7 +125,13 @@ class Recipe extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-12"></div>
+                <div className="col-12">
+                  <div class="item">
+                    <div class="polaroid">
+                      <img src={this.state.recipe.imageUrl} alt="img" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </>
