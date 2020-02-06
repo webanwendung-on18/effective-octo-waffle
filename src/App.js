@@ -14,6 +14,7 @@ import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 import HTTP_404 from "./components/HTTP_404";
+import ProfileSettings from "./components/ProfileSettings.js";
 
 var db = firebase.firestore();
 
@@ -98,6 +99,10 @@ class App extends Component {
           <Recipe path="recipes/:recipeId" />
           {/*<Recipe path="/recipes/:recipeId" />*/}
           <Profile path="/profile/:userId" registerUser={this.state.userID} />
+          <ProfileSettings
+            path="/profile/settings"
+            registerUser={this.state.userID}
+          />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
           <HTTP_404 default />
