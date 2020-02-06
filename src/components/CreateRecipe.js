@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -15,10 +14,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import FormLabel from "@material-ui/core/FormLabel";
 
-import firebase from "./../firebase/config";
-import "firebase/firestore";
-var db = firebase.firestore();
-
 // https://material-ui.com/customization/components/#global-css-override
 const GlobalCss = withStyles({
   "@global": {
@@ -30,127 +25,28 @@ const GlobalCss = withStyles({
 })(() => null);
 
 export default class CreateRecipe extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      description: "",
-      imageUrl: "",
-      difficulty: 1,
-      duration: 10,
-      isPrivate: false,
-      servings: "1",
-      flags: [],
-      ingredients: [{ ingredient: "", amount: 0, unit: "" }],
-      steps: [{ step: "" }],
-      user_name: "",
-      user_id: ""
-    };
-
-    // This binding is necessary to make `this` work in the callback
-    this.handleNewRecipeSubmit = this.handleNewRecipeSubmit.bind(this);
-  }
-
   handleNewRecipeSubmit = e => {
-    const {
-      title,
-      flags,
-      steps,
-      duration,
-      servings,
-      imageUrl,
-      isPrivate,
-      difficulty,
-      ingredients,
-      description
-    } = this.state;
-    const { user } = this.props;
-    e.preventDefault();
-    db.collection("Recipes")
-      .add({
-        title,
-        flags,
-        steps,
-        duration,
-        imageUrl,
-        servings,
-        isPrivate,
-        difficulty,
-        description,
-        ingredients,
-        user_id: user.uid,
-        user_name: user.displayName
-      })
-      .then(docRef => {
-        this.setState({ docRefId: docRef.id });
-        navigate(`/recipes/${docRef.id}`);
-      })
-      .catch(err => {
-        console.log(`Error adding document: ${err}`);
-      });
+    this.props.handleNewRecipeSubmit(e);
   };
 
   handleChange = e => {
-    if (["step"].includes(e.target.dataset.fieldType)) {
-      let steps = [...this.state.steps];
-      steps[e.target.dataset.id][e.target.dataset.fieldType] = e.target.value;
-      this.setState({ steps }, () => console.log(this.state));
-    }
-    if (["amount", "unit", "ingredient"].includes(e.target.dataset.fieldType)) {
-      let ingredients = [...this.state.ingredients];
-      ingredients[e.target.dataset.id][e.target.dataset.fieldType] = e.target.value;
-      this.setState({ ingredients }, () => console.log("ingredients", this.state.ingredients));
-    } else {
-      this.setState({
-        [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
+    this.props.handleChange(e);
   };
 
   addStep = e => {
-    this.setState(prevState => ({
-      steps: [...prevState.steps, { step: "" }]
-    }));
+    this.props.addStep(e);
   };
 
   addIngredient = e => {
-    console.log("addIngredient", this.state.ingredients);
-    this.setState(prevState => ({
-      ingredients: [...prevState.ingredients, { ingredient: "", amount: 0, unit: "" }]
-    }));
+    this.props.addIngredient(e);
   };
 
   handleCheckbox = e => {
-    if (e.target.name === e.target.value && e.target.type === "checkbox") {
-      var flagsArr = [...this.state.flags];
-      var index = flagsArr.indexOf(e.target.value);
-      if (index !== -1) {
-        flagsArr.splice(index, 1);
-        this.setState({ flags: flagsArr });
-      } else {
-        this.setState({ flags: [...this.state.flags, e.target.value] });
-      }
-    }
+    this.props.handleCheckbox(e);
   };
 
-  valuetext(value) {
-    return `${value}°C`;
-  }
-  handleDragStop = () => this.props.update(this.state.value);
-
   handleSlider(event, value) {
-    this.setState(() => {
-      switch (value) {
-        case 1:
-          return { difficulty: "easy" };
-        case 2:
-          return { difficulty: "advanced" };
-        case 3:
-          return { difficulty: "difficult" };
-        default:
-          break;
-      }
-    });
+    this.props.handleSlider(event, value);
   }
 
   render() {
@@ -171,7 +67,7 @@ export default class CreateRecipe extends Component {
 
     return (
       <>
-        {/* <GlobalCss /> */}
+        <GlobalCss />
         <Typography variant="h6" gutterBottom>
           Create Recipe
         </Typography>
@@ -184,7 +80,7 @@ export default class CreateRecipe extends Component {
                 id="title"
                 name="title"
                 label="Title"
-                value={this.state.title}
+                value={this.props.title}
                 fullWidth
               />
             </Grid>
@@ -196,7 +92,7 @@ export default class CreateRecipe extends Component {
                 name="description"
                 multiline
                 rowsMax="3"
-                value={this.state.description}
+                value={this.props.description}
                 fullWidth
               />
             </Grid>
@@ -206,7 +102,7 @@ export default class CreateRecipe extends Component {
                 required
                 id="imageUrl"
                 name="imageUrl"
-                value={this.state.imageUrl}
+                value={this.props.imageUrl}
                 label="Image URL"
                 fullWidth
               />
@@ -220,7 +116,7 @@ export default class CreateRecipe extends Component {
             {/* Ingredients */}
             <Paper variant="outlined">
               <Grid container item xs={12} spacing={4} className="ml-1 my-2">
-                {this.state.ingredients.map((step, idx) => {
+                {this.props.ingredients.map((step, idx) => {
                   let ingId = `ing-${idx}`;
                   let amountId = `amount-${idx}`;
                   let unitId = `unit-${idx}`;
@@ -233,7 +129,7 @@ export default class CreateRecipe extends Component {
                           name={amountId}
                           id={amountId}
                           alt="amount"
-                          value={this.state.ingredients[idx].amount}
+                          value={this.props.ingredients[idx].amount}
                           onChange={() => {}}
                           inputProps={{
                             "data-id": idx,
@@ -250,7 +146,7 @@ export default class CreateRecipe extends Component {
                         </InputLabel>
                         <Select
                           native
-                          value={this.state.ingredients[idx].unit}
+                          value={this.props.ingredients[idx].unit}
                           name={unitId}
                           id={unitId}
                           style={{ marginTop: "-6.1px" }}
@@ -277,7 +173,7 @@ export default class CreateRecipe extends Component {
                           label="Ingredient"
                           id={ingId}
                           alt="ingredient"
-                          value={this.state.ingredients[idx].ingredient}
+                          value={this.props.ingredients[idx].ingredient}
                           onChange={() => {}}
                           inputProps={{
                             "data-id": idx,
@@ -309,7 +205,7 @@ export default class CreateRecipe extends Component {
             {/* Preparation */}
             <Paper variant="outlined" className="w-100 p-3">
               <Grid container item xs={12}>
-                {this.state.steps.map((step, idx) => {
+                {this.props.steps.map((step, idx) => {
                   let stepIdx = idx + 1;
                   let stepId = `step-${stepIdx}`;
                   return (
@@ -322,7 +218,7 @@ export default class CreateRecipe extends Component {
                         id={stepId}
                         alt="step"
                         className="mb-4"
-                        value={this.state.steps[idx].step}
+                        value={this.props.steps[idx].step}
                         onChange={() => {}}
                         inputProps={{
                           "data-id": idx,
@@ -354,7 +250,7 @@ export default class CreateRecipe extends Component {
             {/* Other Parameter Title */}
             <Grid item xs={12}>
               <Typography variant="h6" id="difficulty-slider">
-                Other Parameter
+                Other Parameters
               </Typography>
             </Grid>
             {/* Other Parameter */}
@@ -373,41 +269,11 @@ export default class CreateRecipe extends Component {
                     onChange={(event, value) => this.handleSlider(event, value)}
                     name="difficulty"
                   />
-
-                  {/* <RadioGroup row>
-                <FormControlLabel
-                  control={<Radio color="default" size="small" />}
-                  label="Easy"
-                  type="radio"
-                  value="easy"
-                  labelPlacement="top"
-                  name="difficulty"
-                  checked={this.state.difficulty === "easy"}
-                />
-                <FormControlLabel
-                  control={<Radio color="default" size="small" />}
-                  type="radio"
-                  value="advanced"
-                  label="Advanced"
-                  labelPlacement="top"
-                  name="difficulty"
-                  checked={this.state.difficulty === "advanced"}
-                />
-                <FormControlLabel
-                  control={<Radio color="default" size="small" />}
-                  type="radio"
-                  value="difficult"
-                  label="Difficult"
-                  labelPlacement="top"
-                  name="difficulty"
-                  checked={this.state.difficulty === "difficult"}
-                />
-              </RadioGroup> */}
                 </Grid>
                 <Grid container item xs={12} sm={7}>
                   <TextField
                     type="number"
-                    value={this.state.servings}
+                    value={this.props.servings}
                     name="servings"
                     id="standard-start-adornment"
                     style={{ width: "100px" }}
@@ -420,7 +286,7 @@ export default class CreateRecipe extends Component {
                   />
                   <TextField
                     type="number"
-                    value={this.state.duration}
+                    value={this.props.duration}
                     name="duration"
                     id="standard-start-adornment"
                     className="ml-5"
