@@ -6,12 +6,14 @@ import "firebase/auth";
 
 import Navbar from "./components/Navbar";
 import Feed from "../src/components/Feed";
+import Recipe from "../src/components/Recipe";
 import Home from "../src/components/Home";
 import Profile from "../src/components/Profile";
 import Form from "../src/components/Form";
 import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
+import HTTP_404 from "./components/HTTP_404";
 
 var db = firebase.firestore();
 
@@ -90,13 +92,15 @@ class App extends Component {
         <Navbar user={this.state.user} logOutUser={this.logOutUser} />
         <Router>
           <Home path="/" user={this.state.user} />
-          <Login path="/login" />
-          <Register path="/register" registerUser={this.registerUser} />
-          <Feed path="/recipes" />
+          <Login path="login" />
+          <Register path="register" registerUser={this.registerUser} />
+          <Feed path="recipes" />
+          <Recipe path="recipes/:recipeId" />
           {/*<Recipe path="/recipes/:recipeId" />*/}
           <Profile path="/profile/:userId" />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
+          <HTTP_404 default />
         </Router>
       </>
     );

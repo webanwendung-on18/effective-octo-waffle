@@ -30,18 +30,13 @@ class RecipePreview extends Component {
                 <div className="card-body">
                   <h5 className="card-title">Card title</h5>
                   <p className="card-text">
-                    It's a broader card with text below as a natural lead-in to
-                    extra content. This content is a little longer.
+                    It's a broader card with text below as a natural lead-in to extra content. This
+                    content is a little longer.
                   </p>
                   <p className="card-text">
-                    <small className="text-muted">
-                      Last updated 3 mins ago
-                    </small>
+                    <small className="text-muted">Last updated 3 mins ago</small>
                   </p>
-                  <Link
-                    to="#!"
-                    className="black-text d-flex justify-content-end"
-                  >
+                  <Link to="#!" className="black-text d-flex justify-content-end">
                     <h5>Read more</h5>
                     <FiChevronsRight />
                   </Link>

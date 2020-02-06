@@ -8,6 +8,7 @@ import "firebase/firestore";
 
 import CollectionPreview from "./CollectionPreview";
 import RecipeCard from "./RecipeCard";
+import HTTP_404 from "./HTTP_404";
 
 var db = firebase.firestore();
 
@@ -25,9 +26,11 @@ class Profile extends Component {
         .get();
 
       if (userData.exists) {
-        this.setState({ user: userData.data(), loading: false });
+        this.setState({ user: userData.data(), loading: false }, () =>
+          console.log("uhey", userData.id)
+        );
       } else {
-        this.setState({ error: "User doesn't exist ☹", loading: false });
+        this.setState({ error: "User doesn't exist", loading: false });
       }
     } catch (err) {
       console.error("Error", err.message);
@@ -55,8 +58,7 @@ class Profile extends Component {
   render() {
     return (
       <>
-        {/* In Zukunft sollte der Error vielleicht an eine 404 Komponente weitergeleitet werden */}
-        {this.state.error && <h1>{this.state.error}</h1>}
+        {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.user !== null ? (
           <>
             <div className="container">
@@ -74,6 +76,14 @@ class Profile extends Component {
                       <h1>{this.state.user.name}</h1>
                     </div>
                     <div className="col">
+                      {
+                        !console.log(
+                          "this is the user stuff",
+                          this.state.user.user_id,
+                          this.state.user.userId,
+                          this.props.userId
+                        )
+                      }
                       {this.state.user.userId !== this.props.userId ? (
                         <button class="btn btn-primary" type="submit">
                           Follow

@@ -40,8 +40,7 @@
 }
 
 .card-title {
-    font-family: "Cormorant Garamond", serif;
-    // font-weight: 300;
+    font-family: $recipe-title;
     line-height: 4rem;
     margin: 10px 0;
 }
@@ -82,10 +81,11 @@
 .card-media {
     object-fit: cover;
     overflow: hidden;
+    width: 100%;
 }
 
 .flag {
-    background-color: rgb(53, 53, 53);
+    background-color: $secondary;
     color: #fff;
     text-transform: lowercase;
     font-size: small;
