@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { Paper } from "@material-ui/core";
+import { Paper, List, ListItem, ListItemText } from "@material-ui/core";
 
 const styles = {
   paperContainer: {
@@ -25,8 +25,8 @@ class Review extends Component {
       // steps,
       // user_name,
       // difficulty,
-      description
-      // ingredients,
+      description,
+      ingredients
       // imageUrl,
       // duration,
       // servings,
@@ -50,14 +50,29 @@ class Review extends Component {
         </Paper>
         <Grid />
 
-        {/* <Grid item xs={12} />
+        <Grid item xs={12} />
         <Paper variant="outlined" className="reviewPaper">
           <Typography variant="h6" gutterBottom>
-            Description
+            Ingredients
           </Typography>
-          {description ? description : <Empty name="description" />}
+          {ingredients[0].ingredient !== "" ? (
+            ingredients.map((ing, idx) => {
+              const ingredient =
+                (ing.amount === 0 ? " " : ing.amount) +
+                ` ${ing.unit} ${ing.ingredient}`;
+              return (
+                <List key={idx}>
+                  <ListItem>
+                    <ListItemText primary={ingredient} />
+                  </ListItem>
+                </List>
+              );
+            })
+          ) : (
+            <Empty name="Ingredients" />
+          )}
         </Paper>
-        <Grid /> */}
+        <Grid />
       </>
     );
   }
