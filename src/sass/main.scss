@@ -1,1 +1,9 @@
-@import "../../node_modules/bootstrap/scss/bootstrap.scss", "./base/variables", "./base/base", "layout/home", "layout/http_404.scss", "./components/profile", "./components/Feed", "./components/RecipeCard", "./components/Recipe";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./base/variables";
+@import "./base/base";
+@import "layout/home";
+@import "layout/http_404.scss";
+@import "./components/profile";
+@import "./components/Feed";
+@import "./components/RecipeCard";
+@import "./components/Recipe";
