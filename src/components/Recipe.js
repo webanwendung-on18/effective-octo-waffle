@@ -126,8 +126,8 @@ class Recipe extends Component {
               </div>
               <div className="row">
                 <div className="col-12">
-                  <div class="item">
-                    <div class="polaroid">
+                  <div className="item">
+                    <div className="polaroid">
                       <img src={this.state.recipe.imageUrl} alt="img" />
                     </div>
                   </div>
