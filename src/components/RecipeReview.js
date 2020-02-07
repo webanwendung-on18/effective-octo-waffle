@@ -58,10 +58,9 @@ class Review extends Component {
           {ingredients[0].ingredient !== "" ? (
             ingredients.map((ing, idx) => {
               const ingredient =
-                (ing.amount === 0 ? " " : ing.amount) +
-                ` ${ing.unit} ${ing.ingredient}`;
+                (ing.amount === 0 ? " " : ing.amount) + ` ${ing.unit} ${ing.ingredient}`;
               return (
-                <List key={idx}>
+                <List dense key={idx}>
                   <ListItem>
                     <ListItemText primary={ingredient} />
                   </ListItem>

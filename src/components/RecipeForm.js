@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CreateRecipe from "./CreateRecipe";
 import RecipeReview from "./RecipeReview";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import { navigate } from "@reach/router";
 
 import firebase from "./../firebase/config";
@@ -21,6 +23,7 @@ export default class RecipeForm extends Component {
     super(props);
     this.state = {
       activeStep: 0,
+      snackbarOpen: false,
       title: "",
       description: "",
       imageUrl: "",
@@ -87,6 +90,36 @@ export default class RecipeForm extends Component {
     }
   }
 
+  validate(title, description, imageUrl, ingredients, steps) {
+    let validObj = {
+      title: title.length === 0,
+      description: description.length === 0,
+      imageUrl: imageUrl.length === 0,
+      ingredients: ingredients.some(ingredient => ingredient.ingredient.length === 0),
+      steps: steps.some(step => step.step.length === 0)
+    };
+    return validObj;
+  }
+
+  canBeSubmitted() {
+    const errors = this.validate(
+      this.state.title,
+      this.state.description,
+      this.state.imageUrl,
+      this.state.ingredients,
+      this.state.steps
+    );
+    const isDisabled = Object.keys(errors).some(x => errors[x]);
+    return !isDisabled;
+  }
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ snackbarOpen: false });
+  };
+
   handleNewRecipeSubmit = e => {
     const {
       title,
@@ -101,8 +134,13 @@ export default class RecipeForm extends Component {
       description
     } = this.state;
     const { user } = this.props;
-    e.preventDefault();
+    if (!this.canBeSubmitted()) {
+      e.preventDefault();
+      this.setState({ snackbarOpen: true });
+      return;
+    }
     if (this.state.activeStep === 1) {
+      e.preventDefault();
       db.collection("Recipes")
         .add({
           title,
@@ -132,23 +170,19 @@ export default class RecipeForm extends Component {
   };
 
   handleChange = e => {
-    console.log("e", e.target.dataset.fieldType);
     if (["step"].includes(e.target.dataset.fieldType)) {
       let steps = [...this.state.steps];
       steps[e.target.dataset.id][e.target.dataset.fieldType] = e.target.value;
-      this.setState({ steps }, () => console.log(this.state));
+      this.setState({ steps });
     }
     if (["amount", "unit", "ingredient"].includes(e.target.dataset.fieldType)) {
       let ingredients = [...this.state.ingredients];
       ingredients[e.target.dataset.id][e.target.dataset.fieldType] = e.target.value;
-      this.setState({ ingredients }, () => console.log("ingredients", this.state.ingredients));
+      this.setState({ ingredients });
     } else {
-      this.setState(
-        {
-          [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
-        },
-        () => console.log("u", this.state)
-      );
+      this.setState({
+        [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value
+      });
     }
   };
 
@@ -160,9 +194,7 @@ export default class RecipeForm extends Component {
         flagsArr.splice(index, 1);
         this.setState({ flags: flagsArr });
       } else {
-        this.setState({ flags: [...this.state.flags, e.target.value] }, () =>
-          console.log(this.state)
-        );
+        this.setState({ flags: [...this.state.flags, e.target.value] });
       }
     }
   };
@@ -174,7 +206,6 @@ export default class RecipeForm extends Component {
   };
 
   addIngredient = e => {
-    console.log("addIngredient", this.state.ingredients);
     this.setState(prevState => ({
       ingredients: [...prevState.ingredients, { ingredient: "", amount: 0, unit: "" }]
     }));
@@ -200,11 +231,16 @@ export default class RecipeForm extends Component {
   }
 
   render() {
-    const { activeStep } = this.state;
+    const { activeStep, snackbarOpen } = this.state;
     return (
       <>
         <CssBaseline />
         <main className="formLayout">
+          <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={this.handleClose}>
+            <MuiAlert elevation={6} variant="filled" onClose={this.handleClose} severity="error">
+              Some fields are empty
+            </MuiAlert>
+          </Snackbar>
           <Paper className="formPaper">
             <Typography component="h1" variant="h4" align="center">
               {activeStep === steps.length - 1 ? "Recipe Review" : "Recipe Form"}
@@ -228,14 +264,27 @@ export default class RecipeForm extends Component {
                         Back
                       </Button>
                     )}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={e => this.handleNewRecipeSubmit(e)}
-                      className="ml-2 mt-4"
-                    >
-                      {activeStep === steps.length - 1 ? "Create Recipe" : "Next"}
-                    </Button>
+                    {activeStep === steps.length - 1 ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={e => this.handleNewRecipeSubmit(e)}
+                        className="ml-2 mt-4"
+                        // disabled={isDisabled}
+                      >
+                        {"Create Recipe"}
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={e => this.handleNewRecipeSubmit(e)}
+                        className="ml-2 mt-4"
+                        // disabled={isDisabled}
+                      >
+                        {"Next"}
+                      </Button>
+                    )}
                   </div>
                 </>
               )}
