@@ -97,7 +97,6 @@ class App extends Component {
           <Register path="register" registerUser={this.registerUser} />
           <Feed path="recipes" />
           <Recipe path="recipes/:recipeId" />
-          {/*<Recipe path="/recipes/:recipeId" />*/}
           <Profile path="/profile/:userId" />
           <Form user={this.state.user} path="/add-recipe" />
           <DatabaseTests path="/database-tests" />
