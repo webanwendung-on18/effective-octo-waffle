@@ -10,19 +10,9 @@ import Slider from "@material-ui/core/Slider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import FormLabel from "@material-ui/core/FormLabel";
-
-// https://material-ui.com/customization/components/#global-css-override
-const GlobalCss = withStyles({
-  "@global": {
-    // You should target [class*="MuiButton-root"] instead if you nest themes.
-    ".MuiButton-root": {
-      color: "#444"
-    }
-  }
-})(() => null);
+import { GlobalCss } from "../materialUI/styles";
 
 export default class CreateRecipe extends Component {
   handleNewRecipeSubmit = e => {
