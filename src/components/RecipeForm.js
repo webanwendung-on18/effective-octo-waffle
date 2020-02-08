@@ -9,6 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import CreateRecipe from "./CreateRecipe";
 import RecipeReview from "./RecipeReview";
 import Snackbar from "@material-ui/core/Snackbar";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MuiAlert from "@material-ui/lab/Alert";
 import { navigate } from "@reach/router";
 
@@ -258,31 +260,46 @@ export default class RecipeForm extends Component {
               ) : (
                 <>
                   {this.getStepContent(activeStep)}
-                  <div className="d-flex justify-content-end">
-                    {activeStep !== 0 && (
-                      <Button onClick={this.handleBack} className="ml-2 mt-2">
-                        Back
-                      </Button>
-                    )}
-                    {activeStep === steps.length - 1 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={e => this.handleNewRecipeSubmit(e)}
-                        className="ml-2 mt-4"
-                      >
-                        {"Create Recipe"}
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={e => this.handleNewRecipeSubmit(e)}
-                        className="ml-2 mt-4"
-                      >
-                        {"Next"}
-                      </Button>
-                    )}
+                  <div className="d-flex justify-content-between">
+                    <FormControlLabel
+                      className="mt-4"
+                      control={
+                        <Switch
+                          color="primary"
+                          onClick={this.handleChange}
+                          name="isPrivate"
+                          value="isPrivate"
+                          inputProps={{ "aria-label": "private checkbox" }}
+                        />
+                      }
+                      label="Private"
+                    />
+                    <div className="">
+                      {activeStep !== 0 && (
+                        <Button onClick={this.handleBack} className="ml-2 mt-4">
+                          Back
+                        </Button>
+                      )}
+                      {activeStep === steps.length - 1 ? (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={e => this.handleNewRecipeSubmit(e)}
+                          className="ml-2 mt-4"
+                        >
+                          {"Create Recipe"}
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={e => this.handleNewRecipeSubmit(e)}
+                          className="ml-2 mt-4"
+                        >
+                          {"Next"}
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </>
               )}

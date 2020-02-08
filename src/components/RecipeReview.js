@@ -14,19 +14,16 @@ class Review extends Component {
       title,
       flags,
       steps,
-      // user_name,
       difficulty,
       description,
       ingredients,
-      // imageUrl,
+      imageUrl,
       duration
-      // servings,
-      // isPrivate
     } = this.props;
     const styles = {
       paperContainer: {
         height: 200,
-        backgroundImage: `url(${this.props.imageUrl})`,
+        backgroundImage: `url(${imageUrl})`,
         backgroundPosition: "center",
         backgroundRepeat: "norepeat",
         backgroundSize: "cover"
@@ -45,7 +42,7 @@ class Review extends Component {
               </span>
             ))}
           </div>
-          <div className="w-100 d-flex justify-content-end">
+          <div className="w-100 d-flex justify-content-end align-self-end">
             <span className="mr-1" style={{ fontWeight: "600" }}>
               Difficulty:{" "}
             </span>
@@ -57,9 +54,7 @@ class Review extends Component {
           </div>
         </div>
         <Grid item xs={12} />
-        <Paper variant="outlined" style={styles.paperContainer} className="mt-2">
-          No image
-        </Paper>
+        <Paper variant="outlined" style={styles.paperContainer} className="mt-2"></Paper>
         <Grid />
 
         <Grid item xs={12} />
