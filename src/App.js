@@ -17,6 +17,8 @@ import HTTP_404 from "./components/HTTP_404";
 
 var db = firebase.firestore();
 
+let UserContext = React.createContext();
+
 class App extends Component {
   constructor() {
     super();
@@ -90,19 +92,33 @@ class App extends Component {
     return (
       <>
         <Navbar user={this.state.user} logOutUser={this.logOutUser} />
-        <Router>
-          <Home path="/" user={this.state.user} />
-          <Login path="login" />
-          <Register path="register" registerUser={this.registerUser} />
-          <Feed path="recipes" />
-          <Recipe path="recipes/:recipeId" />
-          <Profile path="/profile/:userId" />
-          <Form user={this.state.user} path="/add-recipe" />
-          <DatabaseTests path="/database-tests" />
-          <HTTP_404 default />
-        </Router>
+        <UserContext.Provider value={this.state}>
+          <Router>
+            <Home path="/" user={this.state.user} />
+            <Login path="login" />
+            <Register path="register" registerUser={this.registerUser} />
+            <Feed path="recipes" />
+            <Recipe path="recipes/:recipeId" />
+            <PrivateRoute as={Profile} path="/profile/:userId" />
+            <PrivateRoute as={Form} user={this.state.user} path="/add-recipe" />
+            <DatabaseTests path="/database-tests" />
+            <HTTP_404 default />
+          </Router>
+        </UserContext.Provider>
       </>
     );
+  }
+}
+
+class PrivateRoute extends React.Component {
+  static contextType = UserContext;
+
+  render() {
+    let { as: Comp, ...props } = this.props;
+    if (this.context.user) {
+      return <Comp {...props} />;
+    }
+    return <HTTP_404 />;
   }
 }
 
