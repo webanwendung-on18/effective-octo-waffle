@@ -43,15 +43,15 @@ export default class CreateRecipe extends Component {
     const marks = [
       {
         value: 1,
-        label: "easy"
+        label: "Easy"
       },
       {
         value: 2,
-        label: "advanced"
+        label: "Advanced"
       },
       {
         value: 3,
-        label: "difficult"
+        label: "Difficult"
       }
     ];
 

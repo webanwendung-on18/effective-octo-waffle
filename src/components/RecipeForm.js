@@ -220,11 +220,11 @@ export default class RecipeForm extends Component {
     this.setState(() => {
       switch (value) {
         case 1:
-          return { difficulty: "easy" };
+          return { difficulty: "Easy" };
         case 2:
-          return { difficulty: "advanced" };
+          return { difficulty: "Advanced" };
         case 3:
-          return { difficulty: "difficult" };
+          return { difficulty: "Difficult" };
         default:
           break;
       }
