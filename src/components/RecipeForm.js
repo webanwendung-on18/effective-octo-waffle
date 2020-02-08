@@ -238,7 +238,7 @@ export default class RecipeForm extends Component {
         <main className="formLayout">
           <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={this.handleClose}>
             <MuiAlert elevation={6} variant="filled" onClose={this.handleClose} severity="error">
-              Some fields are empty
+              Some required fields are empty
             </MuiAlert>
           </Snackbar>
           <Paper className="formPaper">
@@ -270,7 +270,6 @@ export default class RecipeForm extends Component {
                         color="primary"
                         onClick={e => this.handleNewRecipeSubmit(e)}
                         className="ml-2 mt-4"
-                        // disabled={isDisabled}
                       >
                         {"Create Recipe"}
                       </Button>
@@ -280,7 +279,6 @@ export default class RecipeForm extends Component {
                         color="primary"
                         onClick={e => this.handleNewRecipeSubmit(e)}
                         className="ml-2 mt-4"
-                        // disabled={isDisabled}
                       >
                         {"Next"}
                       </Button>

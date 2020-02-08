@@ -167,6 +167,7 @@ export default class CreateRecipe extends Component {
                       </Grid>
                       <Grid item xs={8}>
                         <TextField
+                          required
                           fullWidth
                           key={idx}
                           name={ingId}
@@ -212,6 +213,7 @@ export default class CreateRecipe extends Component {
                     <Grid item xs={12} key={idx}>
                       <TextField
                         fullWidth
+                        required
                         key={idx}
                         type="text"
                         name={stepId}
