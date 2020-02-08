@@ -165,7 +165,6 @@ export default class RecipeForm extends Component {
         .catch(err => {
           console.log(`Error adding document: ${err}`);
         });
-      navigate("/recipes");
       return;
     }
     this.setState({ activeStep: this.state.activeStep + 1 });
