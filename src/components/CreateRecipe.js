@@ -219,7 +219,7 @@ export default class CreateRecipe extends Component {
                         InputProps={{
                           startAdornment: (
                             <Grid item>
-                              <InputAdornment position="start">Step {stepIdx}</InputAdornment>
+                              <InputAdornment position="start">Step {stepIdx} *</InputAdornment>
                             </Grid>
                           )
                         }}

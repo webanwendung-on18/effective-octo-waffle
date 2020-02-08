@@ -29,7 +29,7 @@ export default class RecipeForm extends Component {
       title: "",
       description: "",
       imageUrl: "",
-      difficulty: 1,
+      difficulty: "Easy",
       duration: 10,
       isPrivate: false,
       servings: "1",
