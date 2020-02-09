@@ -12,6 +12,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import Paper from "@material-ui/core/Paper";
 import FormLabel from "@material-ui/core/FormLabel";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { GlobalCss } from "../materialUI/styles";
 
 export default class CreateRecipe extends Component {
@@ -75,7 +76,7 @@ export default class CreateRecipe extends Component {
               />
             </Grid>
             {/* Description */}
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 required
                 label="Short description"
@@ -87,7 +88,7 @@ export default class CreateRecipe extends Component {
               />
             </Grid>
             {/* Image URL */}
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={7}>
               <TextField
                 required
                 id="imageUrl"
@@ -97,6 +98,27 @@ export default class CreateRecipe extends Component {
                 fullWidth
               />
             </Grid>
+            <Grid item xs={2} className="d-flex align-self-end justify-content-center">
+              <Typography variant="body1">OR</Typography>
+            </Grid>
+            <Grid item xs={5} sm={3} className="d-flex align-self-end justify-content-end">
+              <Button
+                variant="contained"
+                component="label"
+                onChange={this.props.handleUpload}
+                color={this.props.progress === 100 ? "primary" : "default"}
+                style={{ fontSize: "12px", width: "100%" }}
+              >
+                {this.props.progress === 100 ? "Sucess!" : "Upload Image"}
+
+                <input type="file" style={{ display: "none" }} />
+              </Button>
+            </Grid>
+            {this.props.progress !== 0 && (
+              <Grid item xs={12}>
+                <LinearProgress variant="determinate" value={this.props.progress} />
+              </Grid>
+            )}
             {/* Ingredients  Title*/}
             <Grid item xs={12}>
               <Typography variant="h6" id="difficulty-slider" display="block">
