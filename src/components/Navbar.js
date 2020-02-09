@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import { FiSearch, FiPlusCircle, FiUser, FiLogOut } from "react-icons/fi";
+import { FiSearch, FiPlusCircle, FiUser, FiLogOut, FiLogIn } from "react-icons/fi";
 
 class Navbar extends Component {
   render() {
@@ -45,6 +45,16 @@ class Navbar extends Component {
                 <li className="nav-item">
                   <Link className="nav-link" to="/" onClick={e => logOutUser(e)}>
                     <FiLogOut className="mb-1" />
+                  </Link>
+                </li>
+              </ul>
+            )}
+
+            {!user && (
+              <ul className="navbar-nav ml-auto my-2 my-lg-0">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    <FiLogIn className="mb-1" />
                   </Link>
                 </li>
               </ul>
