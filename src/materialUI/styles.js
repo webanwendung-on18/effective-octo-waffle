@@ -1,4 +1,4 @@
-import { styled } from "@material-ui/core/styles";
+import { styled, withStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core/";
 
 export const BtnPrimary = styled(Button)({
@@ -21,3 +21,13 @@ export const TFPrimary = styled(TextField)({
     borderBottomColor: "#343a40"
   }
 });
+
+// https://material-ui.com/customization/components/#global-css-override
+export const GlobalCss = withStyles({
+  "@global": {
+    // You should target [class*="MuiButton-root"] instead if you nest themes.
+    ".MuiButton-root": {
+      color: "#444"
+    }
+  }
+})(() => null);

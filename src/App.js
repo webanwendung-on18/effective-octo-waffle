@@ -9,11 +9,11 @@ import Feed from "../src/components/Feed";
 import Recipe from "../src/components/Recipe";
 import Home from "../src/components/Home";
 import Profile from "../src/components/Profile";
-import Form from "../src/components/Form";
 import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 import HTTP_404 from "./components/HTTP_404";
+import RecipeForm from "./components/RecipeForm";
 
 var db = firebase.firestore();
 
@@ -100,7 +100,7 @@ class App extends Component {
             <Feed path="recipes" />
             <Recipe path="recipes/:recipeId" />
             <PrivateRoute as={Profile} path="/profile/:userId" />
-            <PrivateRoute as={Form} user={this.state.user} path="/add-recipe" />
+            <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
             <DatabaseTests path="/database-tests" />
             <HTTP_404 default />
           </Router>
