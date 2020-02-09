@@ -16,13 +16,13 @@ class Navbar extends Component {
             className="navbar-toggler"
             type="button"
             data-toggle="collapse"
-            data-target="#navbarTogglerDemo02"
+            data-target="#navbarToggleId"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse">
-            <form className="form-inline">
+          <div className="collapse navbar-collapse" id="navbarToggleId">
+            <form className="form-inline my-2 my-lg-0">
               <input className="form-control mr-sm-2" type="search" placeholder="Search" />
               <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
                 <FiSearch className="mb-1" />
