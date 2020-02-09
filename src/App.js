@@ -110,7 +110,7 @@ class App extends Component {
   }
 }
 
-class PrivateRoute extends React.Component {
+class PrivateRoute extends Component {
   static contextType = UserContext;
 
   render() {
@@ -118,7 +118,7 @@ class PrivateRoute extends React.Component {
     if (this.context.user) {
       return <Comp {...props} />;
     }
-    return <HTTP_404 />;
+    return <HTTP_404 message="Please login first" />;
   }
 }
 
