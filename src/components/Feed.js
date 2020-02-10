@@ -3,8 +3,12 @@ import firebase from "./../firebase/config";
 import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
+import algoliasearch from "algoliasearch";
+import { InstantSearch, SearchBox, connectHits } from "react-instantsearch-dom";
 
 var db = firebase.firestore();
+
+const searchClient = algoliasearch("471N5SCCV8", "3b9d814b0c08445b640fd407b8dbae54");
 
 class Feed extends Component {
   constructor(props) {
@@ -38,20 +42,20 @@ class Feed extends Component {
           <h1 className="headline-feed">
             <span className="underline--magical">Feed</span>
           </h1>
-
+          {console.log(this.props.hits)}
           {!this.state.loading && this.state.recipes.length > 0 ? (
-            this.state.recipes.map((recipe, index) => (
-              <div className="card-container" key={recipe.uid}>
+            this.props.hits.map((hit, index) => (
+              <div className="card-container" key={hit.objectID}>
                 <RecipeCard
                   index={index}
-                  id={recipe.uid}
-                  title={recipe.title}
-                  flags={recipe.flags}
-                  name={recipe.user_name}
-                  duration={recipe.duration}
-                  imageUrl={recipe.imageUrl}
-                  difficulty={recipe.difficulty}
-                  description={recipe.description}
+                  id={hit.objectID}
+                  title={hit.title}
+                  flags={hit.flags}
+                  name={hit.user_name}
+                  duration={hit.duration}
+                  imageUrl={hit.imageUrl}
+                  difficulty={hit.difficulty}
+                  description={hit.description}
                 />
               </div>
             ))
@@ -74,4 +78,15 @@ class Feed extends Component {
   }
 }
 
-export default Feed;
+const CustomHits = connectHits(Feed);
+
+function Search() {
+  return (
+    <InstantSearch searchClient={searchClient} indexName="Recipes">
+      <SearchBox />
+      <CustomHits />
+    </InstantSearch>
+  );
+}
+
+export default Search;
