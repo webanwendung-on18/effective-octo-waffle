@@ -1,0 +1,27 @@
+.reviewPaper {
+  margin: ($spacer * 0.75) 0;
+}
+
+.empty {
+  height: 70px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 35px;
+}
+
+.reviewSubtitle {
+  margin-left: $spacer * 0.5;
+}
+
+.ingredientItem:nth-child(even) {
+  background-color: white;
+}
+
+.ingredientItem:nth-child(odd) {
+  background-color: darken($color: #fff, $amount: 10);
+}
+
+// .reviewFlag {
+//   font-size: small;
+//   padding: 1.5px 8px 4.5px 8px;
+// }

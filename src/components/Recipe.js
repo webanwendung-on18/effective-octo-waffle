@@ -113,15 +113,18 @@ class Recipe extends Component {
                   </div>
                   <div>
                     Do you like this recipe? Give it a &nbsp;
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          icon={<FavoriteBorder />}
-                          checkedIcon={<Favorite />}
-                          value="checkedH"
-                        />
-                      }
-                    />
+                    <span className="likeButton">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            icon={<FavoriteBorder />}
+                            checkedIcon={<Favorite />}
+                            value="checked"
+                          />
+                        }
+                      />
+                      <span>12</span>
+                    </span>
                   </div>
                 </div>
               </div>
