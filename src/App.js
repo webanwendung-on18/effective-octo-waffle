@@ -14,6 +14,7 @@ import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
+import Like from "./components/Like";
 
 var db = firebase.firestore();
 
@@ -102,6 +103,7 @@ class App extends Component {
             <PrivateRoute as={Profile} path="/profile/:userId" />
             <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
             <DatabaseTests path="/database-tests" />
+            <Like path="/like" />
             <HTTP_404 default />
           </Router>
         </UserContext.Provider>

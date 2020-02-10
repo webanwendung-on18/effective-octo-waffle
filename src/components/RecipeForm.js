@@ -156,7 +156,9 @@ export default class RecipeForm extends Component {
           description,
           ingredients,
           user_id: user.uid,
-          user_name: user.displayName
+          user_name: user.displayName,
+          liked: false,
+          likes: 0
         })
         .then(docRef => {
           this.setState({ docRefId: docRef.id });
