@@ -73,6 +73,7 @@ export default class RecipeForm extends Component {
             difficulty={this.state.difficulty}
             description={this.state.description}
             ingredients={this.state.ingredients}
+            image={this.state.image}
             imageUrl={this.state.imageUrl}
             duration={this.state.duration}
             servings={this.state.servings}

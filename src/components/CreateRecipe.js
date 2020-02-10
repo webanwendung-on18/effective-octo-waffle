@@ -93,7 +93,8 @@ export default class CreateRecipe extends Component {
                 required
                 id="imageUrl"
                 name="imageUrl"
-                value={this.props.imageUrl}
+                value={this.props.progress === 100 ? this.props.image.name : this.props.imageUrl}
+                disabled={this.props.progress === 100}
                 label="Image URL"
                 fullWidth
               />
