@@ -124,7 +124,6 @@ export default class RecipeForm extends Component {
                 .child(image.name)
                 .getDownloadURL()
                 .then(imageUrl => {
-                  console.log(imageUrl);
                   this.setState({ imageUrl });
                 });
             }
