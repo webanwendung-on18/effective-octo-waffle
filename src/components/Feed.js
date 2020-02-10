@@ -5,8 +5,9 @@ import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
 import algoliasearch from "algoliasearch";
 import { InstantSearch, SearchBox, connectHits } from "react-instantsearch-dom";
+import { CustomSearchBox } from "./FeedSearch";
 
-var db = firebase.firestore();
+// var db = firebase.firestore();
 
 const searchClient = algoliasearch("471N5SCCV8", "3b9d814b0c08445b640fd407b8dbae54");
 
@@ -16,24 +17,24 @@ class Feed extends Component {
     this.state = { recipes: [], loading: false };
   }
 
-  getAllRecipes = async () => {
-    const snapshot = await db.collection("Recipes").get();
-    const allRecipes = [];
-    snapshot.forEach(doc => (allRecipes[doc.id] = doc.data()));
-    this.setState({ recipes: allRecipes });
-  };
+  // getAllRecipes = async () => {
+  //   const snapshot = await db.collection("Recipes").get();
+  //   const allRecipes = [];
+  //   snapshot.forEach(doc => (allRecipes[doc.id] = doc.data()));
+  //   this.setState({ recipes: allRecipes });
+  // };
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    db.collection("Recipes").onSnapshot(snapshot => {
-      let recipes = [];
-      snapshot.forEach(doc => recipes.push({ ...doc.data(), uid: doc.id }));
-      this.setState({
-        recipes,
-        loading: false
-      });
-    });
-  }
+  // componentDidMount() {
+  //   this.setState({ loading: true });
+  //   db.collection("Recipes").onSnapshot(snapshot => {
+  //     let recipes = [];
+  //     snapshot.forEach(doc => recipes.push({ ...doc.data(), uid: doc.id }));
+  //     this.setState({
+  //       recipes,
+  //       loading: false
+  //     });
+  //   });
+  // }
 
   render() {
     return (
@@ -43,7 +44,7 @@ class Feed extends Component {
             <span className="underline--magical">Feed</span>
           </h1>
           {console.log(this.props.hits)}
-          {!this.state.loading && this.state.recipes.length > 0 ? (
+          {!this.state.loading && this.props.hits.length > 0 ? (
             this.props.hits.map((hit, index) => (
               <div className="card-container" key={hit.objectID}>
                 <RecipeCard
@@ -83,7 +84,7 @@ const CustomHits = connectHits(Feed);
 function Search() {
   return (
     <InstantSearch searchClient={searchClient} indexName="Recipes">
-      <SearchBox />
+      <CustomSearchBox />
       <CustomHits />
     </InstantSearch>
   );

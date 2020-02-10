@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core/";
 import { FiMenu, FiSearch, FiUser, FiPlusCircle, FiLogOut, FiLogIn } from "react-icons/fi";
 
+// var db = firebase.firestore();
+
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
