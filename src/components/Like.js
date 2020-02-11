@@ -21,20 +21,21 @@ class Like extends Component {
   }
 
   handleLike = () => {
-    let increment = this.state.likes + 1;
-    let decrement = this.state.likes - 1;
-
-    if (this.state.liked === false) {
-      this.setState({
-        likes: increment
+    if (!this.state.liked) {
+      this.setState((prevState, props) => {
+        return {
+          likes: prevState.likes + 1,
+          liked: true
+        };
       });
     } else {
-      this.setState({
-        likes: decrement
+      this.setState((prevState, props) => {
+        return {
+          likes: prevState.likes - 1,
+          liked: false
+        };
       });
     }
-
-    console.log(this.state.likes);
   };
 
   render() {
