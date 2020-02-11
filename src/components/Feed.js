@@ -4,7 +4,7 @@ import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
 import algoliasearch from "algoliasearch";
-import { InstantSearch, SearchBox, connectHits } from "react-instantsearch-dom";
+import { InstantSearch, SearchBox, connectHits, RefinementList } from "react-instantsearch-dom";
 import { CustomSearchBox } from "./FeedSearch";
 
 // var db = firebase.firestore();
@@ -85,6 +85,8 @@ function Search() {
   return (
     <InstantSearch searchClient={searchClient} indexName="Recipes">
       <CustomSearchBox />
+      <h2>Flags</h2>
+      <RefinementList attribute="flags" operator="and" />
       <CustomHits />
     </InstantSearch>
   );
