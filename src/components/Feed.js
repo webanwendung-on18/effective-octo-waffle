@@ -10,14 +10,14 @@ import { CustomRefinementList } from "./RefinementList";
 import { Paper } from "@material-ui/core";
 import { RefinementPaper } from "../materialUI/styles";
 
-// var db = firebase.firestore();
+var db = firebase.firestore();
 
 const searchClient = algoliasearch("471N5SCCV8", "3b9d814b0c08445b640fd407b8dbae54");
 
 class Feed extends Component {
   constructor(props) {
     super(props);
-    this.state = { recipes: [], loading: false };
+    this.state = { recipes: [], loading: false, refresh: false };
   }
 
   // getAllRecipes = async () => {
@@ -27,24 +27,9 @@ class Feed extends Component {
   //   this.setState({ recipes: allRecipes });
   // };
 
-  // componentDidMount() {
-  //   this.setState({ loading: true });
-  //   db.collection("Recipes").onSnapshot(snapshot => {
-  //     let recipes = [];
-  //     snapshot.forEach(doc => recipes.push({ ...doc.data(), uid: doc.id }));
-  //     this.setState({
-  //       recipes,
-  //       loading: false
-  //     });
-  //   });
-  // }
-
   render() {
     return (
       <>
-        {/* <div className="container"> */}
-
-        {console.log(this.props.hits)}
         {!this.state.loading && this.props.hits.length > 0 ? (
           this.props.hits.map((hit, index) => (
             <div className="w-75 m-auto" key={hit.objectID}>
@@ -74,7 +59,6 @@ class Feed extends Component {
             />
           </div>
         )}
-        {/* </div> */}
       </>
     );
   }
@@ -82,55 +66,78 @@ class Feed extends Component {
 
 const CustomHits = connectHits(Feed);
 
-function Search() {
-  return (
-    <>
-      <InstantSearch searchClient={searchClient} indexName="Recipes">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-3"></div>
-            <div className="col-sm-9 card-container mb-5">
-              <h1 className="headline-feed">
-                <span className="underline--magical">Feed</span>
-              </h1>
-              <CustomSearchBox />
+class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { recipes: [], loading: false, refresh: false };
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true });
+    db.collection("Recipes").onSnapshot(snapshot => {
+      let recipes = [];
+      snapshot.forEach(doc => recipes.push({ ...doc.data(), uid: doc.id }));
+      this.setState(
+        {
+          recipes,
+          loading: false,
+          refresh: true
+        },
+        () => this.setState({ refresh: false })
+      );
+    });
+  }
+
+  render() {
+    return (
+      <>
+        <InstantSearch searchClient={searchClient} indexName="Recipes" refresh={this.state.refresh}>
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-3"></div>
+              <div className="col-sm-9 card-container mb-5">
+                <h1 className="headline-feed">
+                  <span className="underline--magical">Feed</span>
+                </h1>
+                <CustomSearchBox />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-3">
+                <RefinementPaper>
+                  <CustomRefinementList
+                    attribute="flags"
+                    title="Flags"
+                    operator="and"
+                    transformItems={items =>
+                      items.map(item => ({
+                        ...item,
+                        label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
+                      }))
+                    }
+                  />
+                  <CustomRefinementList
+                    attribute="difficulty"
+                    title="Difficulty"
+                    operator="or"
+                    transformItems={items =>
+                      items.map(item => ({
+                        ...item,
+                        label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
+                      }))
+                    }
+                  />
+                </RefinementPaper>
+              </div>
+              <div className="col-sm-9">
+                <CustomHits />
+              </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-sm-3">
-              <RefinementPaper>
-                <CustomRefinementList
-                  attribute="flags"
-                  title="Flags"
-                  operator="and"
-                  transformItems={items =>
-                    items.map(item => ({
-                      ...item,
-                      label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
-                    }))
-                  }
-                />
-                <CustomRefinementList
-                  attribute="difficulty"
-                  title="Difficulty"
-                  operator="or"
-                  transformItems={items =>
-                    items.map(item => ({
-                      ...item,
-                      label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
-                    }))
-                  }
-                />
-              </RefinementPaper>
-            </div>
-            <div className="col-sm-9">
-              <CustomHits />
-            </div>
-          </div>
-        </div>
-      </InstantSearch>
-    </>
-  );
+        </InstantSearch>
+      </>
+    );
+  }
 }
 
 export default Search;
