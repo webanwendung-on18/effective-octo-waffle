@@ -4,20 +4,15 @@ import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
 import algoliasearch from "algoliasearch";
-import {
-  InstantSearch,
-  SearchBox,
-  connectHits,
-  RefinementList
-} from "react-instantsearch-dom";
+import { InstantSearch, SearchBox, connectHits, RefinementList } from "react-instantsearch-dom";
 import { CustomSearchBox } from "./FeedSearch";
+import { CustomRefinementList } from "./RefinementList";
+import { Paper } from "@material-ui/core";
+import { RefinementPaper } from "../materialUI/styles";
 
 // var db = firebase.firestore();
 
-const searchClient = algoliasearch(
-  "471N5SCCV8",
-  "3b9d814b0c08445b640fd407b8dbae54"
-);
+const searchClient = algoliasearch("471N5SCCV8", "3b9d814b0c08445b640fd407b8dbae54");
 
 class Feed extends Component {
   constructor(props) {
@@ -92,21 +87,43 @@ function Search() {
     <>
       <InstantSearch searchClient={searchClient} indexName="Recipes">
         <div className="container">
-          <h1 className="headline-feed">
-            <span className="underline--magical">Feed</span>
-          </h1>
           <div className="row">
-            <div className="col-sm-2"></div>
-            <div className="col-sm-8 card-container mb-5">
+            <div className="col-sm-3"></div>
+            <div className="col-sm-9 card-container mb-5">
+              <h1 className="headline-feed">
+                <span className="underline--magical">Feed</span>
+              </h1>
               <CustomSearchBox />
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-2">
-              <h4>Flags</h4>
-              <RefinementList attribute="flags" operator="and" />
+            <div className="col-sm-3">
+              <RefinementPaper>
+                <CustomRefinementList
+                  attribute="flags"
+                  title="Flags"
+                  operator="and"
+                  transformItems={items =>
+                    items.map(item => ({
+                      ...item,
+                      label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
+                    }))
+                  }
+                />
+                <CustomRefinementList
+                  attribute="difficulty"
+                  title="Difficulty"
+                  operator="or"
+                  transformItems={items =>
+                    items.map(item => ({
+                      ...item,
+                      label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
+                    }))
+                  }
+                />
+              </RefinementPaper>
             </div>
-            <div className="col-sm-10">
+            <div className="col-sm-9">
               <CustomHits />
             </div>
           </div>

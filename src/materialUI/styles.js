@@ -1,5 +1,5 @@
-import { styled, withStyles } from "@material-ui/core/styles";
-import { Button, TextField } from "@material-ui/core/";
+import { styled, withStyles, ThemeProvider } from "@material-ui/core/styles";
+import { Button, TextField, List, Paper, Badge } from "@material-ui/core/";
 
 export const BtnPrimary = styled(Button)({
   background: "linear-gradient(30deg, #69ed66 0%, #7fffce 85%)",
@@ -31,3 +31,19 @@ export const GlobalCss = withStyles({
     }
   }
 })(() => null);
+
+// export const CustomList = styled(List)({
+//   backgroundColor: "#eee"
+// });
+
+export const RefinementPaper = withStyles({
+  root: {
+    backgroundColor: "#eee"
+  }
+})(Paper);
+
+export const StyledBadge = withStyles(theme => ({
+  badge: {
+    padding: "10px"
+  }
+}))(Badge);
