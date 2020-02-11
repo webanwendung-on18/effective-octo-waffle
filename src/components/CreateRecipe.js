@@ -112,7 +112,7 @@ export default class CreateRecipe extends Component {
               >
                 {this.props.progress === 100 ? "Sucess!" : "Upload Image"}
 
-                <input type="file" style={{ display: "none" }} />
+                <input type="file" style={{ display: "none" }} accept="image/*" />
               </Button>
             </Grid>
             {this.props.progress !== 0 && (
