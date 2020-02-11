@@ -3,6 +3,10 @@ import SyncLoader from "react-spinners/SyncLoader";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 import { Link } from "@reach/router";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import Favorite from "@material-ui/icons/Favorite";
 
 var db = firebase.firestore();
 
@@ -106,6 +110,21 @@ class Recipe extends Component {
                     ) : (
                       <p>This recipe has no labels</p>
                     )}
+                  </div>
+                  <div>
+                    Do you like this recipe? Give it a &nbsp;
+                    <span className="likeButton">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            icon={<FavoriteBorder />}
+                            checkedIcon={<Favorite />}
+                            value="checked"
+                          />
+                        }
+                      />
+                      <span>12</span>
+                    </span>
                   </div>
                 </div>
               </div>

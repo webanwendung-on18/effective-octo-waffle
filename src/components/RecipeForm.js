@@ -16,6 +16,9 @@ import { navigate } from "@reach/router";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
+import "firebase/storage";
+
+const storage = firebase.storage();
 var db = firebase.firestore();
 
 const steps = ["Create Recipe", "Review your Recipe"];
@@ -29,6 +32,8 @@ export default class RecipeForm extends Component {
       title: "",
       description: "",
       imageUrl: "",
+      image: null,
+      progress: 0,
       difficulty: "Easy",
       duration: 10,
       isPrivate: false,
@@ -43,6 +48,7 @@ export default class RecipeForm extends Component {
     this.handleNewRecipeSubmit = this.handleNewRecipeSubmit.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
     this.handleSlider = this.handleSlider.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addStep = this.addStep.bind(this);
@@ -58,13 +64,16 @@ export default class RecipeForm extends Component {
             handleSlider={this.handleSlider}
             addIngredient={this.addIngredient}
             handleCheckbox={this.handleCheckbox}
+            handleUpload={this.handleUpload}
             title={this.state.title}
             flags={this.state.flags}
             steps={this.state.steps}
+            progress={this.state.progress}
             user_name={this.state.user_name}
             difficulty={this.state.difficulty}
             description={this.state.description}
             ingredients={this.state.ingredients}
+            image={this.state.image}
             imageUrl={this.state.imageUrl}
             duration={this.state.duration}
             servings={this.state.servings}
@@ -91,6 +100,38 @@ export default class RecipeForm extends Component {
         throw new Error("Unknown step");
     }
   }
+
+  handleUpload = e => {
+    if (e.target.files[0] && e.target.files[0] !== this.state.image) {
+      const image = e.target.files[0];
+      this.setState(
+        () => ({ image }),
+        () => {
+          const { image } = this.state;
+          const uploadTask = storage.ref(`images/${image.name}`).put(image);
+          uploadTask.on(
+            "state_changed",
+            snapshot => {
+              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              this.setState({ progress });
+            },
+            error => {
+              console.log(error);
+            },
+            () => {
+              storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(imageUrl => {
+                  this.setState({ imageUrl });
+                });
+            }
+          );
+        }
+      );
+    }
+  };
 
   validate(title, description, imageUrl, ingredients, steps) {
     let validObj = {
