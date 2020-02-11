@@ -33,7 +33,6 @@ class Profile extends Component {
 
       if (userData.exists) {
         this.setState({ user: userData.data(), loading: false }, () =>
-          console.log("uhey", userData.id)
         );
       } else {
         this.setState({ error: "User doesn't exist", loading: false });
