@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
 import SyncLoader from "react-spinners/SyncLoader";
-import ClipLoader from "react-spinners/ClipLoader";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 
@@ -45,9 +44,7 @@ class Profile extends Component {
     try {
       var recipeData = db.collection("Recipes");
 
-      var query = await recipeData
-        .where("user_id", "==", this.props.userId)
-        .get();
+      var query = await recipeData.where("user_id", "==", this.props.userId).get();
 
       if (query.empty) {
         console.log("No matching documents.");
@@ -87,7 +84,7 @@ class Profile extends Component {
                     </div>
                     <div className="col">
                       {this.state.user.userId !== this.props.registerUser ? (
-                        <button class="btn btn-primary" type="submit">
+                        <button className="btn btn-primary" type="submit">
                           Follow
                         </button>
                       ) : null}
@@ -126,7 +123,7 @@ class Profile extends Component {
               {this.state.user.userId === this.props.registerUser ? (
                 <p>
                   <Link to="/add-recipe" className="nav-link addButton">
-                    <FiPlusCircle /> Neue hinzufügen
+                    <FiPlusCircle className="mb-1" /> Neue hinzufügen
                   </Link>
                 </p>
               ) : null}
@@ -142,7 +139,7 @@ class Profile extends Component {
               {this.state.user.userId === this.props.registerUser ? (
                 <p className="px-0 mx-0">
                   <Link to="/add-recipe" className="nav-link addButton">
-                    <FiPlusCircle className="addButton" /> Neues hinzufügen
+                    <FiPlusCircle className="addButton mb-1" /> Neues hinzufügen
                   </Link>
                 </p>
               ) : null}
@@ -150,11 +147,10 @@ class Profile extends Component {
               <div className="row">
                 {!this.state.loading && this.state.recipes.length > 0 ? (
                   this.state.recipes.map((recipe, index) => (
-                    <div className="col-12 col-lg-6 mr-auto">
+                    <div className="col-12 col-lg-6 mr-auto" key={recipe.uid}>
                       <RecipeCard
                         index={index}
                         id={this.state.recipeIds[index]}
-                        key={recipe.uid}
                         title={recipe.title}
                         flags={recipe.flags}
                         name={recipe.user_name}
@@ -167,7 +163,7 @@ class Profile extends Component {
                   ))
                 ) : (
                   <div>
-                    <ClipLoader
+                    <SyncLoader
                       css={`
                         display: block;
                         margin: 0 auto;
