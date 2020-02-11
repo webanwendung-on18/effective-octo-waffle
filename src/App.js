@@ -9,13 +9,15 @@ import Feed from "../src/components/Feed";
 import Recipe from "../src/components/Recipe";
 import Home from "../src/components/Home";
 import Profile from "../src/components/Profile";
-import Form from "../src/components/Form";
 import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import DatabaseTests from "../src/components/DatabaseTests";
 import HTTP_404 from "./components/HTTP_404";
+import RecipeForm from "./components/RecipeForm";
 
 var db = firebase.firestore();
+
+let UserContext = React.createContext();
 
 class App extends Component {
   constructor() {
@@ -90,19 +92,33 @@ class App extends Component {
     return (
       <>
         <Navbar user={this.state.user} logOutUser={this.logOutUser} />
-        <Router>
-          <Home path="/" user={this.state.user} />
-          <Login path="login" />
-          <Register path="register" registerUser={this.registerUser} />
-          <Feed path="recipes" />
-          <Recipe path="recipes/:recipeId" />
-          <Profile path="/profile/:userId" registerUser={this.state.userID} />
-          <Form user={this.state.user} path="/add-recipe" />
-          <DatabaseTests path="/database-tests" />
-          <HTTP_404 default />
-        </Router>
+        <UserContext.Provider value={this.state}>
+          <Router>
+            <Home path="/" user={this.state.user} />
+            <Login path="login" />
+            <Register path="register" registerUser={this.registerUser} />
+            <Feed path="recipes" />
+            <Recipe path="recipes/:recipeId" />
+            <PrivateRoute as={Profile} path="/profile/:userId" />
+            <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
+            <DatabaseTests path="/database-tests" />
+            <HTTP_404 default />
+          </Router>
+        </UserContext.Provider>
       </>
     );
+  }
+}
+
+class PrivateRoute extends Component {
+  static contextType = UserContext;
+
+  render() {
+    let { as: Comp, ...props } = this.props;
+    if (this.context.user) {
+      return <Comp {...props} />;
+    }
+    return <HTTP_404 message="Please login first" />;
   }
 }
 

@@ -1,39 +1,43 @@
-@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap");
 
 $enable-responsive-font-sizes: true !important;
 
 *,
 *::after,
 *::before {
-    margin: 0;
-    padding: 0;
-    font: inherit;
-    box-sizing: inherit;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  box-sizing: inherit;
+  vertical-align: baseline;
 }
 
 body {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
 body,
 #app,
-#app>div {
-    height: 100%
+#app > div {
+  height: 100%;
 }
 
 h1 {
-    font-family: 'Montserrat', 'Times New Roman', Times, serif;
-    font-weight: 600;
+  font-family: "Montserrat", "Times New Roman", Times, serif;
+  font-weight: 600;
 }
 
 p {
-    font-family: 'Lato', Arial, Helvetica, sans-serif;
+  font-family: "Lato", Arial, Helvetica, sans-serif;
 }
 
 a {
-    color: $primary;
-    font-family: 'Lato', Arial, Helvetica, sans-serif;
+  color: $primary;
+  font-family: "Lato", Arial, Helvetica, sans-serif;
+}
+
+.nounderline {
+  text-decoration: none !important;
 }
