@@ -4,12 +4,20 @@ import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
 import algoliasearch from "algoliasearch";
-import { InstantSearch, SearchBox, connectHits, RefinementList } from "react-instantsearch-dom";
+import {
+  InstantSearch,
+  SearchBox,
+  connectHits,
+  RefinementList
+} from "react-instantsearch-dom";
 import { CustomSearchBox } from "./FeedSearch";
 
 // var db = firebase.firestore();
 
-const searchClient = algoliasearch("471N5SCCV8", "3b9d814b0c08445b640fd407b8dbae54");
+const searchClient = algoliasearch(
+  "471N5SCCV8",
+  "3b9d814b0c08445b640fd407b8dbae54"
+);
 
 class Feed extends Component {
   constructor(props) {
@@ -39,41 +47,39 @@ class Feed extends Component {
   render() {
     return (
       <>
-        <div className="container">
-          <h1 className="headline-feed">
-            <span className="underline--magical">Feed</span>
-          </h1>
-          {console.log(this.props.hits)}
-          {!this.state.loading && this.props.hits.length > 0 ? (
-            this.props.hits.map((hit, index) => (
-              <div className="card-container" key={hit.objectID}>
-                <RecipeCard
-                  index={index}
-                  id={hit.objectID}
-                  title={hit.title}
-                  flags={hit.flags}
-                  name={hit.user_name}
-                  duration={hit.duration}
-                  imageUrl={hit.imageUrl}
-                  difficulty={hit.difficulty}
-                  description={hit.description}
-                />
-              </div>
-            ))
-          ) : (
-            <div>
-              <ClipLoader
-                css={`
-                  display: block;
-                  margin: 0 auto;
-                `}
-                size={150}
-                color={"#333"}
-                loading={this.state.loading}
+        {/* <div className="container"> */}
+
+        {console.log(this.props.hits)}
+        {!this.state.loading && this.props.hits.length > 0 ? (
+          this.props.hits.map((hit, index) => (
+            <div className="w-75 m-auto" key={hit.objectID}>
+              <RecipeCard
+                index={index}
+                id={hit.objectID}
+                title={hit.title}
+                flags={hit.flags}
+                name={hit.user_name}
+                duration={hit.duration}
+                imageUrl={hit.imageUrl}
+                difficulty={hit.difficulty}
+                description={hit.description}
               />
             </div>
-          )}
-        </div>
+          ))
+        ) : (
+          <div>
+            <ClipLoader
+              css={`
+                display: block;
+                margin: 0 auto;
+              `}
+              size={150}
+              color={"#333"}
+              loading={this.state.loading}
+            />
+          </div>
+        )}
+        {/* </div> */}
       </>
     );
   }
@@ -83,12 +89,30 @@ const CustomHits = connectHits(Feed);
 
 function Search() {
   return (
-    <InstantSearch searchClient={searchClient} indexName="Recipes">
-      <CustomSearchBox />
-      <h2>Flags</h2>
-      <RefinementList attribute="flags" operator="and" />
-      <CustomHits />
-    </InstantSearch>
+    <>
+      <InstantSearch searchClient={searchClient} indexName="Recipes">
+        <div className="container">
+          <h1 className="headline-feed">
+            <span className="underline--magical">Feed</span>
+          </h1>
+          <div className="row">
+            <div className="col-sm-2"></div>
+            <div className="col-sm-8 card-container mb-5">
+              <CustomSearchBox />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-2">
+              <h4>Flags</h4>
+              <RefinementList attribute="flags" operator="and" />
+            </div>
+            <div className="col-sm-10">
+              <CustomHits />
+            </div>
+          </div>
+        </div>
+      </InstantSearch>
+    </>
   );
 }
 
