@@ -7,6 +7,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
+import HTTP_404 from "./HTTP_404";
 
 var db = firebase.firestore();
 
@@ -35,6 +36,7 @@ class Recipe extends Component {
   render() {
     return (
       <>
+        {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.recipe !== null ? (
           <>
             <div
