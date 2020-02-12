@@ -10,14 +10,6 @@ class Like extends Component {
       liked: false,
       likes: 0
     };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.setState({
-      liked: !this.state.liked
-    });
-    console.log(this.state.liked);
   }
 
   handleLike = () => {
@@ -50,7 +42,7 @@ class Like extends Component {
                   icon={<FavoriteBorder />}
                   checkedIcon={<Favorite />}
                   value="checked"
-                  onClick={(this.handleClick, this.handleLike)}
+                  onClick={this.handleLike}
                   className="mb-1"
                 />
               }
