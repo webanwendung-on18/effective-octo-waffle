@@ -17,7 +17,7 @@ class Profile extends Component {
     super(props);
     this.state = {
       loading: false,
-      user: null,
+      profileUser: null,
       error: null,
       recipes: [],
       recipe: null,
@@ -27,13 +27,13 @@ class Profile extends Component {
   async componentDidMount() {
     try {
       this.setState({ loading: true });
-      const userData = await db
+      const profileUser = await db
         .collection("Users")
         .doc(this.props.userId)
         .get();
 
-      if (userData.exists) {
-        this.setState({ user: userData.data(), loading: false });
+      if (profileUser.exists) {
+        this.setState({ profileUser: profileUser.data(), loading: false });
       } else {
         this.setState({ error: "User doesn't exist", loading: false });
       }
@@ -65,7 +65,7 @@ class Profile extends Component {
     return (
       <>
         {this.state.error && <HTTP_404 message={this.state.error} />}
-        {!this.state.loading && this.state.user !== null ? (
+        {!this.state.loading && this.state.profileUser !== null ? (
           <>
             <div className="container">
               <div className="row">
@@ -79,15 +79,15 @@ class Profile extends Component {
                 <div className="col-8 ml-auto p0">
                   <div className="row profileInformation mt-3 p0">
                     <div className="col p-0">
-                      <h1>{this.state.user.name}</h1>
+                      <h1>{this.state.profileUser.name}</h1>
                     </div>
                     <div className="col">
-                      {this.state.user.userId !== this.props.registerUser ? (
+                      {this.state.profileUser.userId !== this.props.registeredUserId ? (
                         <button class="btn btn-primary" type="submit">
                           Follow
                         </button>
                       ) : (
-                        <button class="btn btn-primary" type="submit">
+                        <button className="btn btn-primary" type="submit">
                           Edit
                         </button>
                       )}
@@ -123,7 +123,7 @@ class Profile extends Component {
               </div>
 
               <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
-              {this.state.user.userId === this.props.registerUser ? (
+              {this.state.profileUser.userId === this.props.registeredUserId ? (
                 <p>
                   <Link to="/add-recipe" className="nav-link addButton">
                     <FiPlusCircle /> Neue hinzufügen
@@ -139,7 +139,7 @@ class Profile extends Component {
               </div>
 
               <h4 className="mt-5 mb-2">Deine Rezepte</h4>
-              {this.state.user.userId === this.props.registerUser ? (
+              {this.state.profileUser.userId === this.props.registeredUserId ? (
                 <p className="px-0 mx-0">
                   <Link to="/add-recipe" className="nav-link addButton">
                     <FiPlusCircle className="addButton" /> Neues hinzufügen
@@ -150,11 +150,10 @@ class Profile extends Component {
               <div className="row">
                 {!this.state.loading && this.state.recipes.length > 0 ? (
                   this.state.recipes.map((recipe, index) => (
-                    <div className="col-12 col-lg-6 mr-auto">
+                    <div className="col-12 col-lg-6 mr-auto" key={index}>
                       <RecipeCard
                         index={index}
                         id={this.state.recipeIds[index]}
-                        key={recipe.uid}
                         title={recipe.title}
                         flags={recipe.flags}
                         name={recipe.user_name}
