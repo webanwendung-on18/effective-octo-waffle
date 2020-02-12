@@ -37,13 +37,14 @@ class RecipeCard extends Component {
           <Link to={`/recipes/${id}`} className="card-read">
             <span className="underline--magical">Read more</span>
           </Link>
-          <div className="d-flex flex-wrap">
+          <div className="d-flex flex-wrap align-items-center">
             <span className="mr-1" style={{ fontWeight: "600" }}>
-              Difficulty:{" "}
+              Difficulty:
             </span>
-            {difficulty}
-            <span className="mt-sm-2 mt-lg-0">
-              <IoIosTime size={"1.5em"} color={"#333"} className={"ml-lg-5 mr-1 mb-1"} />
+            <span className="mr-4">{difficulty}</span>
+
+            <span className="mt-xs-2 mt-lg-0">
+              <IoIosTime size={"1.5em"} color={"#333"} className={"mr-1"} />
               {`${duration} minutes`}
             </span>
           </div>

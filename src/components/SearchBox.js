@@ -1,21 +1,18 @@
 import React from "react";
-import { connectSearchBox } from "react-instantsearch-dom";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { connectAutoComplete } from "react-instantsearch-dom";
 import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 
-// onSubmit löschen und alles auskommentieren, um bei jedem Buchstabe eine Suche zu starten
+// onSubmit löschen und alles  einkommentieren, um bei jedem Buchstabe eine Suche zu triggern
 const SearchBox = ({ currentRefinement, refine, hits }) => {
   const flatProps = {
     options: hits.map(option => option.title)
   };
   return (
-    <div className="ais-Search w-75 mx-auto">
+    <div className="feed-container">
       <form
         noValidate
-        action=""
         role="search"
-        className="ais-SearchBox-form"
         onChange={e => {
           const value = e.target.value;
           if (value === "") {
@@ -36,7 +33,6 @@ const SearchBox = ({ currentRefinement, refine, hits }) => {
             <TextField
               {...params}
               fullWidth
-              className="ais-SearchBox-input"
               type="search"
               id="filled-basic"
               // value={currentRefinement}

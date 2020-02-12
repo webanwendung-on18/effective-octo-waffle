@@ -1,5 +1,6 @@
 import React from "react";
-import { Highlight, connectRefinementList } from "react-instantsearch-dom";
+import { connectRefinementList } from "react-instantsearch-dom";
+import { StyledBadge } from "../materialUI/styles";
 import {
   Checkbox,
   ListItem,
@@ -7,24 +8,11 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
-  Paper,
   Typography,
-  List,
-  ShoppingCartIcon,
-  Badge
+  List
 } from "@material-ui/core";
-import { StyledBadge } from "../materialUI/styles";
 
-const RefinementList = ({
-  attribute,
-  refine,
-  createURL,
-  currentRefinement,
-  items,
-  searchForItems,
-  isFromSearch,
-  title
-}) => {
+const RefinementList = ({ refine, items, title }) => {
   return (
     <>
       <Typography variant="h6" className="ml-3 pt-2">
