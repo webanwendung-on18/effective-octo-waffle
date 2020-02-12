@@ -4,10 +4,9 @@ import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
 import algoliasearch from "algoliasearch";
-import { InstantSearch, SearchBox, connectHits, RefinementList } from "react-instantsearch-dom";
+import { InstantSearch, connectHits } from "react-instantsearch-dom";
 import { CustomSearchBox } from "./FeedSearch";
 import { CustomRefinementList } from "./RefinementList";
-import { Paper } from "@material-ui/core";
 import { RefinementPaper } from "../materialUI/styles";
 
 var db = firebase.firestore();
