@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
 import SyncLoader from "react-spinners/SyncLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 
 import CollectionPreview from "./CollectionPreview";
-import RecipePreview from "./RecipePreview";
+import RecipeCard from "./RecipeCard";
 import HTTP_404 from "./HTTP_404";
 
 var db = firebase.firestore();
@@ -14,7 +15,14 @@ var db = firebase.firestore();
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, user: null, error: null };
+    this.state = {
+      loading: false,
+      user: null,
+      error: null,
+      recipes: [],
+      recipe: null,
+      recipeIds: []
+    };
   }
   async componentDidMount() {
     try {
@@ -23,6 +31,7 @@ class Profile extends Component {
         .collection("Users")
         .doc(this.props.userId)
         .get();
+
       if (userData.exists) {
         this.setState({ user: userData.data(), loading: false });
       } else {
@@ -30,6 +39,25 @@ class Profile extends Component {
       }
     } catch (err) {
       console.error("Error", err.message);
+    }
+    try {
+      var recipeData = db.collection("Recipes");
+
+      var query = await recipeData.where("user_id", "==", this.props.userId).get();
+
+      if (query.empty) {
+        console.log("No matching documents.");
+        return;
+      }
+
+      query.forEach(doc => {
+        this.setState({
+          recipes: [...this.state.recipes, doc.data()],
+          recipeIds: [...this.state.recipeIds, doc.id]
+        });
+      });
+    } catch (err) {
+      console.error("error", err.message);
     }
   }
 
@@ -39,46 +67,69 @@ class Profile extends Component {
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.user !== null ? (
           <>
-            <div className="row ">
-              <img
-                src="https://coverfiles.alphacoders.com/460/46067.jpg"
-                alt=""
-                className="img img-fluid w-100 headerImage"
-              />
-            </div>
             <div className="container">
               <div className="row">
-                <div className="col-4 col-md-3 ml-4 shadow ">
+                <div className="col-4 col-md-3 ml-0 mt-4">
                   <img
                     src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
                     alt=""
-                    className="img img-fluid rounded profilePicture"
+                    className="img img-fluid rounded profilePicture shadow"
                   />
                 </div>
-              </div>
-              <div className="row profileInformation mt-5">
-                <div className="col-6 ml-auto">
-                  <h4>{this.state.user.name}</h4>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4 col-md-2 ml-auto">
-                  <p># Rezepte hinzugefügt</p>
-                </div>
-                <div className="col-4 col-md-2 ml-sm-auto ml-md-0">
-                  <p># Follower</p>
-                </div>
-                <div className="col-4 col-md-2 ml-sm-auto ml-md-0">
-                  <p># Ich folge</p>
+                <div className="col-8 ml-auto p0">
+                  <div className="row profileInformation mt-3 p0">
+                    <div className="col p-0">
+                      <h1>{this.state.user.name}</h1>
+                    </div>
+                    <div className="col">
+                      {this.state.user.userId !== this.props.registerUser ? (
+                        <button class="btn btn-primary" type="submit">
+                          Follow
+                        </button>
+                      ) : (
+                        <button class="btn btn-primary" type="submit">
+                          Edit
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="row mt-2 mt-lg-5">
+                    <div className="col-4 ml-auto">
+                      <div className="row">
+                        <p> {this.state.recipes.length}</p>
+                      </div>
+                      <div className="row">
+                        <p>Recipes</p>
+                      </div>
+                    </div>
+                    <div className="col-4 ml-auto">
+                      <div className="row">
+                        <p># </p>
+                      </div>
+                      <div className="row">
+                        <p>Follower</p>
+                      </div>
+                    </div>
+                    <div className="col-4 ml-auto">
+                      <div className="row">
+                        <p># </p>
+                      </div>
+                      <div className="row">
+                        <p>Follows</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <h4 className="mt-3 mb-2">Deine Sammlungen</h4>
-              <p>
-                <Link to="/" className="nav-link addButton">
-                  <FiPlusCircle /> Neue hinzufügen
-                </Link>
-              </p>
+              <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
+              {this.state.user.userId === this.props.registerUser ? (
+                <p>
+                  <Link to="/add-recipe" className="nav-link addButton">
+                    <FiPlusCircle /> Neue hinzufügen
+                  </Link>
+                </p>
+              ) : null}
 
               <div className="row">
                 <CollectionPreview />
@@ -88,17 +139,45 @@ class Profile extends Component {
               </div>
 
               <h4 className="mt-5 mb-2">Deine Rezepte</h4>
-              <p className="px-0 mx-0">
-                <Link to="/add-recipe" className="nav-link addButton">
-                  <FiPlusCircle className="addButton" /> Neues hinzufügen
-                </Link>
-              </p>
+              {this.state.user.userId === this.props.registerUser ? (
+                <p className="px-0 mx-0">
+                  <Link to="/add-recipe" className="nav-link addButton">
+                    <FiPlusCircle className="addButton" /> Neues hinzufügen
+                  </Link>
+                </p>
+              ) : null}
 
               <div className="row">
-                <RecipePreview />
-                <RecipePreview />
-                <RecipePreview />
-                <RecipePreview />
+                {!this.state.loading && this.state.recipes.length > 0 ? (
+                  this.state.recipes.map((recipe, index) => (
+                    <div className="col-12 col-lg-6 mr-auto">
+                      <RecipeCard
+                        index={index}
+                        id={this.state.recipeIds[index]}
+                        key={recipe.uid}
+                        title={recipe.title}
+                        flags={recipe.flags}
+                        name={recipe.user_name}
+                        duration={recipe.duration}
+                        imageUrl={recipe.imageUrl}
+                        difficulty={recipe.difficulty}
+                        description={recipe.description}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div>
+                    <ClipLoader
+                      css={`
+                        display: block;
+                        margin: 0 auto;
+                      `}
+                      size={150}
+                      color={"#333"}
+                      loading={this.state.loading}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </>
