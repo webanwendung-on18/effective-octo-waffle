@@ -3,7 +3,6 @@ import SyncLoader from "react-spinners/SyncLoader";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 import { Link } from "@reach/router";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
@@ -13,7 +12,15 @@ var db = firebase.firestore();
 class Recipe extends Component {
   constructor(props) {
     super(props);
-    this.state = { recipe: null, loading: false, error: null };
+    this.state = {
+      recipe: null,
+      loading: false,
+      error: null,
+      liked: false,
+      likes: 0,
+      likedUserIds: [],
+      likedRecipes: []
+    };
   }
   async componentDidMount() {
     try {
@@ -32,6 +39,33 @@ class Recipe extends Component {
       console.error("Error", err.message);
     }
   }
+
+  handleLike = async () => {
+    try {
+      const likedRecipes = await db
+        .collection("Users")
+        .doc(this.props.user.userID)
+        .get();
+      if (likedRecipes.exists) {
+        this.setState({ likedRecipes: [...this.state.likedRecipes, likedRecipes.data()] });
+      } else {
+        this.setState({ error: "User not found", loading: false });
+        return;
+      }
+      if (!this.state.likedRecipes.includes(this.props.recipeId)) {
+        this.setState({ likedRecipes: [...this.state.likedRecipes, this.props.recipeId] });
+        // likedRecipes auf Datenbank aktualisieren
+        // this.props.user.userID der this.state.likedUserIds hinzufügen (MUss das ein array sein??)
+        // likedUserIds auf Recipes-Collection in der Datenbank aktualisieren
+      } else {
+        this.setState({
+          likedRecipes: this.state.likedRecipes.filter(recipeId => recipeId !== this.props.recipeId)
+        });
+      }
+    } catch (err) {
+      console.error("Error", err.message);
+    }
+  };
   render() {
     return (
       <>
@@ -114,16 +148,16 @@ class Recipe extends Component {
                   <div>
                     Do you like this recipe? Give it a &nbsp;
                     <span className="likeButton">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            icon={<FavoriteBorder />}
-                            checkedIcon={<Favorite />}
-                            value="checked"
-                          />
-                        }
-                      />
-                      <span>12</span>
+                      {
+                        <Checkbox
+                          icon={<FavoriteBorder />}
+                          checkedIcon={<Favorite />}
+                          value="checked"
+                          onClick={this.handleLike}
+                          className="mb-1"
+                        />
+                      }
+                      <span>{this.state.likes}</span>
                     </span>
                   </div>
                 </div>

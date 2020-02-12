@@ -99,7 +99,7 @@ class App extends Component {
             <Login path="login" />
             <Register path="register" registerUser={this.registerUser} />
             <Feed path="recipes" />
-            <Recipe path="recipes/:recipeId" />
+            <Recipe path="recipes/:recipeId" user={this.state.user} />
             <PrivateRoute as={Profile} path="/profile/:userId" />
             <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
             <DatabaseTests path="/database-tests" />
