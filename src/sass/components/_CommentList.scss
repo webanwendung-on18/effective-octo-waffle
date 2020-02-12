@@ -1,0 +1,51 @@
+#messages .list-group-item {
+  // display: flex;
+  // align-items: flex-start;
+  // padding: 7px 20px 12px;
+  background-color: $color-grey-light;
+}
+
+#messages:not(.no-hover) .list-group-item:hover {
+  background-color: lighten($color: $color-grey-light, $amount: 3);
+}
+
+.message-body {
+  display: block;
+  color: $color-white-high-emphasis;
+  width: 100%;
+  // Für lange nachrichten
+  word-wrap: break-word;
+}
+
+.message-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.message-area {
+  background-color: $color-grey-light;
+  border-radius: 4px;
+}
+
+.username {
+  color: $color-primary;
+}
+
+.username:hover {
+  color: $color-secondary;
+}
+
+// Bootstrap überschreiben
+
+.btn {
+  border-radius: 1px;
+}
+
+.btn-danger {
+  background-color: $color-error;
+}
+
+.btn-danger:hover {
+  background-color: darken($color: $color-error, $amount: 15);
+}

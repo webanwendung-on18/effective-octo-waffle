@@ -8,6 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import HTTP_404 from "./HTTP_404";
+import CommentList from "./CommentList";
 
 var db = firebase.firestore();
 
@@ -153,6 +154,9 @@ class Recipe extends Component {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="row">
+                <CommentList recipeId={this.props.recipeId} />
               </div>
             </div>
           </>
