@@ -8,6 +8,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import HTTP_404 from "./HTTP_404";
+import { Helmet } from "react-helmet";
 
 var db = firebase.firestore();
 
@@ -39,6 +40,9 @@ class Recipe extends Component {
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.recipe !== null ? (
           <>
+            <Helmet>
+              <title>{this.state.recipe.title} | Octo Waffle</title>
+            </Helmet>
             <div
               className="hero-image"
               style={{ backgroundImage: `url(${this.state.recipe.imageUrl})` }}

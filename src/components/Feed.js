@@ -3,6 +3,7 @@ import firebase from "./../firebase/config";
 import "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import RecipeCard from "./RecipeCard";
+import { Helmet } from "react-helmet";
 
 var db = firebase.firestore();
 
@@ -34,6 +35,9 @@ class Feed extends Component {
   render() {
     return (
       <>
+        <Helmet>
+          <title>Feed | Octo Waffle</title>
+        </Helmet>
         <div className="container">
           <h1 className="headline-feed">
             <span className="underline--magical">Feed</span>
