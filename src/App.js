@@ -13,11 +13,7 @@ import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
-<<<<<<< HEAD
-import Like from "./components/Like";
-=======
 import { Helmet } from "react-helmet";
->>>>>>> develop
 
 var db = firebase.firestore();
 
@@ -105,15 +101,10 @@ class App extends Component {
             <Home path="/" user={this.state.user} />
             <Login path="login" />
             <Register path="register" registerUser={this.registerUser} />
-            <Recipe path="recipes/:recipeId" user={this.state} />
+            <Recipe path="recipes/:recipeId" />
             <Feed path="recipes" />
             <PrivateRoute as={Profile} path="/profile/:userId" />
             <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
-<<<<<<< HEAD
-            <DatabaseTests path="/database-tests" />
-            <Like path="/like" />
-=======
->>>>>>> develop
             <HTTP_404 default />
           </Router>
         </UserContext.Provider>

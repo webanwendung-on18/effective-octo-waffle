@@ -64,15 +64,9 @@ class Recipe extends Component {
                       loading: false
                     },
                     () => {
-                      this.setState(
-                        {
-                          liked: this.state.likedRecipes.includes(this.props.recipeId)
-                        },
-                        () => {
-                          console.log("likedByUsers", this.state.likedByUsers);
-                          console.log("likedRecipes", this.state.likedRecipes);
-                        }
-                      );
+                      this.setState({
+                        liked: this.state.likedRecipes.includes(this.props.recipeId)
+                      });
                     }
                   );
                 });
@@ -99,17 +93,11 @@ class Recipe extends Component {
           .doc(this.props.recipeId)
           .update({ likedByUsers: firebase.firestore.FieldValue.arrayUnion(this.state.userId) });
 
-        this.setState(
-          {
-            likedRecipes: [...this.state.likedRecipes, this.props.recipeId],
-            likedByUsers: [...this.state.likedByUsers, this.state.userId],
-            liked: true
-          },
-          () => {
-            console.log("cliked like: likedbyUsers", this.state.likedByUsers);
-            console.log("Clicked Like: likedRecipes", this.state.likedRecipes);
-          }
-        );
+        this.setState({
+          likedRecipes: [...this.state.likedRecipes, this.props.recipeId],
+          likedByUsers: [...this.state.likedByUsers, this.state.userId],
+          liked: true
+        });
       } else {
         db.collection("Users")
           .doc(this.state.userId)
