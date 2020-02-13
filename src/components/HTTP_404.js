@@ -32,7 +32,7 @@ class HTTP_404 extends Component {
                   Whatever you were looking for doesn't currently exist at this address. Unless you
                   were looking for this error page, in which case: Congrats! You totally found it.
                 </p>
-                <Link className="btn btn-primary btn-block mb-3" to="/">
+                <Link className="btn btn-primary btn-block mb-3" to="/recipes">
                   Home
                 </Link>
               </div>
