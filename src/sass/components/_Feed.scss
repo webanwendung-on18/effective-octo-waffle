@@ -1,13 +1,25 @@
-.card-container {
-  margin: 0 auto;
-  width: 60%;
-}
-
 .headline-feed {
   letter-spacing: 1px;
   font-size: 2.5rem;
   font-weight: 500;
-  margin: 2rem 20%;
+  margin: 2rem 0;
+}
+
+@include media-breakpoint-up(lg) {
+  .headline-feed {
+    margin: 2rem 12%;
+  }
+}
+
+.card-container {
+  width: 100%;
+}
+
+@include media-breakpoint-up(lg) {
+  .card-container {
+    margin: 0 auto;
+    width: 60%;
+  }
 }
 
 .underline--magical {
@@ -19,5 +31,27 @@
 
   &:hover {
     background-size: 100% 88%;
+  }
+}
+
+.refinementPaper {
+  display: none;
+}
+
+@include media-breakpoint-up(lg) {
+  .refinementPaper {
+    display: block;
+    position: fixed;
+    width: 250px
+  }
+}
+
+.feed-container {
+  margin: auto;
+}
+
+@include media-breakpoint-up(lg) {
+  .feed-container {
+    width: 75%;
   }
 }

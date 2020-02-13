@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { Paper, List, ListItem, ListItemText } from "@material-ui/core";
 import { IoIosTime } from "react-icons/io";
+import { Helmet } from "react-helmet";
 
 function Empty(props) {
   return <div className="empty">{`No ${props.name}`}</div>;
@@ -31,6 +32,9 @@ class Review extends Component {
     };
     return (
       <>
+        <Helmet>
+          <title>Recipe Review | Octo Waffle</title>
+        </Helmet>
         <div className="d-flex w-100 align-items-center no-wrap">
           <Typography variant="h6" className="d-inline-block mb-0" gutterBottom>
             {title}
