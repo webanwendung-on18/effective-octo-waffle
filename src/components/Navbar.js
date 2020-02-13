@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core/";
 import { FiUser, FiPlusCircle, FiLogOut, FiLogIn } from "react-icons/fi";
 
