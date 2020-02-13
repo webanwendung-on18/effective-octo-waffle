@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
+import RecipeCard from "./RecipeCard";
+import { Helmet } from "react-helmet";
 import algoliasearch from "algoliasearch";
 import { InstantSearch } from "react-instantsearch-dom";
 import { CustomSearchBox } from "./SearchBox";
@@ -38,6 +40,9 @@ class Feed extends Component {
   render() {
     return (
       <>
+      <Helmet>
+          <title>Feed | Octo Waffle</title>
+        </Helmet>
         {!this.state.loading ? (
           <InstantSearch
             searchClient={searchClient}

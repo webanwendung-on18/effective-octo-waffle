@@ -9,6 +9,7 @@ import "firebase/firestore";
 import CollectionPreview from "./CollectionPreview";
 import RecipeCard from "./RecipeCard";
 import HTTP_404 from "./HTTP_404";
+import { Helmet } from "react-helmet";
 
 var db = firebase.firestore();
 
@@ -67,6 +68,9 @@ class Profile extends Component {
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.user !== null ? (
           <>
+            <Helmet>
+              <title>{this.state.user.name} Profile | Octo Waffle</title>
+            </Helmet>
             <div className="container">
               <div className="row">
                 <div className="col-4 col-md-3 ml-0 mt-4">

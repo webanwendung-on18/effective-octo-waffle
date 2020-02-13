@@ -13,6 +13,7 @@ import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
+import { Helmet } from "react-helmet";
 
 var db = firebase.firestore();
 
@@ -90,6 +91,9 @@ class App extends Component {
   render() {
     return (
       <>
+        <Helmet>
+          <title>Octo Waffle</title>
+        </Helmet>
         <Navbar user={this.state.user} logOutUser={this.logOutUser} />
         <UserContext.Provider value={this.state}>
           <Router>
