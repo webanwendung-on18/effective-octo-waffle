@@ -6,6 +6,7 @@ import { Link } from "@reach/router";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
+import HTTP_404 from "./HTTP_404";
 
 var db = firebase.firestore();
 
@@ -18,45 +19,76 @@ class Recipe extends Component {
       error: null,
       liked: false,
       likes: 0,
-      likedUserIds: [],
-      likedRecipes: []
+      likedByUsers: [],
+      likedRecipes: [],
+      user: null
     };
   }
   async componentDidMount() {
+    this.setState({ user: this.props.user }, () => console.log("state-user", this.state.user));
     try {
       this.setState({ loading: true });
-      const recipe = await db
-        .collection("Recipes")
+      db.collection("Recipes")
         .doc(this.props.recipeId)
-        .get();
-      if (recipe.exists) {
-        this.setState({ recipe: recipe.data(), loading: false });
-      } else {
-        this.setState({ error: "Recipe doesn't exist", loading: false });
-      }
+        .onSnapshot(doc => {
+          if (doc.data()) {
+            this.setState({
+              recipe: doc.data(),
+              likedByUsers: [...doc.data().likedByUsers],
+              likes: doc.data().likedByUsers.length,
+              loading: false
+            });
+          } else {
+            this.setState({ error: "Recipe doesn't exist", loading: false });
+          }
+        });
     } catch (err) {
       this.setState({ loading: false });
-      console.error("Error", err.message);
+      console.error("Error 😯", err.message);
+    }
+
+    try {
+      console.log("fkdjsalfkjasfkdsajlfdjsaljl", this.props.user);
+      db.collection("Users")
+        .doc(this.props.user)
+        .onSnapshot(doc => {
+          const user = doc.data();
+          this.setState(
+            {
+              likedRecipes: [...this.state.likedRecipes, ...user.likedRecipes],
+              loading: false
+            },
+            () => {
+              this.setState({ liked: this.state.likedRecipes.includes(this.props.recipeId) });
+            },
+            () => console.log("fdfdashallo", this.state)
+          );
+        });
+    } catch (err) {
+      this.setState({ loading: false });
+      console.error("Error 😯", err.message);
     }
   }
 
   handleLike = async () => {
     try {
-      const likedRecipes = await db
-        .collection("Users")
-        .doc(this.props.user.userID)
-        .get();
-      if (likedRecipes.exists) {
-        this.setState({ likedRecipes: [...this.state.likedRecipes, likedRecipes.data()] });
-      } else {
-        this.setState({ error: "User not found", loading: false });
-        return;
-      }
       if (!this.state.likedRecipes.includes(this.props.recipeId)) {
-        this.setState({ likedRecipes: [...this.state.likedRecipes, this.props.recipeId] });
-        // likedRecipes auf Datenbank aktualisieren
-        // this.props.user.userID der this.state.likedUserIds hinzufügen (MUss das ein array sein??)
-        // likedUserIds auf Recipes-Collection in der Datenbank aktualisieren
+        db.collection("Users")
+          .doc(this.props.user.uid)
+          .update({ likedRecipes: firebase.firestore.FieldValue.arrayUnion(this.props.recipeId) });
+
+        db.collection("Recipes")
+          .doc(this.props.recipeId)
+          .update({ likedByUsers: firebase.firestore.FieldValue.arrayUnion(this.props.user.uid) });
+
+        this.setState({
+          likedRecipes: [...this.state.likedRecipes, this.props.recipeId],
+          likedByUsers: [...this.state.likedByUsers, this.props.user.uid],
+          liked: true
+        });
+        // likedRecipes auf Datenbank aktualisieren - Check
+        // this.props.user.uid der this.state.likedByUsers hinzufügen (MUss das ein array sein??)
+        // likedByUsers auf Recipes-Collection in der Datenbank aktualisieren
       } else {
         this.setState({
           likedRecipes: this.state.likedRecipes.filter(recipeId => recipeId !== this.props.recipeId)
@@ -69,6 +101,7 @@ class Recipe extends Component {
   render() {
     return (
       <>
+        {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.recipe !== null ? (
           <>
             <div
@@ -152,7 +185,7 @@ class Recipe extends Component {
                         <Checkbox
                           icon={<FavoriteBorder />}
                           checkedIcon={<Favorite />}
-                          value="checked"
+                          value={this.state.liked}
                           onClick={this.handleLike}
                           className="mb-1"
                         />

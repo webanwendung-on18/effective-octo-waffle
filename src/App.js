@@ -61,7 +61,8 @@ class App extends Component {
             .doc(FBUser.uid)
             .set({
               name: FBUser.displayName,
-              userId: FBUser.uid
+              userId: FBUser.uid,
+              likedRecipes: []
             })
             .then(() => console.log("User logged in"))
             .catch(err => {
