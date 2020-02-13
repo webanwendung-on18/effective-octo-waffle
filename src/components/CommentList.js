@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import Comment from "./Comment";
+import CommentMui from "./CommentMui";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
+import { Grid, TextField } from "@material-ui/core";
 var db = firebase.firestore();
 
 class CommentList extends Component {
@@ -30,25 +31,34 @@ class CommentList extends Component {
 
   render() {
     return (
-      <div className="col-10 col-md-8">
-        <div className="offset-1">
-          <ul className="list-group" id="messages">
-            {this.state.comments.length > 0 &&
-              this.state.comments.map((comment, idx) => {
-                console.log("comment", comment);
-                return (
-                  <Comment
-                    key={idx}
-                    date={comment.date}
-                    message={comment.message}
-                    messageId={comment.id}
-                    username={"hey"}
-                    profileImage={comment.profileImageUrl}
-                  />
-                );
-              })}
-          </ul>
-        </div>
+      <div className="col-10">
+        <ul className="list-group" id="messages">
+          {this.state.comments.length > 0 &&
+            this.state.comments.map((comment, idx) => {
+              console.log("comment", comment);
+              return (
+                <CommentMui
+                  key={idx}
+                  date={comment.date}
+                  message={comment.message}
+                  messageId={comment.id}
+                  username={comment.user_name}
+                  profileImage={comment.profileImageUrl}
+                />
+              );
+            })}
+        </ul>
+        <Grid item xs={10}>
+          <TextField
+            required
+            label="Leave a comment"
+            name="description"
+            multiline
+            rowsMax="3"
+            value={this.props.description}
+            fullWidth
+          />
+        </Grid>
       </div>
     );
   }
