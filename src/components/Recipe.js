@@ -21,77 +21,109 @@ class Recipe extends Component {
       likes: 0,
       likedByUsers: [],
       likedRecipes: [],
-      user: null
+      user: null,
+      userName: null,
+      userId: null
     };
   }
-  async componentDidMount() {
-    this.setState({ user: this.props.user }, () => console.log("state-user", this.state.user));
-    try {
-      this.setState({ loading: true });
-      db.collection("Recipes")
-        .doc(this.props.recipeId)
-        .onSnapshot(doc => {
-          if (doc.data()) {
-            this.setState({
-              recipe: doc.data(),
-              likedByUsers: [...doc.data().likedByUsers],
-              likes: doc.data().likedByUsers.length,
-              loading: false
-            });
-          } else {
-            this.setState({ error: "Recipe doesn't exist", loading: false });
-          }
-        });
-    } catch (err) {
-      this.setState({ loading: false });
-      console.error("Error 😯", err.message);
-    }
 
-    try {
-      console.log("fkdjsalfkjasfkdsajlfdjsaljl", this.props.user);
-      db.collection("Users")
-        .doc(this.props.user)
-        .onSnapshot(doc => {
-          const user = doc.data();
-          this.setState(
-            {
-              likedRecipes: [...this.state.likedRecipes, ...user.likedRecipes],
-              loading: false
-            },
-            () => {
-              this.setState({ liked: this.state.likedRecipes.includes(this.props.recipeId) });
-            },
-            () => console.log("fdfdashallo", this.state)
-          );
-        });
-    } catch (err) {
-      this.setState({ loading: false });
-      console.error("Error 😯", err.message);
-    }
+  async componentDidMount() {
+    firebase.auth().onAuthStateChanged(FBUser => {
+      if (FBUser) {
+        this.setState(
+          {
+            user: FBUser,
+            userName: FBUser.displayName,
+            userId: FBUser.uid
+          },
+          () => {
+            try {
+              this.setState({ loading: true });
+              db.collection("Recipes")
+                .doc(this.props.recipeId)
+                .onSnapshot(doc => {
+                  if (doc.data()) {
+                    this.setState({
+                      recipe: doc.data(),
+                      likedByUsers: [...doc.data().likedByUsers],
+                      likes: doc.data().likedByUsers.length,
+                      loading: false
+                    });
+                  } else {
+                    this.setState({ error: "Recipe doesn't exist", loading: false });
+                  }
+                });
+              db.collection("Users")
+                .doc(this.state.userId)
+                .onSnapshot(doc => {
+                  const user = doc.data();
+                  this.setState(
+                    {
+                      likedRecipes: [...this.state.likedRecipes, ...user.likedRecipes],
+                      loading: false
+                    },
+                    () => {
+                      this.setState(
+                        {
+                          liked: this.state.likedRecipes.includes(this.props.recipeId)
+                        },
+                        () => {
+                          console.log("likedByUsers", this.state.likedByUsers);
+                          console.log("likedRecipes", this.state.likedRecipes);
+                        }
+                      );
+                    }
+                  );
+                });
+            } catch (err) {
+              this.setState({ loading: false });
+              console.error("Error 😯", err.message);
+            }
+          }
+        );
+      } else {
+        this.setState({ user: null });
+      }
+    });
   }
 
   handleLike = async () => {
     try {
       if (!this.state.likedRecipes.includes(this.props.recipeId)) {
         db.collection("Users")
-          .doc(this.props.user.uid)
+          .doc(this.state.userId)
           .update({ likedRecipes: firebase.firestore.FieldValue.arrayUnion(this.props.recipeId) });
 
         db.collection("Recipes")
           .doc(this.props.recipeId)
-          .update({ likedByUsers: firebase.firestore.FieldValue.arrayUnion(this.props.user.uid) });
+          .update({ likedByUsers: firebase.firestore.FieldValue.arrayUnion(this.state.userId) });
+
+        this.setState(
+          {
+            likedRecipes: [...this.state.likedRecipes, this.props.recipeId],
+            likedByUsers: [...this.state.likedByUsers, this.state.userId],
+            liked: true
+          },
+          () => {
+            console.log("cliked like: likedbyUsers", this.state.likedByUsers);
+            console.log("Clicked Like: likedRecipes", this.state.likedRecipes);
+          }
+        );
+      } else {
+        db.collection("Users")
+          .doc(this.state.userId)
+          .update({ likedRecipes: firebase.firestore.FieldValue.arrayRemove(this.props.recipeId) });
+
+        db.collection("Recipes")
+          .doc(this.props.recipeId)
+          .update({ likedByUsers: firebase.firestore.FieldValue.arrayRemove(this.state.userId) });
 
         this.setState({
-          likedRecipes: [...this.state.likedRecipes, this.props.recipeId],
-          likedByUsers: [...this.state.likedByUsers, this.props.user.uid],
-          liked: true
-        });
-        // likedRecipes auf Datenbank aktualisieren - Check
-        // this.props.user.uid der this.state.likedByUsers hinzufügen (MUss das ein array sein??)
-        // likedByUsers auf Recipes-Collection in der Datenbank aktualisieren
-      } else {
-        this.setState({
-          likedRecipes: this.state.likedRecipes.filter(recipeId => recipeId !== this.props.recipeId)
+          likedRecipes: this.state.likedRecipes.filter(
+            recipeId => recipeId !== this.props.recipeId
+          ),
+          likedByUsers: this.state.likedByUsers.filter(userId => userId !== this.state.userId),
+          liked: false
         });
       }
     } catch (err) {
@@ -185,7 +217,8 @@ class Recipe extends Component {
                         <Checkbox
                           icon={<FavoriteBorder />}
                           checkedIcon={<Favorite />}
-                          value={this.state.liked}
+                          value="like"
+                          checked={this.state.liked}
                           onClick={this.handleLike}
                           className="mb-1"
                         />
