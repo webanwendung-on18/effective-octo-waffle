@@ -69,7 +69,7 @@ class Profile extends Component {
         {!this.state.loading && this.state.profileUser !== null ? (
           <>
             <Helmet>
-              <title>{this.state.user.name} Profile | Octo Waffle</title>
+              <title>{this.state.profileUser.name} Profile | Octo Waffle</title>
             </Helmet>
             <div className="container">
               <div className="row">
@@ -91,9 +91,11 @@ class Profile extends Component {
                           Follow
                         </button>
                       ) : (
-                        <button className="btn btn-primary" type="submit">
-                          Edit
-                        </button>
+                        <Link to="/profile/settings">
+                          <button className="btn btn-primary" type="submit">
+                            Edit
+                          </button>
+                        </Link>
                       )}
                     </div>
                   </div>
