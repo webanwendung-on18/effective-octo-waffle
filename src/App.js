@@ -61,7 +61,8 @@ class App extends Component {
             .set({
               name: FBUser.displayName,
               userId: FBUser.uid,
-              likedRecipes: []
+              likedRecipes: [],
+              profileImageUrl: "https://i.imgur.com/XnEPZt3.jpg"
             })
             .then(() => console.log("User logged in"))
             .catch(err => {

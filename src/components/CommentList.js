@@ -30,7 +30,7 @@ class CommentList extends Component {
         .collection("Users")
         .doc(this.props.user.uid)
         .get();
-      this.setState({ user: registeredUser.data() }, () => console.log(this.state));
+      this.setState({ user: registeredUser.data() });
     } catch (err) {
       console.error("Error", err.message);
     }
@@ -38,7 +38,6 @@ class CommentList extends Component {
 
   handleNewComment = e => {
     e.preventDefault();
-    console.log("sdafasf");
     const { comment } = this.state;
     const { user } = this.props;
     if (this.state.comment === "") {
@@ -80,7 +79,6 @@ class CommentList extends Component {
         return new Date(a.date.seconds) - new Date(b.date.seconds);
       });
     }
-    console.log("sorted Comments", sortedComments);
     return (
       <>
         <Snackbar open={this.state.snackbarOpen} autoHideDuration={6000} onClose={this.handleClose}>
@@ -92,7 +90,6 @@ class CommentList extends Component {
           <Grid item xs={12} md={8}>
             {this.state.comments.length > 0 &&
               sortedComments.map((comment, idx) => {
-                console.log("comment", comment.date.seconds);
                 return (
                   <Comment
                     key={idx}
