@@ -14,6 +14,7 @@ import Paper from "@material-ui/core/Paper";
 import FormLabel from "@material-ui/core/FormLabel";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { GlobalCss } from "../materialUI/styles";
+import { Helmet } from "react-helmet";
 
 export default class CreateRecipe extends Component {
   handleNewRecipeSubmit = e => {
@@ -58,6 +59,9 @@ export default class CreateRecipe extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>Create Recipe | Octo Waffle</title>
+        </Helmet>
         <GlobalCss />
         <Typography variant="h6" gutterBottom>
           Create Recipe

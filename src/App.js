@@ -12,9 +12,9 @@ import Profile from "../src/components/Profile";
 import ProfileSettings from "../src/components/ProfileSettings";
 import Login from "../src/components/Login";
 import Register from "../src/components/Register";
-import DatabaseTests from "../src/components/DatabaseTests";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
+import { Helmet } from "react-helmet";
 
 var db = firebase.firestore();
 
@@ -92,6 +92,9 @@ class App extends Component {
   render() {
     return (
       <>
+        <Helmet>
+          <title>Octo Waffle</title>
+        </Helmet>
         <Navbar user={this.state.user} logOutUser={this.logOutUser} />
         <UserContext.Provider value={this.state}>
           <Router>
@@ -103,7 +106,6 @@ class App extends Component {
             <PrivateRoute as={Profile} path="/profile/:userId" />
             <PrivateRoute as={ProfileSettings} path="/profile/settings" />
             <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
-            <DatabaseTests path="/database-tests" />
             <HTTP_404 default />
           </Router>
         </UserContext.Provider>
