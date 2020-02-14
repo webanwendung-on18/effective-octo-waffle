@@ -91,8 +91,10 @@ class Profile extends Component {
                           Follow
                         </button>
                       ) : (
-                        <Link to="/profile/settings" className="nav-link">
-                          <button class="btn btn-primary">Edit</button>
+                        <Link to="/profile/settings">
+                          <button className="btn btn-primary" type="submit">
+                            Edit
+                          </button>
                         </Link>
                       )}
                     </div>

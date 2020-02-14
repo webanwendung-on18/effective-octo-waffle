@@ -76,7 +76,7 @@ class ProfileSettings extends Component {
             </div>
 
             {/* Edit Profile Picture */}
-            <div className="row">
+            <div className="row mb-4">
               <div className="col-4 col-md-3 ml-0 mt-4">
                 <img
                   src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
@@ -107,7 +107,7 @@ class ProfileSettings extends Component {
             </div>
             <Typography variant="h6">Change Password</Typography>
             <div className="row">
-              <div className="col-12 ml-0 mt-4">
+              <div className="col-12 ml-0">
                 <TextField
                   id="standard-password-input"
                   label="Old Password"
@@ -123,7 +123,7 @@ class ProfileSettings extends Component {
                   autoComplete="current-password"
                 />
               </div>
-              <div className="col-12 ml-0 mt-4">
+              <div className="col-12 ml-0 ">
                 <TextField
                   id="standard-password-input"
                   label="Repeat New Password"
