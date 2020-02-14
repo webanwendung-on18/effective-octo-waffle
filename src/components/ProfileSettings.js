@@ -69,48 +69,80 @@ class ProfileSettings extends Component {
       <>
         <main className="formLayout">
           <Paper className="formPaper">
-            <Typography component="h1" variant="h4" align="center"></Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={e => this.handleNewRecipeSubmit(e)}
-              className="ml-2 mt-4"
-            >
-              {"Edit Profile"}
-            </Button>
-            {/* Image URL */}
-            <Grid item xs={12} sm={7}>
-              <TextField
-                required
-                id="imageUrl"
-                name="imageUrl"
-                value={this.state.progress === 100 ? this.state.image.name : this.state.imageUrl}
-                disabled={this.state.progress === 100}
-                label="Image URL"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={2} className="d-flex align-self-end justify-content-center">
-              <Typography variant="body1">OR</Typography>
-            </Grid>
-            <Grid item xs={5} sm={3} className="d-flex align-self-end justify-content-end">
+            <div className="row">
+              <Typography variant="h6" gutterBottom className="align-center">
+                Profile Settings
+              </Typography>
+            </div>
+
+            {/* Edit Profile Picture */}
+            <div className="row">
+              <div className="col-4 col-md-3 ml-0 mt-4">
+                <img
+                  src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
+                  alt=""
+                  className="img img-fluid rounded profilePicture shadow"
+                />
+                <Button
+                  variant="contained"
+                  component="label"
+                  onChange={this.handleUpload}
+                  color={this.state.progress === 100 ? "primary" : "default"}
+                  style={{ fontSize: "12px", width: "100%" }}
+                >
+                  {this.state.progress === 100 ? "Sucess!" : "Change Picture"}
+                  <input type="file" style={{ display: "none" }} accept="image/*" />
+                </Button>
+                {this.state.progress !== 0 && (
+                  <Grid item xs={12}>
+                    <LinearProgress variant="determinate" value={this.state.progress} />
+                  </Grid>
+                )}
+              </div>
+
+              <div className="col-8 ml-0 mt-4">
+                <TextField label="Username" defaultValue="Natascha" />
+                <TextField label="Email" defaultValue="forsternatascha@gmail.com" />
+              </div>
+            </div>
+            <Typography variant="h6">Change Password</Typography>
+            <div className="row">
+              <div className="col-12 ml-0 mt-4">
+                <TextField
+                  id="standard-password-input"
+                  label="Old Password"
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </div>
+              <div className="col-12 ml-0 mt-4">
+                <TextField
+                  id="standard-password-input"
+                  label="New Password"
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </div>
+              <div className="col-12 ml-0 mt-4">
+                <TextField
+                  id="standard-password-input"
+                  label="Repeat New Password"
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </div>
+            </div>
+
+            <div className="row ml-auto">
               <Button
                 variant="contained"
-                component="label"
-                onChange={this.handleUpload}
-                color={this.state.progress === 100 ? "primary" : "default"}
-                style={{ fontSize: "12px", width: "100%" }}
+                color="primary"
+                onClick={e => this.handleNewRecipeSubmit(e)}
+                className="mt-4 ml-auto"
               >
-                {this.state.progress === 100 ? "Sucess!" : "Upload Image"}
-
-                <input type="file" style={{ display: "none" }} accept="image/*" />
+                {"Save Changes"}
               </Button>
-            </Grid>
-            {this.state.progress !== 0 && (
-              <Grid item xs={12}>
-                <LinearProgress variant="determinate" value={this.state.progress} />
-              </Grid>
-            )}
+            </div>
           </Paper>
         </main>
       </>
