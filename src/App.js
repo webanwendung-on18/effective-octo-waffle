@@ -102,7 +102,11 @@ class App extends Component {
             <Register path="register" registerUser={this.registerUser} />
             <Feed path="recipes" />
             <Recipe path="recipes/:recipeId" />
-            <PrivateRoute as={Profile} path="/profile/:userId" />
+            <PrivateRoute
+              as={Profile}
+              path="/profile/:userId"
+              registeredUserId={this.state.userID}
+            />
             <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
             <HTTP_404 default />
           </Router>
