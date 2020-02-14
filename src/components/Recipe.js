@@ -247,7 +247,7 @@ class Recipe extends Component {
                 </div>
               </div>
               <div className="row">
-                <CommentList recipeId={this.props.recipeId} />
+                <CommentList recipeId={this.props.recipeId} user={this.state.user} />
               </div>
             </div>
           </>

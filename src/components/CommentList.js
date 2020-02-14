@@ -11,7 +11,7 @@ var db = firebase.firestore();
 class CommentList extends Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], loading: false, comment: "", snackbarOpen: false };
+    this.state = { comments: [], loading: false, comment: "", snackbarOpen: false, user: null };
     this.handleNewComment = this.handleNewComment.bind(this);
   }
   async componentDidMount() {
@@ -26,6 +26,11 @@ class CommentList extends Component {
           this.setState({ error: "No Comments Found", loading: false });
         }
       });
+      const registeredUser = await db
+        .collection("Users")
+        .doc(this.props.user.uid)
+        .get();
+      this.setState({ user: registeredUser.data() }, () => console.log(this.state));
     } catch (err) {
       console.error("Error", err.message);
     }
@@ -45,23 +50,37 @@ class CommentList extends Component {
       .add({
         comment,
         user_id: user.uid,
-        user_name: user.displayName
+        user_name: user.displayName,
+        profileImageUrl: this.state.user.profileImageUrl,
+        date: new Date()
       })
       .catch(err => {
-        console.log(`Error adding document: ${err}`);
+        console.log(`Error adding comment: ${err}`);
       });
+    this.setState({ comment: "" });
     return;
   };
 
   handleChange = e => {
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ snackbarOpen: false });
   };
   render() {
+    let sortedComments = [...this.state.comments];
+    if (this.state.comments.length > 1) {
+      sortedComments = [...this.state.comments].sort((a, b) => {
+        return new Date(a.date.seconds) - new Date(b.date.seconds);
+      });
+    }
+    console.log("sorted Comments", sortedComments);
     return (
       <>
         <Snackbar open={this.state.snackbarOpen} autoHideDuration={6000} onClose={this.handleClose}>
@@ -72,13 +91,13 @@ class CommentList extends Component {
         <Grid container>
           <Grid item xs={12} md={8}>
             {this.state.comments.length > 0 &&
-              this.state.comments.map((comment, idx) => {
-                console.log("comment", comment);
+              sortedComments.map((comment, idx) => {
+                console.log("comment", comment.date.seconds);
                 return (
                   <Comment
                     key={idx}
-                    date={comment.date}
-                    message={comment.message}
+                    date={comment.date.seconds}
+                    message={comment.comment}
                     messageId={comment.id}
                     username={comment.user_name}
                     profileImage={comment.profileImageUrl}

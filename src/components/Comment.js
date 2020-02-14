@@ -2,23 +2,23 @@ import React from "react";
 import cx from "clsx";
 import { makeStyles } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
-import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Divider from "@material-ui/core/Divider";
 import Rating from "@material-ui/lab/Rating";
-import ArrowForwardIos from "@material-ui/icons/ArrowForwardIos";
 import Favorite from "@material-ui/icons/Favorite";
 import { usePushingGutterStyles } from "@mui-treasury/styles/gutter/pushing";
 import { useLabelIconStyles } from "@mui-treasury/styles/icon/label";
 import { useRowFlexStyles } from "@mui-treasury/styles/flex/row";
+import Moment from "react-moment";
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
   card: {
     display: "flex",
     padding: spacing(2),
-    borderRadius: 16
+    borderRadius: 16,
+    margin: "1rem 0"
   },
   media: {
     minWidth: "25%",
@@ -59,7 +59,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   }
 }));
 
-const Comment = ({ username, message, profileImage }) => {
+const Comment = ({ username, message, profileImage, date }) => {
   const styles = useStyles();
   const gutterStyles = usePushingGutterStyles({ space: 1.5 });
   const labelStyles = useLabelIconStyles({ linked: true });
@@ -76,9 +76,9 @@ const Comment = ({ username, message, profileImage }) => {
         <Divider className={styles.divider} light />
         <div className={flexStyles.parent}>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link className={cx(labelStyles.primaryLink, styles.textFooter)} component={"button"}>
-            Read more <ArrowForwardIos className={labelStyles.icon} />
-          </Link>
+          <Moment className={styles.textFooter} fromNow>
+            {date * 1000}
+          </Moment>
           <div className={cx(flexStyles.rightChild, flexStyles.parent, gutterStyles.parent)}>
             <button type={"button"} className={labelStyles.link}>
               <Favorite className={labelStyles.icon} /> 12
