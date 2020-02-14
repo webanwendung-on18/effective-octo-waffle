@@ -1,95 +1,104 @@
 .subtle {
-    color: #aaa;
+  color: #aaa;
 }
 
 .card-outline {
-    background-color: #fff;
-    margin-bottom: 2rem;
-    padding: 30px;
-    z-index: 1;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: #fff;
+  margin-bottom: 2rem;
+  padding: 30px;
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .card-content {
-    min-width: 60%;
+  min-width: 60%;
 }
 
 .card-number {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .card-circle {
-    border: 1px solid #888;
-    border-radius: 50%;
-    display: inline-block;
-    line-height: 22px;
-    font-size: 12px;
-    height: 25px;
-    text-align: center;
-    width: 25px;
-    color: #888;
+  border: 1px solid #888;
+  border-radius: 50%;
+  display: inline-block;
+  line-height: 22px;
+  font-size: 12px;
+  height: 25px;
+  text-align: center;
+  width: 25px;
+  color: #888;
 }
 
 .card-author {
-    display: block;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-    margin: 15px 0 0;
-    text-transform: uppercase;
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  margin: 15px 0 0;
+  text-transform: uppercase;
 }
 
 .card-title {
-    font-family: $recipe-title;
-    line-height: 4rem;
-    margin: 10px 0;
+  font-family: $recipe-title;
+  line-height: 4rem;
+  margin: 10px 0;
 }
 
 .card-description {
-    display: inline-block;
-    font-weight: 300;
-    line-height: 22px;
-    margin: 10px 0;
+  display: inline-block;
+  font-weight: 300;
+  line-height: 22px;
+  margin: 10px 0;
 }
 
 .card-read {
-    // cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-left: 10px;
-    color: #333
+  // cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-left: 10px;
+  color: #333;
 }
 
 .card-read:hover {
-    color: inherit;
+  color: inherit;
 }
 
 .card-read:after {
-    background-color: #cfcfcf;
-    content: "";
-    display: block;
-    margin: 0.5rem 0;
-    height: 1px;
-    width: 80%;
+  background-color: #cfcfcf;
+  content: "";
+  display: block;
+  margin: 0.5rem 0;
+  height: 1px;
+  width: 80%;
 }
 
 .card-tag {
-    margin: 5px 0 0;
+  margin: 5px 0 0;
 }
 
 .card-media {
-    object-fit: cover;
-    overflow: hidden;
-    width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-media {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-height: 20rem;
+  }
 }
 
 .flag {
-    background-color: $secondary;
-    color: #fff;
-    text-transform: lowercase;
-    font-size: small;
-    padding: 2.5px 7px 3.5px 7px;
-    margin: 0 3px;
-    border-radius: 3px;
+  background-color: $secondary;
+  color: #fff;
+  text-transform: lowercase;
+  font-size: small;
+  padding: 2.5px 7px 3.5px 7px;
+  margin: 0 3px;
+  border-radius: 3px;
 }
