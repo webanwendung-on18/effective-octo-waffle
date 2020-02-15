@@ -9,7 +9,6 @@ import Favorite from "@material-ui/icons/Favorite";
 import HTTP_404 from "./HTTP_404";
 import CommentList from "./CommentList";
 import { Helmet } from "react-helmet";
-import { Grid, TextField } from "@material-ui/core";
 
 var db = firebase.firestore();
 

@@ -72,6 +72,16 @@ class CommentList extends Component {
     }
     this.setState({ snackbarOpen: false });
   };
+
+  handleDelete = (e, commentId) => {
+    e.preventDefault();
+    db.collection(`Recipes/${this.props.recipeId}/Comments`)
+      .doc(commentId)
+      .delete()
+      .catch(error => {
+        console.error("Error removing comment: ", error);
+      });
+  };
   render() {
     let sortedComments = [...this.state.comments];
     if (this.state.comments.length > 1) {
@@ -89,13 +99,17 @@ class CommentList extends Component {
         <Grid container>
           <Grid item xs={12} md={8}>
             {this.state.comments.length > 0 &&
+              this.state.user !== null &&
               sortedComments.map((comment, idx) => {
                 return (
                   <Comment
                     key={idx}
                     date={comment.date.seconds}
+                    commentUserId={comment.user_id}
+                    registeredUserId={this.state.user.userId}
                     message={comment.comment}
                     messageId={comment.id}
+                    handleDelete={this.handleDelete}
                     username={comment.user_name}
                     profileImage={comment.profileImageUrl}
                   />

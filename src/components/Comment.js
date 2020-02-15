@@ -8,6 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Divider from "@material-ui/core/Divider";
 import Rating from "@material-ui/lab/Rating";
 import Favorite from "@material-ui/icons/Favorite";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { usePushingGutterStyles } from "@mui-treasury/styles/gutter/pushing";
 import { useLabelIconStyles } from "@mui-treasury/styles/icon/label";
 import { useRowFlexStyles } from "@mui-treasury/styles/flex/row";
@@ -59,7 +60,16 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   }
 }));
 
-const Comment = ({ username, message, profileImage, date }) => {
+const Comment = ({
+  username,
+  message,
+  messageId,
+  profileImage,
+  date,
+  handleDelete,
+  commentUserId,
+  registeredUserId
+}) => {
   const styles = useStyles();
   const gutterStyles = usePushingGutterStyles({ space: 1.5 });
   const labelStyles = useLabelIconStyles({ linked: true });
@@ -83,6 +93,15 @@ const Comment = ({ username, message, profileImage, date }) => {
             <button type={"button"} className={labelStyles.link}>
               <Favorite className={labelStyles.icon} /> 12
             </button>
+            {commentUserId === registeredUserId && (
+              <button
+                type={"button"}
+                className={labelStyles.link}
+                onClick={e => handleDelete(e, messageId)}
+              >
+                <DeleteForeverIcon className={labelStyles.icon} />
+              </button>
+            )}
           </div>
         </div>
       </CardContent>
