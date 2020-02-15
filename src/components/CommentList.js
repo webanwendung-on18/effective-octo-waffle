@@ -5,7 +5,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
-import { Grid, TextField, Button } from "@material-ui/core";
+import { Grid, TextField, Button, InputAdornment } from "@material-ui/core";
 var db = firebase.firestore();
 
 class CommentList extends Component {
@@ -117,28 +117,33 @@ class CommentList extends Component {
               })}
           </Grid>
           <Grid item xs={12} className="mt-4">
-            <form onChange={this.handleChange} className="d-flex align-items-baseline">
-              <Grid item xs={10} md={7} className="align-self-end">
+            <form onChange={this.handleChange} className="d-flex align-items-center">
+              <Grid item xs={12} md={8} className="align-items-center">
                 <TextField
                   fullWidth
-                  required
+                  variant="outlined"
                   label="Leave a comment"
                   name="comment"
                   multiline
                   rowsMax="3"
                   value={this.state.comment}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Button
+                          onClick={this.handleNewComment}
+                          variant="contained"
+                          color="primary"
+                          className=""
+                        >
+                          {"Submit"}
+                        </Button>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </Grid>
-              <Grid item xs={2} className="d-flex ">
-                <Button
-                  onClick={this.handleNewComment}
-                  variant="contained"
-                  color="primary"
-                  className="mt-4 ml-2 align-self-end"
-                >
-                  {"Submit"}
-                </Button>
-              </Grid>
+              {/* <Grid item xs={2} className="d-flex align-self-center"></Grid> */}
             </form>
           </Grid>
         </Grid>

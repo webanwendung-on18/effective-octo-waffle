@@ -46,7 +46,8 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   },
   body: {
     fontSize: 14,
-    color: palette.grey[500]
+    color: palette.grey[500],
+    wordBreak: "break-all"
   },
   divider: {
     margin: spacing(1, 0)
