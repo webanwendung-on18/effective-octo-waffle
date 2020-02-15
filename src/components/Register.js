@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import firebase from "../firebase/config";
 import FormError from "./FormError";
 import { Link } from "@reach/router";
-import { BtnPrimary, TFPrimary } from "../materialUI/styles";
+import { TFPrimary } from "../materialUI/styles";
+import Button from "@material-ui/core/Button";
 import { Helmet } from "react-helmet";
 
 class Register extends Component {
@@ -115,9 +116,9 @@ class Register extends Component {
                     />
                   </form>
                   <div className="ml-3 mt-2 mb-5">
-                    <BtnPrimary className="btn btn-primary" type="submit">
+                    <Button variant="contained" color="primary" type="submit">
                       Register
-                    </BtnPrimary>
+                    </Button>
                   </div>
                   <div className="mr-3 d-flex justify-content-center">
                     <div className="d-flex align-items-end">
