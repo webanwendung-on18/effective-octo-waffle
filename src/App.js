@@ -7,6 +7,7 @@ import "firebase/auth";
 import Navbar from "./components/Navbar";
 import Feed from "../src/components/Feed";
 import Recipe from "../src/components/Recipe";
+import Preparation from "../src/components/Preparation";
 import Home from "../src/components/Home";
 import Profile from "../src/components/Profile";
 import Login from "../src/components/Login";
@@ -105,6 +106,7 @@ class App extends Component {
             <Register path="register" registerUser={this.registerUser} />
             <Feed path="recipes" />
             <Recipe path="recipes/:recipeId" />
+            <Preparation path="recipes/:recipeId/preparation" />
             <PrivateRoute
               as={Profile}
               path="/profile/:userId"
