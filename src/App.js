@@ -15,6 +15,8 @@ import Register from "../src/components/Register";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
 import { Helmet } from "react-helmet";
+import Favicon from "react-favicon";
+import logo from "./images/Octo_Waffle_logo.svg";
 
 var db = firebase.firestore();
 
@@ -92,6 +94,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <Favicon url={logo} />
         <Helmet>
           <title>Octo Waffle</title>
         </Helmet>
