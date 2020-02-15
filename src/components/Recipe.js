@@ -60,7 +60,7 @@ class Recipe extends Component {
                   const user = doc.data();
                   this.setState(
                     {
-                      likedRecipes: [...this.state.likedRecipes, ...user.likedRecipes],
+                      likedRecipes: [...user.likedRecipes],
                       loading: false
                     },
                     () => {
