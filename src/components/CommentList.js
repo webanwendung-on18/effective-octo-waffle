@@ -96,7 +96,7 @@ class CommentList extends Component {
             Some required fields are empty
           </MuiAlert>
         </Snackbar>
-        <Grid container>
+        <Grid container justify="center">
           <Grid item xs={12} md={8}>
             {this.state.comments.length > 0 &&
               this.state.user !== null &&
@@ -117,7 +117,10 @@ class CommentList extends Component {
               })}
           </Grid>
           <Grid item xs={12} className="mt-4">
-            <form onChange={this.handleChange} className="d-flex align-items-center">
+            <form
+              onChange={this.handleChange}
+              className="d-flex align-items-center justify-content-center"
+            >
               <Grid item xs={12} md={8} className="align-items-center">
                 <TextField
                   fullWidth

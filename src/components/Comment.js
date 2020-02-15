@@ -18,7 +18,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   card: {
     display: "flex",
     padding: spacing(2),
-    borderRadius: 16,
+    borderRadius: 4,
     margin: "1rem 0"
   },
   media: {
@@ -26,15 +26,16 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
     maxWidth: "25%",
     flexShrink: 0,
     backgroundColor: palette.grey[200],
-    borderRadius: 12,
-    marginRight: "2rem"
+    borderRadius: 4,
+    marginRight: "2rem",
+    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"
     // boxShadow: "0 2px 8px 0 #c1c9d7, 0 -2px 8px 0 #cce1e9"
   },
   rating: {
     verticalAlign: "text-top"
   },
   content: {
-    padding: spacing(0, 2, 0, 0)
+    padding: `${spacing(0, 2, 0, 0)} !important`
   },
   heading: {
     fontSize: 17,
@@ -47,10 +48,12 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   body: {
     fontSize: 14,
     color: palette.grey[500],
-    wordBreak: "break-all"
+    wordBreak: "break-all",
+    marginBottom: "2rem"
   },
   divider: {
-    margin: spacing(1, 0)
+    // margin: spacing(1, 0)
+    marginTop: "10px"
   },
   textFooter: {
     fontSize: 14
@@ -81,19 +84,20 @@ const Comment = ({
       <CardContent className={styles.content}>
         <Box mb={1}>
           <h3 className={styles.heading}>{username}</h3>
-          <Rating name={"rating"} value={2} className={styles.rating} size={"small"} />
+          <Rating
+            name={"rating"}
+            value={Math.floor(Math.random() * 6)}
+            className={styles.rating}
+            size={"small"}
+          />
         </Box>
         <p className={styles.body}>{message}</p>
         <Divider className={styles.divider} light />
         <div className={flexStyles.parent}>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <Moment className={styles.textFooter} fromNow>
             {date * 1000}
           </Moment>
           <div className={cx(flexStyles.rightChild, flexStyles.parent, gutterStyles.parent)}>
-            <button type={"button"} className={labelStyles.link}>
-              <Favorite className={labelStyles.icon} /> 12
-            </button>
             {commentUserId === registeredUserId && (
               <button
                 type={"button"}

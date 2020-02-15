@@ -246,6 +246,11 @@ class Recipe extends Component {
                 </div>
               </div>
               <div className="row">
+                <div className="col-8 offset-lg-2">
+                  <h2>
+                    <span className="underline--magical">Comments</span>
+                  </h2>
+                </div>
                 <CommentList recipeId={this.props.recipeId} user={this.state.user} />
               </div>
             </div>
