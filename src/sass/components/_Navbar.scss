@@ -1,0 +1,19 @@
+@include media-breakpoint-up(xs) {
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .logo {
+        width: 2.5rem;
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        width: 3.1rem;
+    }
+}

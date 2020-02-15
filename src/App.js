@@ -14,6 +14,8 @@ import Register from "../src/components/Register";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
 import { Helmet } from "react-helmet";
+import Favicon from "react-favicon";
+import logo from "./images/Octo_Waffle_logo.svg";
 
 var db = firebase.firestore();
 
@@ -93,6 +95,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <Favicon url={logo} />
         <Helmet>
           <title>Octo Waffle</title>
         </Helmet>
@@ -105,6 +108,11 @@ class App extends Component {
             <Recipe path="recipes/:recipeId" />
             <Feed path="recipes" />
             <PrivateRoute as={Profile} path="/profile/:userId" />
+            <PrivateRoute
+              as={Profile}
+              path="/profile/:userId"
+              registeredUserId={this.state.userID}
+            />
             <PrivateRoute as={RecipeForm} user={this.state.user} path="/add-recipe" />
             <HTTP_404 default />
           </Router>

@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
   // https://material-ui.com/customization/components/#theme-variables
   // Helper -> https://material-ui.com/customization/default-theme/
   palette: {
-    primary: { main: "#2ecc71" }
+    primary: { main: "#6ab04c" }
   },
   typography: {
     // button: {
