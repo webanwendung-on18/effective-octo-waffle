@@ -4,7 +4,7 @@ import firebase from "./../firebase/config";
 import "firebase/firestore";
 import HTTP_404 from "./HTTP_404";
 import Button from "@material-ui/core/Button";
-import { FiArrowLeft, FiArrowRight, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 import { Helmet } from "react-helmet";
 import { Link } from "@reach/router";
 import Stepper from "@material-ui/core/Stepper";
@@ -35,9 +35,7 @@ class Preparation extends Component {
         .doc(this.props.recipeId)
         .get();
       if (recipe.exists) {
-        this.setState({ recipe: recipe.data(), loading: false }, () =>
-          console.log(this.state.recipe)
-        );
+        this.setState({ recipe: recipe.data(), loading: false });
       } else {
         this.setState({ error: "Recipe doesn't exist", loading: false });
       }
@@ -55,32 +53,11 @@ class Preparation extends Component {
     this.setState({ activeStep: this.state.activeStep - 1 });
   };
 
-  // Needs to be an automated array with steps
-  getSteps() {
-    return ["Select campaign settings", "Create an ad group", "Create an ad"];
-  }
-
-  // Need to be switched to steps
-  getStepContent(step) {
-    switch (step) {
-      case 0:
-        return `For each ad campaign that you create, you can control how much
-                you're willing to spend on clicks and conversions, which networks
-                and geographical locations you want your ads to show on, and more.`;
-      case 1:
-        return "An ad group contains one or more ads which target a shared set of keywords.";
-      case 2:
-        return `Try out different ad text to see what brings in the most customers,
-                and learn how to enhance your ads using features like ad extensions.
-                If you run into any problems with your ads, find out how to tell if
-                they're running and how to resolve approval issues.`;
-      default:
-        return "Unknown step";
-    }
-  }
-
   render() {
-    const steps = this.getSteps();
+    let steps = [];
+    if (this.state.recipe !== null) {
+      steps = [...this.state.recipe.steps];
+    }
 
     return (
       <>
@@ -93,71 +70,26 @@ class Preparation extends Component {
             <div className="container">
               <div className="row">
                 <div className="col-12">
-                  <h1 className="text-center">{this.state.recipe.title}</h1>
+                  <h1 className="text-center mt-4">{this.state.recipe.title}</h1>
                 </div>
-                <div className="col-12">
-                  <ul className="list">
-                    {this.state.recipe.steps.map((step, idx) => (
-                      <li key={idx} className="mb-4">
-                        <h3 className="steps">Step {idx + 1}</h3>
-                        {step.step}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="">
-                  <Button
-                    variant="contained"
-                    color="default"
-                    startIcon={<FiArrowLeft />}
-                    onClick="/"
-                  >
-                    Previous Step
-                  </Button>
-                </div>
-                <div className="ml-auto">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    endIcon={<FiArrowRight />}
-                    onClick="/"
-                  >
-                    Next Step
-                  </Button>
-                </div>
-                <div className="col-12 d-flex justify-content-center mt-4">
-                  <Link to={`/recipes/${this.props.recipeId}`} style={{ textDecoration: "none" }}>
-                    <Button variant="contained" color="secondary" startIcon={<FiX />}>
-                      {" "}
-                      Leave Preparation View
-                    </Button>
-                  </Link>
-                </div>
-
                 <div className="col-12">
                   <div>
                     <Stepper activeStep={this.state.activeStep} orientation="vertical">
-                      {steps.map((label, index) => (
-                        <Step key={label}>
-                          <StepLabel>{label}</StepLabel>
+                      {steps.map((step, index) => (
+                        <Step key={index}>
+                          <StepLabel>{`Step ${index + 1}`}</StepLabel>
                           <StepContent>
-                            <Typography>{this.getStepContent(index)}</Typography>
-                            <div>
-                              <div>
-                                <Button
-                                  disabled={this.state.activeStep === 0}
-                                  onClick={this.handleBack}
-                                >
-                                  Back
-                                </Button>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={this.handleNext}
-                                >
-                                  {this.state.activeStep === steps.length - 1 ? "Finish" : "Next"}
-                                </Button>
-                              </div>
+                            <Typography>{step.step}</Typography>
+                            <div className="mt-3">
+                              <Button
+                                disabled={this.state.activeStep === 0}
+                                onClick={this.handleBack}
+                              >
+                                Back
+                              </Button>
+                              <Button variant="contained" color="primary" onClick={this.handleNext}>
+                                {this.state.activeStep === steps.length - 1 ? "Finish" : "Next"}
+                              </Button>
                             </div>
                           </StepContent>
                         </Step>
@@ -170,6 +102,14 @@ class Preparation extends Component {
                     )}
                   </div>
                 </div>
+              </div>
+              <div className="col-12 d-flex justify-content-center">
+                <Link to={`/recipes/${this.props.recipeId}`} style={{ textDecoration: "none" }}>
+                  <Button variant="contained" color="light" startIcon={<FiX />}>
+                    {" "}
+                    Leave Preparation View
+                  </Button>
+                </Link>
               </div>
             </div>
           </>
