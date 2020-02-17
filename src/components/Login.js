@@ -54,7 +54,7 @@ class Login extends Component {
         <Helmet>
           <title>Login | Octo Waffle</title>
         </Helmet>
-        <div id="home">
+        <div id="home" className="no-nav-space">
           <div id="home-content">
             <div className="card card-login">
               <div className="card-body">
