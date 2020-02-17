@@ -63,7 +63,8 @@ class App extends Component {
             .doc(FBUser.uid)
             .set({
               name: FBUser.displayName,
-              userId: FBUser.uid
+              userId: FBUser.uid,
+              likedRecipes: []
             })
             .then(() => console.log("User logged in"))
             .catch(err => {
@@ -104,9 +105,9 @@ class App extends Component {
             <Home path="/" user={this.state.user} />
             <Login path="login" />
             <Register path="register" registerUser={this.registerUser} />
-            <Feed path="recipes" />
             <Recipe path="recipes/:recipeId" />
             <Preparation path="recipes/:recipeId/preparation" />
+            <Feed path="recipes" />
             <PrivateRoute
               as={Profile}
               path="/profile/:userId"

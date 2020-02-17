@@ -3,7 +3,6 @@ import SyncLoader from "react-spinners/SyncLoader";
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 import { Link } from "@reach/router";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
@@ -17,25 +16,111 @@ var db = firebase.firestore();
 class Recipe extends Component {
   constructor(props) {
     super(props);
-    this.state = { recipe: null, loading: false, error: null };
+    this.state = {
+      recipe: null,
+      loading: false,
+      error: null,
+      liked: false,
+      likes: 0,
+      likedByUsers: [],
+      likedRecipes: [],
+      user: null,
+      userName: null,
+      userId: null
+    };
   }
+
   async componentDidMount() {
-    try {
-      this.setState({ loading: true });
-      const recipe = await db
-        .collection("Recipes")
-        .doc(this.props.recipeId)
-        .get();
-      if (recipe.exists) {
-        this.setState({ recipe: recipe.data(), loading: false });
+    firebase.auth().onAuthStateChanged(FBUser => {
+      if (FBUser) {
+        this.setState(
+          {
+            user: FBUser,
+            userName: FBUser.displayName,
+            userId: FBUser.uid
+          },
+          () => {
+            try {
+              this.setState({ loading: true });
+              db.collection("Recipes")
+                .doc(this.props.recipeId)
+                .onSnapshot(doc => {
+                  if (doc.data()) {
+                    this.setState({
+                      recipe: doc.data(),
+                      likedByUsers: [...doc.data().likedByUsers],
+                      likes: doc.data().likedByUsers.length,
+                      loading: false
+                    });
+                  } else {
+                    this.setState({ error: "Recipe doesn't exist", loading: false });
+                  }
+                });
+              db.collection("Users")
+                .doc(this.state.userId)
+                .onSnapshot(doc => {
+                  const user = doc.data();
+                  this.setState(
+                    {
+                      likedRecipes: [...user.likedRecipes],
+                      loading: false
+                    },
+                    () => {
+                      this.setState({
+                        liked: this.state.likedRecipes.includes(this.props.recipeId)
+                      });
+                    }
+                  );
+                });
+            } catch (err) {
+              this.setState({ loading: false });
+              console.error("Error 😯", err.message);
+            }
+          }
+        );
       } else {
-        this.setState({ error: "Recipe doesn't exist", loading: false });
+        this.setState({ user: null });
+      }
+    });
+  }
+
+  handleLike = async () => {
+    try {
+      if (!this.state.likedRecipes.includes(this.props.recipeId)) {
+        db.collection("Users")
+          .doc(this.state.userId)
+          .update({ likedRecipes: firebase.firestore.FieldValue.arrayUnion(this.props.recipeId) });
+
+        db.collection("Recipes")
+          .doc(this.props.recipeId)
+          .update({ likedByUsers: firebase.firestore.FieldValue.arrayUnion(this.state.userId) });
+
+        this.setState({
+          likedRecipes: [...this.state.likedRecipes, this.props.recipeId],
+          likedByUsers: [...this.state.likedByUsers, this.state.userId],
+          liked: true
+        });
+      } else {
+        db.collection("Users")
+          .doc(this.state.userId)
+          .update({ likedRecipes: firebase.firestore.FieldValue.arrayRemove(this.props.recipeId) });
+
+        db.collection("Recipes")
+          .doc(this.props.recipeId)
+          .update({ likedByUsers: firebase.firestore.FieldValue.arrayRemove(this.state.userId) });
+
+        this.setState({
+          likedRecipes: this.state.likedRecipes.filter(
+            recipeId => recipeId !== this.props.recipeId
+          ),
+          likedByUsers: this.state.likedByUsers.filter(userId => userId !== this.state.userId),
+          liked: false
+        });
       }
     } catch (err) {
-      this.setState({ loading: false });
       console.error("Error", err.message);
     }
-  }
+  };
   render() {
     return (
       <>
@@ -122,16 +207,17 @@ class Recipe extends Component {
                   <div>
                     Do you like this recipe? Give it a &nbsp;
                     <span className="likeButton">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            icon={<FavoriteBorder />}
-                            checkedIcon={<Favorite />}
-                            value="checked"
-                          />
-                        }
-                      />
-                      <span>12</span>
+                      {
+                        <Checkbox
+                          icon={<FavoriteBorder />}
+                          checkedIcon={<Favorite />}
+                          value="like"
+                          checked={this.state.liked}
+                          onClick={this.handleLike}
+                          className="mb-1"
+                        />
+                      }
+                      <span>{this.state.likes}</span>
                     </span>
                   </div>
                 </div>
@@ -151,7 +237,10 @@ class Recipe extends Component {
                   </ul>
                 </div>
                 <div className="col-12">
-                  <Link to={`/recipes/${this.props.recipeId}/preparation`}>
+                  <Link
+                    to={`/recipes/${this.props.recipeId}/preparation`}
+                    style={{ textDecoration: "none" }}
+                  >
                     <Button variant="contained" color="primary" startIcon={<GiCookingPot />}>
                       Start cooking
                     </Button>
