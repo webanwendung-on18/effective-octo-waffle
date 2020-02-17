@@ -22,7 +22,7 @@ class HTTP_404 extends Component {
             Waffle
           </title>
         </Helmet>
-        <div id="http_404">
+        <div id="http_404" className="no-nav-space">
           <header id="http_404-content">
             <div className="text-center text-light">
               <h1 className="h1">
