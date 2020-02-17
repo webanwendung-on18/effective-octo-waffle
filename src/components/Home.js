@@ -8,7 +8,7 @@ class Home extends Component {
     const { user } = this.props;
 
     return (
-      <div id="home">
+      <div id="home" className="no-nav-space">
         <header id="home-content">
           <div className="text-center text-light">
             <h1 className="h2">Octo Waffle</h1>

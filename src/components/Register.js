@@ -63,7 +63,7 @@ class Register extends Component {
         <Helmet>
           <title>Register | Octo Waffle</title>
         </Helmet>
-        <div id="home">
+        <div id="home" className="no-nav-space">
           <div id="home-content">
             <div className="card card-login">
               <div className="card-body">

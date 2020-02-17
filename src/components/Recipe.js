@@ -36,7 +36,7 @@ class Recipe extends Component {
   }
   render() {
     return (
-      <>
+      <div className="no-nav-space">
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.recipe !== null ? (
           <>
@@ -163,7 +163,7 @@ class Recipe extends Component {
         ) : (
           <SyncLoader size={15} color={"#333"} loading={this.state.loading} />
         )}
-      </>
+      </div>
     );
   }
 }
