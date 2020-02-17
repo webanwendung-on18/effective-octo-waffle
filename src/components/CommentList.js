@@ -82,6 +82,17 @@ class CommentList extends Component {
         console.error("Error removing comment: ", error);
       });
   };
+
+  handleUpdate = (comment, commentId, handleClose) => {
+    db.collection(`Recipes/${this.props.recipeId}/Comments`)
+      .doc(commentId)
+      .update({ comment })
+      .catch(error => {
+        console.error("Error updating comment: ", error);
+      });
+    handleClose();
+  };
+
   render() {
     let sortedComments = [...this.state.comments];
     if (this.state.comments.length > 1) {
@@ -110,6 +121,7 @@ class CommentList extends Component {
                     message={comment.comment}
                     messageId={comment.id}
                     handleDelete={this.handleDelete}
+                    handleUpdate={this.handleUpdate}
                     username={comment.user_name}
                     profileImage={comment.profileImageUrl}
                   />
