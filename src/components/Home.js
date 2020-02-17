@@ -42,8 +42,10 @@ class Home extends Component {
             {user != null && (
               <div className="d-flex justify-content-center">
                 <div className="w-75">
-                  <Link className="btn btn-primary btn-block mb-3" to="/recipes">
-                    Discover new recipes
+                  <Link className="mb-3 btn-block nounderline" to="/recipes">
+                    <Button variant="contained" color="primary" fullWidth>
+                      Discover new recipes
+                    </Button>
                   </Link>
                 </div>
               </div>
