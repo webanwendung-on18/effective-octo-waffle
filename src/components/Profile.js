@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
+import Button from "@material-ui/core/Button";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import SyncLoader from "react-spinners/SyncLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 import firebase from "./../firebase/config";
+import "firebase/storage";
 import "firebase/firestore";
 
-import CollectionPreview from "./CollectionPreview";
 import RecipeCard from "./RecipeCard";
 import HTTP_404 from "./HTTP_404";
 import { Helmet } from "react-helmet";
 
+const storage = firebase.storage();
 var db = firebase.firestore();
 
 class Profile extends Component {
@@ -62,6 +65,39 @@ class Profile extends Component {
     }
   }
 
+  handleUpload = e => {
+    console.log("hier");
+    if (e.target.files[0] && e.target.files[0] !== this.state.image) {
+      const image = e.target.files[0];
+      this.setState(
+        () => ({ image }),
+        () => {
+          const { image } = this.state;
+          const uploadTask = storage.ref(`profileImages/${image.name}`).put(image);
+          uploadTask.on(
+            "state_changed",
+            snapshot => {
+              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              this.setState({ progress });
+            },
+            error => {
+              console.log(error);
+            },
+            () => {
+              storage
+                .ref("profileImages")
+                .child(image.name)
+                .getDownloadURL()
+                .then(imageUrl => {
+                  this.setState({ imageUrl });
+                });
+            }
+          );
+        }
+      );
+    }
+  };
+
   render() {
     return (
       <>
@@ -79,6 +115,19 @@ class Profile extends Component {
                     alt=""
                     className="img img-fluid rounded profilePicture shadow"
                   />
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    onChange={this.handleUpload}
+                    color={this.state.progress === 100 ? "primary" : "default"}
+                    style={{ fontSize: "12px", width: "100%" }}
+                  >
+                    {this.state.progress === 100 ? "Sucess!" : "Change Picture"}
+                    <input type="file" style={{ display: "none" }} accept="image/*" />
+                  </Button>
+                  {this.state.progress !== 0 && (
+                    <LinearProgress variant="determinate" value={this.state.progress} />
+                  )}
                 </div>
                 <div className="col-8 ml-auto p0">
                   <div className="row profileInformation mt-3 p0">
@@ -91,11 +140,9 @@ class Profile extends Component {
                           Follow
                         </button>
                       ) : (
-                        <Link to="/profile/settings">
-                          <button className="btn btn-primary" type="submit">
-                            Edit
-                          </button>
-                        </Link>
+                        <button className="btn btn-primary" type="submit">
+                          Change Name
+                        </button>
                       )}
                     </div>
                   </div>
@@ -126,22 +173,6 @@ class Profile extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
-              {this.state.profileUser.userId === this.props.registeredUserId ? (
-                <p>
-                  <Link to="/add-recipe" className="nav-link addButton">
-                    <FiPlusCircle /> Neue hinzufügen
-                  </Link>
-                </p>
-              ) : null}
-
-              <div className="row">
-                <CollectionPreview />
-                <CollectionPreview />
-                <CollectionPreview />
-                <CollectionPreview />
               </div>
 
               <h4 className="mt-5 mb-2">Deine Rezepte</h4>
@@ -184,6 +215,25 @@ class Profile extends Component {
                   </div>
                 )}
               </div>
+
+              <h4 className="mt-5 mb-2">Deine Favoriten</h4>
+              {this.state.profileUser.userId === this.props.registeredUserId
+                ? this.state.recipes.map((recipe, index) => (
+                    <div className="col-12 col-lg-6 mr-auto" key={index}>
+                      <RecipeCard
+                        index={index}
+                        id={this.state.recipeIds[index]}
+                        title={recipe.title}
+                        flags={recipe.flags}
+                        name={recipe.user_name}
+                        duration={recipe.duration}
+                        imageUrl={recipe.imageUrl}
+                        difficulty={recipe.difficulty}
+                        description={recipe.description}
+                      />
+                    </div>
+                  ))
+                : null}
             </div>
           </>
         ) : (

@@ -9,7 +9,6 @@ import Feed from "../src/components/Feed";
 import Recipe from "../src/components/Recipe";
 import Home from "../src/components/Home";
 import Profile from "../src/components/Profile";
-import ProfileSettings from "../src/components/ProfileSettings";
 import Login from "../src/components/Login";
 import Register from "../src/components/Register";
 import HTTP_404 from "./components/HTTP_404";
@@ -106,7 +105,6 @@ class App extends Component {
             <Register path="register" registerUser={this.registerUser} />
             <Feed path="recipes" />
             <Recipe path="recipes/:recipeId" />
-            <PrivateRoute as={ProfileSettings} path="/profile/settings" />
             <PrivateRoute
               as={Profile}
               path="/profile/:userId"
