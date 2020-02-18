@@ -6,7 +6,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Divider from "@material-ui/core/Divider";
-import Rating from "@material-ui/lab/Rating";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
 import { usePushingGutterStyles } from "@mui-treasury/styles/gutter/pushing";
@@ -31,10 +30,6 @@ const useStyles = makeStyles(({ spacing, palette, shadows }) => ({
     borderRadius: 4,
     marginRight: "2rem",
     boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"
-    // boxShadow: "0 2px 8px 0 #c1c9d7, 0 -2px 8px 0 #cce1e9"
-  },
-  rating: {
-    verticalAlign: "text-top"
   },
   content: {
     padding: `${spacing(0, 2, 0, 0)} !important`
@@ -54,7 +49,6 @@ const useStyles = makeStyles(({ spacing, palette, shadows }) => ({
     marginBottom: "2rem"
   },
   divider: {
-    // margin: spacing(1, 0)
     marginTop: "10px"
   },
   textFooter: {
@@ -96,8 +90,6 @@ const Comment = ({
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState(message);
 
-  // const handleChange = event => setComment(event.target.value);
-
   const handleOpen = (e, message) => {
     setOpen(true);
   };
@@ -109,9 +101,6 @@ const Comment = ({
   return (
     <div>
       <div>
-        {/* <button type="button" onClick={handleOpen}>
-          react-transition-group
-        </button> */}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -126,8 +115,6 @@ const Comment = ({
         >
           <Fade in={open}>
             <div className={styles.paper}>
-              {/* <h2 id="transition-modal-title">Update Comment</h2> */}
-              {/* <p id="transition-modal-description">react-transition-group animates me.</p> */}
               <TextField
                 fullWidth
                 variant="outlined"
@@ -161,12 +148,6 @@ const Comment = ({
         <CardContent className={styles.content}>
           <Box mb={1}>
             <h3 className={styles.heading}>{username}</h3>
-            <Rating
-              name={"rating"}
-              value={Math.floor(Math.random() * 6)}
-              className={styles.rating}
-              size={"small"}
-            />
           </Box>
           <p className={styles.body}>{message}</p>
           <Divider className={styles.divider} light />

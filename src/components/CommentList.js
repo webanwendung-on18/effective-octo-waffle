@@ -158,13 +158,9 @@ class CommentList extends Component {
                   }}
                 />
               </Grid>
-              {/* <Grid item xs={2} className="d-flex align-self-center"></Grid> */}
             </form>
           </Grid>
         </Grid>
-        {/* <div className="col-10"> */}
-
-        {/* </div> */}
       </>
     );
   }
