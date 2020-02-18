@@ -19,11 +19,11 @@ const RefinementList = ({ refine, items, title }) => {
         {title}
       </Typography>
       <List>
-        {items.map(item => {
+        {items.map((item, index) => {
           const labelId = `checkbox-list-label-${item}`;
           return (
             <ListItem
-              key={item}
+              key={index}
               role={undefined}
               dense
               button
@@ -33,6 +33,7 @@ const RefinementList = ({ refine, items, title }) => {
             >
               <ListItemIcon>
                 <Checkbox
+                  key={index}
                   color="primary"
                   edge="start"
                   checked={item.isRefined}

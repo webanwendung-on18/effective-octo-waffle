@@ -20,7 +20,7 @@ body {
 html,
 body,
 #app,
-#app>div {
+#app > div {
   height: 100%;
 }
 
@@ -45,4 +45,12 @@ a {
 
 .nounderline {
   text-decoration: none !important;
+}
+
+#nav-space {
+  margin-bottom: 5rem;
+}
+
+.no-nav-space {
+  margin-top: -5rem !important;
 }
