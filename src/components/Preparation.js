@@ -6,12 +6,11 @@ import HTTP_404 from "./HTTP_404";
 import Button from "@material-ui/core/Button";
 import { FiX } from "react-icons/fi";
 import { Helmet } from "react-helmet";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 var db = firebase.firestore();
@@ -20,11 +19,6 @@ class Preparation extends Component {
   constructor(props) {
     super(props);
     this.state = { activeStep: 0, recipe: null, loading: false, error: null };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    window.history.back();
   }
 
   async componentDidMount() {
@@ -46,7 +40,11 @@ class Preparation extends Component {
   }
 
   handleNext = () => {
-    this.setState({ activeStep: this.state.activeStep + 1 });
+    if (this.state.activeStep < this.state.recipe.steps.length - 1) {
+      this.setState({ activeStep: this.state.activeStep + 1 });
+    } else {
+      navigate(`/recipes/${this.props.recipeId}`);
+    }
   };
 
   handleBack = () => {
@@ -77,17 +75,27 @@ class Preparation extends Component {
                     <Stepper activeStep={this.state.activeStep} orientation="vertical">
                       {steps.map((step, index) => (
                         <Step key={index}>
-                          <StepLabel>{`Step ${index + 1}`}</StepLabel>
+                          <StepLabel>
+                            <span className="step-label">{`Step ${index + 1}`}</span>
+                          </StepLabel>
                           <StepContent>
-                            <Typography>{step.step}</Typography>
+                            <Typography>
+                              <span className="preparation-text">{step.step}</span>
+                            </Typography>
                             <div className="mt-3">
                               <Button
                                 disabled={this.state.activeStep === 0}
                                 onClick={this.handleBack}
+                                size="large"
                               >
                                 Back
                               </Button>
-                              <Button variant="contained" color="primary" onClick={this.handleNext}>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                onClick={this.handleNext}
+                              >
                                 {this.state.activeStep === steps.length - 1 ? "Finish" : "Next"}
                               </Button>
                             </div>
@@ -95,17 +103,12 @@ class Preparation extends Component {
                         </Step>
                       ))}
                     </Stepper>
-                    {this.state.activeStep === steps.length && (
-                      <Paper square elevation={0}>
-                        <Typography>All steps completed - you&apos;re finished</Typography>
-                      </Paper>
-                    )}
                   </div>
                 </div>
               </div>
-              <div className="col-12 d-flex justify-content-center">
+              <div className="col-12 d-flex justify-content-center mt-3">
                 <Link to={`/recipes/${this.props.recipeId}`} style={{ textDecoration: "none" }}>
-                  <Button variant="contained" color="light" startIcon={<FiX />}>
+                  <Button className="mb-4" variant="contained" color="default" startIcon={<FiX />}>
                     {" "}
                     Leave Preparation View
                   </Button>
