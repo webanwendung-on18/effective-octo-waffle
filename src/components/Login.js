@@ -48,6 +48,12 @@ class Login extends Component {
       });
   }
 
+  onKeyPressed(e) {
+    if (e.key === "Enter") {
+      this.handleSubmit(e);
+    }
+  }
+
   render() {
     return (
       <>
@@ -62,7 +68,7 @@ class Login extends Component {
                 <h6 className="card-subtitle mb-3 text-muted text-center">
                   Sign into your account
                 </h6>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} onKeyDown={e => this.onKeyPressed(e)}>
                   {this.state.errorMessage !== null ? (
                     <FormError theMessage={this.state.errorMessage} />
                   ) : null}
