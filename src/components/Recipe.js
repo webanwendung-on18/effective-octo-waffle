@@ -6,8 +6,10 @@ import { Link } from "@reach/router";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
+import Button from "@material-ui/core/Button";
 import HTTP_404 from "./HTTP_404";
 import { Helmet } from "react-helmet";
+import { GiCookingPot } from "react-icons/gi";
 
 var db = firebase.firestore();
 
@@ -233,6 +235,16 @@ class Recipe extends Component {
                       </li>
                     ))}
                   </ul>
+                </div>
+                <div className="col-12">
+                  <Link
+                    to={`/recipes/${this.props.recipeId}/preparation`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button variant="contained" color="primary" startIcon={<GiCookingPot />}>
+                      Start cooking
+                    </Button>
+                  </Link>
                 </div>
               </div>
               <div className="row">
