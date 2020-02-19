@@ -3,13 +3,17 @@ import { Link } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
 import SyncLoader from "react-spinners/SyncLoader";
 import ClipLoader from "react-spinners/ClipLoader";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Button from "@material-ui/core/Button";
 import firebase from "./../firebase/config";
+import "firebase/storage";
 import "firebase/firestore";
 
 import RecipeCard from "./RecipeCard";
 import HTTP_404 from "./HTTP_404";
 import { Helmet } from "react-helmet";
 
+const storage = firebase.storage();
 var db = firebase.firestore();
 
 class Profile extends Component {
@@ -17,10 +21,14 @@ class Profile extends Component {
     super(props);
     this.state = {
       loading: false,
+      progress: 0,
+      image: null,
+      imageUrl: "",
       profileUser: null,
       error: null,
       recipes: [],
       likedRecipes: [],
+      likedRecipeIds: [],
       recipe: null,
       recipeIds: []
     };
@@ -34,7 +42,7 @@ class Profile extends Component {
         .get();
 
       if (profileUser.exists) {
-        this.setState({ profileUser: profileUser.data(), loading: false });
+        this.setState({ profileUser: profileUser.data() });
       } else {
         this.setState({ error: "User doesn't exist", loading: false });
       }
@@ -42,17 +50,15 @@ class Profile extends Component {
       console.error("Error", err.message);
     }
     try {
-      this.state.likedRecipes = this.props.profileUser.likedRecipes;
       var recipeData = db.collection("Recipes");
 
-      var query = await recipeData.where("user_id", "==", this.props.userId).get();
+      var allOwnedRecipes = await recipeData.where("user_id", "==", this.props.userId).get();
 
-      if (query.empty) {
+      if (allOwnedRecipes.empty) {
         console.log("No matching documents.");
         return;
       }
-
-      query.forEach(doc => {
+      allOwnedRecipes.forEach(doc => {
         this.setState({
           recipes: [...this.state.recipes, doc.data()],
           recipeIds: [...this.state.recipeIds, doc.id]
@@ -61,7 +67,70 @@ class Profile extends Component {
     } catch (err) {
       console.error("error", err.message);
     }
+    try {
+      this.state.profileUser.likedRecipes.forEach(async likedRecipeId => {
+        const recipeDoc = await db
+          .collection("Recipes")
+          .doc(likedRecipeId)
+          .get();
+
+        if (recipeDoc.empty) {
+          console.log("No matching documents.");
+          return;
+        }
+        this.setState({
+          likedRecipes: [...this.state.likedRecipes, recipeDoc.data()],
+          likedRecipeIds: [...this.state.likedRecipeIds, likedRecipeId],
+          loading: false
+        });
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
+
+  handleUpload = e => {
+    if (e.target.files[0] && e.target.files[0] !== this.state.image) {
+      const image = e.target.files[0];
+      this.setState(
+        () => ({ image }),
+        () => {
+          const { image } = this.state;
+          const uploadTask = storage.ref(`profileImages/${image.name}`).put(image);
+          uploadTask.on(
+            "state_changed",
+            snapshot => {
+              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              this.setState({ progress }, () => console.log(this.state.progress));
+            },
+            error => {
+              console.log(error);
+            },
+            () => {
+              storage
+                .ref("profileImages")
+                .child(image.name)
+                .getDownloadURL()
+                .then(imageUrl => {
+                  this.setState({ imageUrl }, () => {
+                    db.collection("Users")
+                      .doc(this.props.registeredUserId)
+                      .update({ profileImageUrl: this.state.imageUrl });
+                  });
+                });
+            }
+          );
+        }
+      );
+    }
+  };
+
+  updateInfo = (nameAttr, name) => {
+    console.log(`${name} updated`);
+    db.collection("Users")
+      .doc(this.props.registeredUserId)
+      .update({ name });
+  };
 
   render() {
     return (
@@ -76,28 +145,60 @@ class Profile extends Component {
               <div className="row">
                 <div className="col-4 col-md-3 ml-0 mt-4">
                   <img
-                    src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
+                    src={
+                      this.state.imageUrl === ""
+                        ? this.state.profileUser.profileImageUrl
+                        : this.state.imageUrl
+                    }
                     alt=""
                     className="img img-fluid rounded profilePicture shadow"
                   />
+
+                  {this.props.registeredUserId === this.state.profileUser ? (
+                    <Button
+                      variant="outlined"
+                      component="label"
+                      onChange={this.handleUpload}
+                      color={this.state.progress === 100 ? "primary" : "default"}
+                      style={{ fontSize: "12px", width: "100%" }}
+                    >
+                      {this.state.progress === 100 ? "Sucess!" : "Upload Image"}
+
+                      <input type="file" style={{ display: "none" }} accept="image/*" />
+                    </Button>
+                  ) : null}
+                  {this.state.progress !== 0 && (
+                    <LinearProgress variant="determinate" value={this.state.progress} />
+                  )}
                 </div>
+
                 <div className="col-8 ml-auto p0">
                   <div className="row profileInformation mt-3 p0">
                     <div className="col p-0">
-                      <h1>{this.state.profileUser.name}</h1>
+                      {this.props.registeredUserId === this.state.profileUser.userId ? (
+                        <h1
+                          contentEditable
+                          suppressContentEditableWarning
+                          className="name"
+                          onBlur={e => this.updateInfo("name", e.target.innerText)}
+                        >
+                          {this.state.profileUser.name}
+                        </h1>
+                      ) : (
+                        <h1>{this.state.profileUser.name}</h1>
+                      )}
                     </div>
                     <div className="col">
                       {this.state.profileUser.userId !== this.props.registeredUserId ? (
-                        <button class="btn btn-primary" type="submit">
+                        <Button
+                          style={{ fontSize: "12px", width: "100%" }}
+                          variant="outlined"
+                          className="btn btn-primary"
+                          type="submit"
+                        >
                           Follow
-                        </button>
-                      ) : (
-                        <Link to="/profile/settings">
-                          <button className="btn btn-primary" type="submit">
-                            Edit
-                          </button>
-                        </Link>
-                      )}
+                        </Button>
+                      ) : null}
                     </div>
                   </div>
                   <div className="row mt-2 mt-lg-5">
@@ -174,7 +275,7 @@ class Profile extends Component {
                     <div className="col-12 col-lg-6 mr-auto" key={index}>
                       <RecipeCard
                         index={index}
-                        id={this.state.recipeIds[index]}
+                        id={this.state.likedRecipeIds[index]}
                         title={recipe.title}
                         flags={recipe.flags}
                         name={recipe.user_name}

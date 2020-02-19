@@ -106,7 +106,6 @@ class App extends Component {
             <Register path="register" registerUser={this.registerUser} />
             <Recipe path="recipes/:recipeId" />
             <Feed path="recipes" />
-            <PrivateRoute as={Profile} path="/profile/:userId" />
             <PrivateRoute
               as={Profile}
               path="/profile/:userId"
