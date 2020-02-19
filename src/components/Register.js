@@ -57,6 +57,12 @@ class Register extends Component {
       });
   }
 
+  onKeyPressed(e) {
+    if (e.key === "Enter") {
+      this.handleSubmit(e);
+    }
+  }
+
   render() {
     return (
       <>
@@ -69,7 +75,7 @@ class Register extends Component {
               <div className="card-body">
                 <h1 className="h2 text-center mt-2">Register</h1>
                 <h6 className="card-subtitle mb-3 text-muted text-center">Create a new account</h6>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} onKeyDown={e => this.onKeyPressed(e)}>
                   {this.state.errorMessage !== null ? (
                     <FormError theMessage={this.state.errorMessage} />
                   ) : null}
