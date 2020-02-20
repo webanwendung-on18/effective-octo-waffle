@@ -55,13 +55,15 @@ class Profile extends Component {
       var allOwnedRecipes = await recipeData.where("user_id", "==", this.props.userId).get();
 
       if (allOwnedRecipes.empty) {
-        console.log("No matching documents.");
+        console.log("No matching recipe.");
+        this.setState({ loading: false });
         return;
       }
       allOwnedRecipes.forEach(doc => {
         this.setState({
           recipes: [...this.state.recipes, doc.data()],
-          recipeIds: [...this.state.recipeIds, doc.id]
+          recipeIds: [...this.state.recipeIds, doc.id],
+          loading: false
         });
       });
     } catch (err) {
@@ -75,7 +77,7 @@ class Profile extends Component {
           .get();
 
         if (recipeDoc.empty) {
-          console.log("No matching documents.");
+          console.log("No matching liked recipe.");
           return;
         }
         this.setState({
@@ -85,7 +87,7 @@ class Profile extends Component {
         });
       });
     } catch (err) {
-      console.error(err);
+      console.error("error", err.message);
     }
   }
 
