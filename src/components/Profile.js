@@ -5,6 +5,9 @@ import SyncLoader from "react-spinners/SyncLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import firebase from "./../firebase/config";
 import "firebase/storage";
 import "firebase/firestore";
@@ -21,6 +24,7 @@ class Profile extends Component {
     super(props);
     this.state = {
       loading: false,
+      snackbarOpen: false,
       progress: 0,
       image: null,
       imageUrl: "",
@@ -127,16 +131,33 @@ class Profile extends Component {
     }
   };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ snackbarOpen: false });
+  };
+
   updateInfo = (nameAttr, name) => {
     console.log(`${name} updated`);
-    db.collection("Users")
-      .doc(this.props.registeredUserId)
-      .update({ name });
+
+    if (e.target.innerText.length > 0) {
+      db.collection("Users")
+        .doc(this.props.registeredUserId)
+        .update({ name });
+    } else {
+      this.setState({ snackbarOpen: true });
+    }
   };
 
   render() {
     return (
       <>
+        <Snackbar open={this.state.snackbarOpen} autoHideDuration={6000} onClose={this.handleClose}>
+          <MuiAlert elevation={6} variant="filled" onClose={this.handleClose} severity="error">
+            Your username can't be empty
+          </MuiAlert>
+        </Snackbar>
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.profileUser !== null ? (
           <>
@@ -156,7 +177,7 @@ class Profile extends Component {
                     className="img img-fluid rounded profilePicture shadow"
                   />
 
-                  {this.props.registeredUserId === this.state.profileUser ? (
+                  {this.props.registeredUserId === this.state.profileUser.userId ? (
                     <Button
                       variant="outlined"
                       component="label"
@@ -185,6 +206,7 @@ class Profile extends Component {
                           onBlur={e => this.updateInfo("name", e.target.innerText)}
                         >
                           {this.state.profileUser.name}
+                          <EditIcon className="ml-3" />
                         </h1>
                       ) : (
                         <h1>{this.state.profileUser.name}</h1>
