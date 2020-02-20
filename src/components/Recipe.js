@@ -8,6 +8,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import Button from "@material-ui/core/Button";
 import HTTP_404 from "./HTTP_404";
+import CommentList from "./CommentList";
 import { Helmet } from "react-helmet";
 import { GiCookingPot } from "react-icons/gi";
 
@@ -255,6 +256,14 @@ class Recipe extends Component {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="row">
+                <div className="col-8 offset-lg-2">
+                  <h2>
+                    <span className="underline--magical">Comments</span>
+                  </h2>
+                </div>
+                <CommentList recipeId={this.props.recipeId} user={this.state.user} />
               </div>
             </div>
           </>
