@@ -55,31 +55,30 @@ class Profile extends Component {
       var allOwnedRecipes = await recipeData.where("user_id", "==", this.props.userId).get();
 
       if (allOwnedRecipes.empty) {
-        console.log("No matching recipe.");
+        console.log("No recipes found owned by User");
         this.setState({ loading: false });
         return;
       }
       allOwnedRecipes.forEach(doc => {
         this.setState({
           recipes: [...this.state.recipes, doc.data()],
-          recipeIds: [...this.state.recipeIds, doc.id],
-          loading: false
+          recipeIds: [...this.state.recipeIds, doc.id]
         });
       });
     } catch (err) {
       console.error("error", err.message);
     }
     try {
+      if (this.state.profileUser.likedRecipes.length === 0) {
+        this.setState({ loading: false });
+        return;
+      }
       this.state.profileUser.likedRecipes.forEach(async likedRecipeId => {
         const recipeDoc = await db
           .collection("Recipes")
           .doc(likedRecipeId)
           .get();
 
-        if (recipeDoc.empty) {
-          console.log("No matching liked recipe.");
-          return;
-        }
         this.setState({
           likedRecipes: [...this.state.likedRecipes, recipeDoc.data()],
           likedRecipeIds: [...this.state.likedRecipeIds, likedRecipeId],
@@ -87,6 +86,7 @@ class Profile extends Component {
         });
       });
     } catch (err) {
+      this.setState({ loading: false });
       console.error("error", err.message);
     }
   }
