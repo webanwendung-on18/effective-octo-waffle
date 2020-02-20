@@ -141,7 +141,7 @@ class Profile extends Component {
   updateInfo = (nameAttr, name) => {
     console.log(`${name} updated`);
 
-    if (e.target.innerText.length > 0) {
+    if (this.props.profileUser.name.length > 0) {
       db.collection("Users")
         .doc(this.props.registeredUserId)
         .update({ name });

@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import Button from "@material-ui/core/Button";
+import Input from "@material-ui/core/Input";
 import HTTP_404 from "./HTTP_404";
 import CommentList from "./CommentList";
 import { Helmet } from "react-helmet";
@@ -159,6 +160,17 @@ class Recipe extends Component {
                   <h2>
                     <span className="underline--magical">Ingredients</span>
                   </h2>
+                  <p>
+                    For{" "}
+                    <Input
+                      className="mx-2"
+                      type="number"
+                      style={{ width: 45 }}
+                      defaultValue={this.state.recipe.servings}
+                    />
+                    servings
+                  </p>
+                  {console.log(this.state.recipe)}
                   <ul className="list">
                     {this.state.recipe.ingredients.map((ingredient, idx) => (
                       <li key={idx}>
@@ -206,7 +218,8 @@ class Recipe extends Component {
                     )}
                   </div>
                   <div>
-                    Do you like this recipe? Give it a &nbsp;
+                    Do you like this recipe?
+                    <br /> Give it a &nbsp;
                     <span className="likeButton">
                       {
                         <Checkbox
