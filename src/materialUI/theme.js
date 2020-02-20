@@ -1,7 +1,6 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 export const theme = createMuiTheme({
-  // https://material-ui.com/customization/default-theme/
   overrides: {
     MuiCssBaseline: {
       "@global": {
@@ -15,25 +14,12 @@ export const theme = createMuiTheme({
         }
       }
     }
-    // https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/Button/Button.js
-    // MuiButton: {
-    //   root: {
-    //     color: "red"
-    //   },
-    //   containedPrimary: {
-    //     color: "white"
-    //   }
-    // }
   },
-  // https://material-ui.com/customization/components/#theme-variables
-  // Helper -> https://material-ui.com/customization/default-theme/
   palette: {
     primary: { main: "#6ab04c" }
   },
   typography: {
-    // button: {
-    //   fontSize: "2rem"
-    // },
+    fontFamily: ['"Lato"'],
     useNextVariants: true
   }
 });

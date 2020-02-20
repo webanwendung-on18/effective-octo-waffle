@@ -13,6 +13,10 @@ $enable-responsive-font-sizes: true !important;
   vertical-align: baseline;
 }
 
+*::selection {
+  background-color: #f1c40f;
+}
+
 body {
   box-sizing: border-box;
 }
@@ -20,7 +24,7 @@ body {
 html,
 body,
 #app,
-#app > div {
+#app>div {
   height: 100%;
 }
 
@@ -30,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Montserrat", "Times New Roman", Times, serif;
+  font-family: $heading;
   font-weight: 600;
 }
 
