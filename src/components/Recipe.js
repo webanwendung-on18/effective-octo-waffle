@@ -26,6 +26,7 @@ class Recipe extends Component {
       likes: 0,
       likedByUsers: [],
       likedRecipes: [],
+      currentIngredient: "",
       user: null,
       userName: null,
       userId: null
@@ -84,6 +85,13 @@ class Recipe extends Component {
         this.setState({ user: null });
       }
     });
+  }
+
+  handleInput() {
+    this.state.recipe.ingredients.map((ingredient, idx) =>
+      console.log(ingredient.amount, ingredient.ingredient)
+    );
+    console.log(this.state.currentIngredient, this.ingredientField);
   }
 
   handleLike = async () => {
@@ -163,17 +171,16 @@ class Recipe extends Component {
                   <p>
                     For{" "}
                     <Input
-                      className="mx-2"
+                      onFocus={this.handleInput()}
                       type="number"
                       style={{ width: 45 }}
                       defaultValue={this.state.recipe.servings}
                     />
                     servings
                   </p>
-                  {console.log(this.state.recipe)}
                   <ul className="list">
                     {this.state.recipe.ingredients.map((ingredient, idx) => (
-                      <li key={idx}>
+                      <li name="ingredientField" key={idx}>
                         {ingredient.amount === 0 ? " " : ingredient.amount} {ingredient.unit}
                         {"   "}
                         {ingredient.ingredient}

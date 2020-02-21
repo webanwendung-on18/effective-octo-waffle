@@ -29,6 +29,7 @@ class Profile extends Component {
       image: null,
       imageUrl: "",
       profileUser: null,
+      profileName: "",
       error: null,
       recipes: [],
       likedRecipes: [],
@@ -95,6 +96,15 @@ class Profile extends Component {
     }
   }
 
+  handleChange(e) {
+    this.setState(
+      {
+        [e.target.name]: e.target.value
+      },
+      () => console.log(this.state.profileName)
+    );
+  }
+
   handleUpload = e => {
     if (e.target.files[0] && e.target.files[0] !== this.state.image) {
       const image = e.target.files[0];
@@ -141,7 +151,7 @@ class Profile extends Component {
   updateInfo = (nameAttr, name) => {
     console.log(`${name} updated`);
 
-    if (this.props.profileUser.name.length > 0) {
+    if (this.state.profileName.length > 0) {
       db.collection("Users")
         .doc(this.props.registeredUserId)
         .update({ name });
@@ -202,8 +212,10 @@ class Profile extends Component {
                         <h1
                           contentEditable
                           suppressContentEditableWarning
-                          className="name"
+                          name="profileName"
+                          value={this.state.profileName}
                           onBlur={e => this.updateInfo("name", e.target.innerText)}
+                          onChange={e => this.handleChange(e)}
                         >
                           {this.state.profileUser.name}
                           <EditIcon className="ml-3" />
