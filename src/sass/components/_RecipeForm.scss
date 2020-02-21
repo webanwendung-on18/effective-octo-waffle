@@ -1,4 +1,3 @@
-// Example usage:
 @include media-breakpoint-up(xs) {
   .formLayout {
     width: auto;
@@ -19,15 +18,18 @@
   .formPaper {
     margin-top: $spacer * 1.5;
     margin-bottom: $spacer * 1.5;
-    padding: $spacer * 1.25
+    padding: $spacer * 1.25;
   }
 }
 
-
 @include media-breakpoint-up(sm) {
   .formPaper {
-    margin-top: $spacer * 5;
+    margin-top: $spacer * 8;
     margin-bottom: $spacer * 5;
-    padding: $spacer * 1.25
+    padding: $spacer * 1.25;
   }
+}
+
+.heading {
+  font-family: $heading;
 }

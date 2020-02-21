@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core/";
+import { AppBar, Toolbar, IconButton } from "@material-ui/core/";
 import { FiUser, FiPlusCircle, FiLogOut, FiLogIn } from "react-icons/fi";
+import logo from "../images/Octo_Waffle_logo.svg";
 
 class Navbar extends Component {
   render() {
@@ -12,10 +13,9 @@ class Navbar extends Component {
       <div>
         <AppBar position="fixed">
           <Toolbar>
-            <Link to="/recipes" className="text-dark nounderline">
-              <Typography variant="h6" noWrap>
-                Octo Waffle
-              </Typography>
+            <Link to="/recipes" className="text-dark nounderline d-flex align-items-center">
+              <img src={logo} alt="Octo Waffle Logo" className="logo" />
+              <h4 className="mb-0 ml-2 title">Octo Waffle</h4>
             </Link>
             <div />
             {user && (
@@ -48,7 +48,7 @@ class Navbar extends Component {
             )}
           </Toolbar>
         </AppBar>
-        <Toolbar />
+        <div id="nav-space"></div>
       </div>
     );
   }

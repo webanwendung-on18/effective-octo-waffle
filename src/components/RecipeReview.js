@@ -35,35 +35,50 @@ class Review extends Component {
         <Helmet>
           <title>Recipe Review | Octo Waffle</title>
         </Helmet>
-        <div className="d-flex w-100 align-items-center no-wrap">
-          <Typography variant="h6" className="d-inline-block mb-0" gutterBottom>
-            {title}
-          </Typography>
-          <div className="ml-2 justify-content-center">
+        <div className="row w-100 align-items-center no-wrap">
+          <div className="col-12">
+            <Typography
+              variant="h6"
+              className="d-inline-block mb-0"
+              style={{ fontFamily: "Times New Roman", fontSize: "2.5rem" }}
+              gutterBottom
+            >
+              {title}
+            </Typography>
+          </div>
+        </div>
+        <div className="row d-flex">
+          <div className="col mt-1">
             {flags.map((flag, idx) => (
               <span key={idx} className="flag reviewFlag">
                 {flag}
               </span>
             ))}
           </div>
-          <div className="w-100 d-flex justify-content-end align-self-end">
+          <div className="ml-md-auto ml-3 mt-2">
             <span className="mr-1" style={{ fontWeight: "600" }}>
               Difficulty:{" "}
             </span>
             {difficulty}
-            <span className="mt-sm-2 mt-lg-0">
-              <IoIosTime size={"1.5em"} color={"#333"} className={"ml-lg-5 mr-1 mb-1"} />
+            <span className="mt-sm-2 mt-lg-0 col">
+              <IoIosTime size={"1.5em"} color={"#333"} className={"ml-lg-2 mr-1 mb-1"} />
               {`${duration} minutes`}
             </span>
           </div>
         </div>
+
         <Grid item xs={12} />
         <Paper variant="outlined" style={styles.paperContainer} className="mt-2"></Paper>
         <Grid />
 
         <Grid item xs={12} />
         <Paper variant="outlined" className="reviewPaper">
-          <Typography variant="h6" className="ml-2 mt-2" gutterBottom>
+          <Typography
+            variant="h6"
+            className="ml-2 mt-2"
+            style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+            gutterBottom
+          >
             Description
           </Typography>
           {description ? (
@@ -76,7 +91,12 @@ class Review extends Component {
 
         <Grid item xs={12} />
         <Paper variant="outlined" className="reviewPaper">
-          <Typography variant="h6" className="ml-2 mt-2" gutterBottom>
+          <Typography
+            variant="h6"
+            className="ml-2 mt-2"
+            style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+            gutterBottom
+          >
             Ingredients
           </Typography>
           <List dense className="ingredientsList">
@@ -99,7 +119,12 @@ class Review extends Component {
 
         <Grid item xs={12} />
         <Paper variant="outlined" className="reviewPaper">
-          <Typography variant="h6" className="ml-2 mt-2" gutterBottom>
+          <Typography
+            variant="h6"
+            className="ml-2 mt-2"
+            style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+            gutterBottom
+          >
             Steps
           </Typography>
           <List dense className="ingredientsList">

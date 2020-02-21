@@ -197,7 +197,8 @@ export default class RecipeForm extends Component {
           description,
           ingredients,
           user_id: user.uid,
-          user_name: user.displayName
+          user_name: user.displayName,
+          likedByUsers: []
         })
         .then(docRef => {
           this.setState({ docRefId: docRef.id });
@@ -284,8 +285,16 @@ export default class RecipeForm extends Component {
             </MuiAlert>
           </Snackbar>
           <Paper className="formPaper">
-            <Typography component="h1" variant="h4" align="center">
-              {activeStep === steps.length - 1 ? "Recipe Review" : "Recipe Form"}
+            <Typography
+              component="h1"
+              variant="h4"
+              className="mb-3"
+              align="center"
+              style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+            >
+              <span className="underline--magical">
+                {activeStep === steps.length - 1 ? "Recipe Review" : "Recipe Form"}
+              </span>
             </Typography>
             <Stepper activeStep={activeStep} className="pt-3 pb-5">
               {steps.map(label => (
@@ -300,45 +309,49 @@ export default class RecipeForm extends Component {
               ) : (
                 <>
                   {this.getStepContent(activeStep)}
-                  <div className="d-flex justify-content-between">
-                    <FormControlLabel
-                      className="mt-4"
-                      control={
-                        <Switch
-                          color="primary"
-                          onClick={this.handleChange}
-                          name="isPrivate"
-                          value="isPrivate"
-                          inputProps={{ "aria-label": "private checkbox" }}
+                  <div className="container">
+                    <div className="row d-flex">
+                      <div className="col">
+                        <FormControlLabel
+                          className="mt-4"
+                          control={
+                            <Switch
+                              color="primary"
+                              onClick={this.handleChange}
+                              name="isPrivate"
+                              value="isPrivate"
+                              inputProps={{ "aria-label": "private checkbox" }}
+                            />
+                          }
+                          label="Private"
                         />
-                      }
-                      label="Private"
-                    />
-                    <div className="">
-                      {activeStep !== 0 && (
-                        <Button onClick={this.handleBack} className="ml-2 mt-4">
-                          Back
-                        </Button>
-                      )}
-                      {activeStep === steps.length - 1 ? (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={e => this.handleNewRecipeSubmit(e)}
-                          className="ml-2 mt-4"
-                        >
-                          {"Create Recipe"}
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={e => this.handleNewRecipeSubmit(e)}
-                          className="ml-2 mt-4"
-                        >
-                          {"Next"}
-                        </Button>
-                      )}
+                      </div>
+                      <div className="ml-auto">
+                        {activeStep !== 0 && (
+                          <Button onClick={this.handleBack} className="ml-2 mt-4">
+                            Back
+                          </Button>
+                        )}
+                        {activeStep === steps.length - 1 ? (
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={e => this.handleNewRecipeSubmit(e)}
+                            className="ml-2 mt-4"
+                          >
+                            {"Create Recipe"}
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={e => this.handleNewRecipeSubmit(e)}
+                            className="ml-2 mt-4"
+                          >
+                            {"Next"}
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </>

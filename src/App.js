@@ -7,6 +7,7 @@ import "firebase/auth";
 import Navbar from "./components/Navbar";
 import Feed from "../src/components/Feed";
 import Recipe from "../src/components/Recipe";
+import Preparation from "../src/components/Preparation";
 import Home from "../src/components/Home";
 import Profile from "../src/components/Profile";
 import Login from "../src/components/Login";
@@ -14,6 +15,8 @@ import Register from "../src/components/Register";
 import HTTP_404 from "./components/HTTP_404";
 import RecipeForm from "./components/RecipeForm";
 import { Helmet } from "react-helmet";
+import Favicon from "react-favicon";
+import logo from "./images/Octo_Waffle_logo.svg";
 
 var db = firebase.firestore();
 
@@ -60,7 +63,9 @@ class App extends Component {
             .doc(FBUser.uid)
             .set({
               name: FBUser.displayName,
-              userId: FBUser.uid
+              userId: FBUser.uid,
+              likedRecipes: [],
+              profileImageUrl: "https://i.imgur.com/XnEPZt3.jpg"
             })
             .then(() => console.log("User logged in"))
             .catch(err => {
@@ -91,6 +96,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <Favicon url={logo} />
         <Helmet>
           <title>Octo Waffle</title>
         </Helmet>
@@ -100,8 +106,9 @@ class App extends Component {
             <Home path="/" user={this.state.user} />
             <Login path="login" />
             <Register path="register" registerUser={this.registerUser} />
-            <Feed path="recipes" />
             <Recipe path="recipes/:recipeId" />
+            <Preparation path="recipes/:recipeId/preparation" />
+            <Feed path="recipes" />
             <PrivateRoute
               as={Profile}
               path="/profile/:userId"

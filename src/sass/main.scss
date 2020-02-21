@@ -1,11 +1,14 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "./base/variables";
 @import "./base/base";
-@import "layout/home";
-@import "layout/http_404.scss";
+@import "./layout/home";
+@import "./layout/http_404.scss";
 @import "./components/profile";
 @import "./components/Feed";
 @import "./components/RecipeCard";
 @import "./components/Recipe";
 @import "./components/RecipeForm";
 @import "./components/RecipeReview";
+@import "./components/Like";
+@import "./components/Navbar";
+@import "./components/Preparation";

@@ -1,6 +1,8 @@
 import { Link } from "@reach/router";
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import Button from "@material-ui/core/Button";
+import { BtnLight } from "../materialUI/styles";
 
 class HTTP_404 extends Component {
   constructor(props) {
@@ -22,7 +24,7 @@ class HTTP_404 extends Component {
             Waffle
           </title>
         </Helmet>
-        <div id="http_404">
+        <div id="http_404" className="no-nav-space">
           <header id="http_404-content">
             <div className="text-center text-light">
               <h1 className="h1">
@@ -41,19 +43,19 @@ class HTTP_404 extends Component {
                     you were looking for this error page, in which case: Congrats! You totally found
                     it.
                   </p>
-                  <Link className="btn btn-primary btn-block mb-3" to="/recipes">
-                    Home
+                  <Link className="mb-3 btn-block nounderline" to="/recipes">
+                    <Button variant="contained" color="primary" fullWidth>
+                      Home
+                    </Button>
                   </Link>
                 </div>
               </div>
               <div className="d-flex justify-content-center">
                 <div className="w-75">
-                  <Link
-                    className="btn btn-outline-light btn-block"
-                    to="#"
-                    onClick={() => this.handleClick()}
-                  >
-                    Go Back
+                  <Link className="btn-block nounderline" to="#" onClick={() => this.handleClick()}>
+                    <BtnLight variant="outlined" fullWidth>
+                      Back
+                    </BtnLight>
                   </Link>
                 </div>
               </div>

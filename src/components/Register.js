@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import firebase from "../firebase/config";
 import FormError from "./FormError";
 import { Link } from "@reach/router";
-import { BtnPrimary, TFPrimary } from "../materialUI/styles";
+import { TFPrimary } from "../materialUI/styles";
+import Button from "@material-ui/core/Button";
 import { Helmet } from "react-helmet";
 
 class Register extends Component {
@@ -56,19 +57,25 @@ class Register extends Component {
       });
   }
 
+  onKeyPressed(e) {
+    if (e.key === "Enter") {
+      this.handleSubmit(e);
+    }
+  }
+
   render() {
     return (
       <>
         <Helmet>
           <title>Register | Octo Waffle</title>
         </Helmet>
-        <div id="home">
+        <div id="home" className="no-nav-space">
           <div id="home-content">
             <div className="card card-login">
               <div className="card-body">
                 <h1 className="h2 text-center mt-2">Register</h1>
                 <h6 className="card-subtitle mb-3 text-muted text-center">Create a new account</h6>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} onKeyDown={e => this.onKeyPressed(e)}>
                   {this.state.errorMessage !== null ? (
                     <FormError theMessage={this.state.errorMessage} />
                   ) : null}
@@ -115,9 +122,9 @@ class Register extends Component {
                     />
                   </form>
                   <div className="ml-3 mt-2 mb-5">
-                    <BtnPrimary className="btn btn-primary" type="submit">
+                    <Button variant="contained" color="primary" type="submit">
                       Register
-                    </BtnPrimary>
+                    </Button>
                   </div>
                   <div className="mr-3 d-flex justify-content-center">
                     <div className="d-flex align-items-end">
