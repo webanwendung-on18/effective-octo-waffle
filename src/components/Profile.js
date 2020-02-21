@@ -142,6 +142,10 @@ class Profile extends Component {
   };
 
   updateInfo = (e, handleClose) => {
+    if (this.state.profileName === "") {
+      this.setState({ snackbarOpen: true });
+      return;
+    }
     db.collection("Users")
       .doc(this.props.registeredUserId)
       .update({ name: this.state.profileName });
@@ -175,21 +179,20 @@ class Profile extends Component {
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={this.state.open}
-                // onClose={this.handleClose}
                 closeAfterTransition
+                className="changeNameModal"
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                   timeout: 500
                 }}
               >
                 <Fade in={this.state.open}>
-                  <div
-                  // className={styles.paper}
-                  >
+                  <div className="paper">
                     <TextField
                       fullWidth
                       variant="outlined"
-                      label="Update your profileName"
+                      label="Update your name"
+                      className="changeName"
                       name="profileName"
                       multiline
                       rowsMax="3"
@@ -249,7 +252,11 @@ class Profile extends Component {
                       {this.props.registeredUserId === this.state.profileUser.userId ? (
                         <h1 className="name">
                           {this.state.profileName}
-                          <button type={"button"} onClick={e => this.handleOpen(e)}>
+                          <button
+                            className="edit"
+                            type={"button"}
+                            onClick={e => this.handleOpen(e)}
+                          >
                             <EditIcon />
                           </button>
                         </h1>
