@@ -20,6 +20,7 @@ class Recipe extends Component {
     super(props);
     this.state = {
       recipe: null,
+      currentServings: 0,
       loading: false,
       error: null,
       liked: false,
@@ -53,7 +54,8 @@ class Recipe extends Component {
                       recipe: doc.data(),
                       likedByUsers: [...doc.data().likedByUsers],
                       likes: doc.data().likedByUsers.length,
-                      loading: false
+                      loading: false,
+                      currentServings: doc.data().servings
                     });
                   } else {
                     this.setState({ error: "Recipe doesn't exist", loading: false });
@@ -87,11 +89,8 @@ class Recipe extends Component {
     });
   }
 
-  handleInput() {
-    this.state.recipe.ingredients.map((ingredient, idx) =>
-      console.log(ingredient.amount, ingredient.ingredient)
-    );
-    console.log(this.state.currentIngredient, this.ingredientField);
+  handleInput(e) {
+    this.setState({ currentServings: e.target.value });
   }
 
   handleLike = async () => {
@@ -168,20 +167,23 @@ class Recipe extends Component {
                   <h2>
                     <span className="underline--magical">Ingredients</span>
                   </h2>
-                  <p>
-                    For{" "}
-                    <Input
-                      onFocus={this.handleInput()}
-                      type="number"
-                      style={{ width: 45 }}
-                      defaultValue={this.state.recipe.servings}
-                    />
-                    servings
-                  </p>
+                  For{" "}
+                  <Input
+                    onChange={e => this.handleInput(e)}
+                    name="currentServings"
+                    type="number"
+                    style={{ width: 45 }}
+                    value={this.state.currentServings}
+                  />
+                  servings
                   <ul className="list">
                     {this.state.recipe.ingredients.map((ingredient, idx) => (
                       <li name="ingredientField" key={idx}>
-                        {ingredient.amount === 0 ? " " : ingredient.amount} {ingredient.unit}
+                        {ingredient.amount === 0
+                          ? " "
+                          : (ingredient.amount * this.state.currentServings) /
+                            this.state.recipe.servings}{" "}
+                        {ingredient.unit}
                         {"   "}
                         {ingredient.ingredient}
                       </li>
