@@ -6,7 +6,6 @@ import { InstantSearch } from "react-instantsearch-dom";
 import { CustomSearchBox } from "./SearchBox";
 import { CustomRefinementList } from "./RefinementList";
 import { CustomHits } from "./Hits";
-import { RefinementPaper } from "../materialUI/styles";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
@@ -48,10 +47,9 @@ class Feed extends Component {
             indexName="Recipes"
             refresh={this.state.refresh}
           >
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-3"></div>
-                <div className="col-xs-12 col-lg-9 mb-5">
+            <div className="container-fluid">
+              <div className="row mb-5">
+                <div className="col-6 offset-3">
                   <h1 className="headline-feed">
                     <span className="underline--magical">Feed</span>
                   </h1>
@@ -59,8 +57,8 @@ class Feed extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-3">
-                  <RefinementPaper className="refinementPaper">
+                <div className="col-1">
+                  <div className="refinementPaper">
                     <CustomRefinementList
                       attribute="flags"
                       title="Flags"
@@ -83,9 +81,9 @@ class Feed extends Component {
                         }))
                       }
                     />
-                  </RefinementPaper>
+                  </div>
                 </div>
-                <div className="col-xs-12 col-lg-9">
+                <div className="col-6 offset-2">
                   <CustomHits />
                 </div>
               </div>

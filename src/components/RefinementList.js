@@ -14,44 +14,47 @@ import {
 
 const RefinementList = ({ refine, items, title }) => {
   return (
-    <>
-      <Typography variant="h6" className="ml-3 pt-2">
+    <div className="RefinementList">
+      <Typography variant="h6" className="ml-4 mb-2">
         {title}
       </Typography>
-      <List>
+      <List className="mb-4">
         {items.map((item, index) => {
           const labelId = `checkbox-list-label-${item}`;
           return (
-            <ListItem
-              key={index}
-              role={undefined}
-              dense
-              button
-              onClick={() => {
-                refine(item.value);
-              }}
-            >
-              <ListItemIcon>
-                <Checkbox
-                  key={index}
-                  color="primary"
-                  edge="start"
-                  checked={item.isRefined}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
-                />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={item.label} />
-              <ListItemSecondaryAction>
-                <IconButton aria-label="count" disabled>
-                  <StyledBadge badgeContent={item.count} color="primary" />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
+            <div className="ListItem">
+              <ListItem
+                key={index}
+                role={undefined}
+                dense
+                onClick={() => {
+                  refine(item.value);
+                }}
+                className="mb-2"
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    key={index}
+                    color="secondary"
+                    edge="start"
+                    checked={item.isRefined}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                    className="ml-3"
+                  />
+                </ListItemIcon>
+                <ListItemText id={labelId} primary={item.label} />
+                <ListItemSecondaryAction>
+                  <IconButton aria-label="count" disabled>
+                    <StyledBadge badgeContent={item.count} color="secondary" />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </div>
           );
         })}
       </List>
-    </>
+    </div>
   );
 };
 

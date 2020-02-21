@@ -1,5 +1,5 @@
 import { styled, withStyles } from "@material-ui/core/styles";
-import { Button, TextField, Paper, Badge } from "@material-ui/core/";
+import { Button, TextField, Badge } from "@material-ui/core/";
 
 export const BtnLight = styled(Button)({
   color: "#ffffff",
@@ -24,12 +24,6 @@ export const GlobalCss = withStyles({
     }
   }
 })(() => null);
-
-export const RefinementPaper = withStyles({
-  root: {
-    backgroundColor: "#eee"
-  }
-})(Paper);
 
 export const StyledBadge = withStyles(theme => ({
   badge: {
