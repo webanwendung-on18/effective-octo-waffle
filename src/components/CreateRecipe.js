@@ -63,7 +63,7 @@ export default class CreateRecipe extends Component {
           <title>Create Recipe | Octo Waffle</title>
         </Helmet>
         <GlobalCss />
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" style={{ fontFamily: "Montserrat", fontWeight: 600 }} gutterBottom>
           Create Recipe
         </Typography>
         <form onSubmit={e => this.handleNewRecipeSubmit(e)} onChange={this.handleChange}>
@@ -126,7 +126,12 @@ export default class CreateRecipe extends Component {
             )}
             {/* Ingredients  Title*/}
             <Grid item xs={12}>
-              <Typography variant="h6" id="difficulty-slider" display="block">
+              <Typography
+                variant="h6"
+                id="difficulty-slider"
+                display="block"
+                style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+              >
                 Ingredients
               </Typography>
             </Grid>
@@ -216,7 +221,11 @@ export default class CreateRecipe extends Component {
             </Paper>
             {/* Preparation Title */}
             <Grid item xs={12}>
-              <Typography variant="h6" id="difficulty-slider">
+              <Typography
+                variant="h6"
+                id="difficulty-slider"
+                style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+              >
                 Preparation
               </Typography>
             </Grid>
@@ -268,7 +277,11 @@ export default class CreateRecipe extends Component {
             </Paper>
             {/* Other Parameter Title */}
             <Grid item xs={12}>
-              <Typography variant="h6" id="difficulty-slider">
+              <Typography
+                variant="h6"
+                id="difficulty-slider"
+                style={{ fontFamily: "Montserrat", fontWeight: 600 }}
+              >
                 Other Parameters
               </Typography>
             </Grid>
@@ -343,6 +356,7 @@ export default class CreateRecipe extends Component {
                         value="vegan"
                         name="vegan"
                         color="primary"
+                        className="ml-3"
                       />
                     }
                     label="Vegan"
@@ -355,6 +369,7 @@ export default class CreateRecipe extends Component {
                         value="fruitarian"
                         name="fruitarian"
                         color="primary"
+                        className="ml-md-3"
                       />
                     }
                     label="Fruitarian"
