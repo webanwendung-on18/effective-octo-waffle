@@ -15,6 +15,7 @@ import "firebase/firestore";
 import RecipeCard from "./RecipeCard";
 import HTTP_404 from "./HTTP_404";
 import { Helmet } from "react-helmet";
+import { Modal, Fade, TextField, InputAdornment, Backdrop } from "@material-ui/core";
 
 const storage = firebase.storage();
 var db = firebase.firestore();
@@ -29,12 +30,14 @@ class Profile extends Component {
       image: null,
       imageUrl: "",
       profileUser: null,
+      profileName: "",
       error: null,
       recipes: [],
       likedRecipes: [],
       likedRecipeIds: [],
       recipe: null,
-      recipeIds: []
+      recipeIds: [],
+      open: false
     };
   }
   async componentDidMount() {
@@ -46,7 +49,7 @@ class Profile extends Component {
         .get();
 
       if (profileUser.exists) {
-        this.setState({ profileUser: profileUser.data() });
+        this.setState({ profileUser: profileUser.data(), profileName: profileUser.data().name });
       } else {
         this.setState({ error: "User doesn't exist", loading: false });
       }
@@ -135,19 +138,22 @@ class Profile extends Component {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ snackbarOpen: false });
+    this.setState({ snackbarOpen: false, open: false });
   };
 
-  updateInfo = (nameAttr, name) => {
-    console.log(`${name} updated`);
+  updateInfo = (e, handleClose) => {
+    db.collection("Users")
+      .doc(this.props.registeredUserId)
+      .update({ name: this.state.profileName });
+    handleClose();
+  };
 
-    if (e.target.innerText.length > 0) {
-      db.collection("Users")
-        .doc(this.props.registeredUserId)
-        .update({ name });
-    } else {
-      this.setState({ snackbarOpen: true });
-    }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleOpen = e => {
+    this.setState({ open: true });
   };
 
   render() {
@@ -162,9 +168,51 @@ class Profile extends Component {
         {!this.state.loading && this.state.profileUser !== null ? (
           <>
             <Helmet>
-              <title>{this.state.profileUser.name} Profile | Octo Waffle</title>
+              <title>{this.state.profileName} Profile | Octo Waffle</title>
             </Helmet>
             <div className="container">
+              <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={this.state.open}
+                // onClose={this.handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500
+                }}
+              >
+                <Fade in={this.state.open}>
+                  <div
+                  // className={styles.paper}
+                  >
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Update your profileName"
+                      name="profileName"
+                      multiline
+                      rowsMax="3"
+                      value={this.state.profileName}
+                      onChange={e => this.handleChange(e)}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Button
+                              onClick={e => this.updateInfo(e, this.handleClose)}
+                              variant="contained"
+                              color="primary"
+                              className=""
+                            >
+                              {"Update"}
+                            </Button>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </div>
+                </Fade>
+              </Modal>
               <div className="row">
                 <div className="col-4 col-md-3 ml-0 mt-4">
                   <img
@@ -199,14 +247,11 @@ class Profile extends Component {
                   <div className="row profileInformation mt-3 p0">
                     <div className="col p-0">
                       {this.props.registeredUserId === this.state.profileUser.userId ? (
-                        <h1
-                          contentEditable
-                          suppressContentEditableWarning
-                          className="name"
-                          onBlur={e => this.updateInfo("name", e.target.innerText)}
-                        >
-                          {this.state.profileUser.name}
-                          <EditIcon className="ml-3" />
+                        <h1 className="name">
+                          {this.state.profileName}
+                          <button type={"button"} onClick={e => this.handleOpen(e)}>
+                            <EditIcon />
+                          </button>
                         </h1>
                       ) : (
                         <h1>{this.state.profileUser.name}</h1>
