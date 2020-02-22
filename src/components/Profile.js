@@ -343,7 +343,7 @@ class Profile extends Component {
                   </div>
                 )}
               </div>
-              <h4 className="mt-5 mb-2">Deine Favoriten</h4>
+              <h4 className="mt-5 mb-2">Your Favorites</h4>
               <div className="row">
                 {!this.state.loading && this.state.likedRecipes.length > 0 ? (
                   this.state.likedRecipes.map((recipe, index) => (
