@@ -205,7 +205,6 @@ class Profile extends Component {
                               onClick={e => this.updateInfo(e, this.handleClose)}
                               variant="contained"
                               color="primary"
-                              className=""
                             >
                               {"Update"}
                             </Button>
