@@ -110,7 +110,7 @@ class Profile extends Component {
             "state_changed",
             snapshot => {
               const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-              this.setState({ progress }, () => console.log(this.state.progress));
+              this.setState({ progress });
             },
             error => {
               console.log(error);
