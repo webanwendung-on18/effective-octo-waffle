@@ -223,7 +223,7 @@ class Profile extends Component {
                         ? this.state.profileUser.profileImageUrl
                         : this.state.imageUrl
                     }
-                    alt=""
+                    alt="profile image"
                     className="img img-fluid rounded profilePicture shadow"
                   />
 
