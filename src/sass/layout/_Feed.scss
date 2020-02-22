@@ -2,24 +2,6 @@
   letter-spacing: 1px;
   font-size: 2.5rem;
   font-weight: 500;
-  margin: 2rem 0;
-}
-
-@include media-breakpoint-up(lg) {
-  .headline-feed {
-    margin: 2rem 12%;
-  }
-}
-
-.card-container {
-  width: 100%;
-}
-
-@include media-breakpoint-up(lg) {
-  .card-container {
-    margin: 0 auto;
-    width: 60%;
-  }
 }
 
 .underline--magical {
@@ -38,7 +20,7 @@
   display: none;
 }
 
-@include media-breakpoint-up(lg) {
+@media (min-width: 991px) {
   .refinementPaper {
     display: block;
     position: fixed;
@@ -46,20 +28,18 @@
   }
 }
 
-.feed-container {
-  margin: auto;
-}
-
-@include media-breakpoint-up(lg) {
-  .feed-container {
-    width: 75%;
+@media (min-width: 1300px) {
+  .maxcard {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
   }
 }
 
 .RefinementList {
   margin-left: -1rem;
-  margin-top: -2.5rem;
-  margin-bottom: 5rem;
+  margin-top: 10rem;
+  margin-bottom: -7.5rem;
 }
 
 .ListItem {
@@ -69,5 +49,22 @@
 
   &:hover {
     background-color: #eeeeee;
+  }
+}
+
+.maxcard {
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+  .maxcard {
+    max-width: 40rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .maxcard {
+    max-width: 35rem;
   }
 }

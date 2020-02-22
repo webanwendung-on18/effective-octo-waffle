@@ -48,16 +48,8 @@ class Feed extends Component {
             refresh={this.state.refresh}
           >
             <div className="container-fluid">
-              <div className="row mb-5">
-                <div className="col-6 offset-3">
-                  <h1 className="headline-feed">
-                    <span className="underline--magical">Feed</span>
-                  </h1>
-                  <CustomSearchBox />
-                </div>
-              </div>
               <div className="row">
-                <div className="col-1">
+                <div className="col-md-7 col-lg-1">
                   <div className="refinementPaper">
                     <CustomRefinementList
                       attribute="flags"
@@ -83,8 +75,14 @@ class Feed extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-6 offset-2">
-                  <CustomHits />
+                <div className="col-md-10 col-lg-6 mt-3 nounderline maxcard">
+                  <h1 className="headline-feed my-4">
+                    <span className="underline--magical">Feed</span>
+                  </h1>
+                  <CustomSearchBox />
+                  <div className="mt-5">
+                    <CustomHits />
+                  </div>
                 </div>
               </div>
             </div>
