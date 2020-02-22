@@ -304,7 +304,7 @@ class Profile extends Component {
                   </div>
                 </div>
               </div>
-              <h4 className="mt-5 mb-2">Deine Rezepte</h4>
+              <h4 className="mt-5 mb-2">Your Recipes</h4>
               {this.state.profileUser.userId === this.props.registeredUserId ? (
                 <p className="px-0 mx-0">
                   <Link to="/add-recipe" className="nav-link addButton">
