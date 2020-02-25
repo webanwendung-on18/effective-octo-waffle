@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import Button from "@material-ui/core/Button";
+import Input from "@material-ui/core/Input";
 import HTTP_404 from "./HTTP_404";
 import CommentList from "./CommentList";
 import { Helmet } from "react-helmet";
@@ -19,12 +20,14 @@ class Recipe extends Component {
     super(props);
     this.state = {
       recipe: null,
+      currentServings: 0,
       loading: false,
       error: null,
       liked: false,
       likes: 0,
       likedByUsers: [],
       likedRecipes: [],
+      currentIngredient: "",
       user: null,
       userName: null,
       userId: null
@@ -51,7 +54,8 @@ class Recipe extends Component {
                       recipe: doc.data(),
                       likedByUsers: [...doc.data().likedByUsers],
                       likes: doc.data().likedByUsers.length,
-                      loading: false
+                      loading: false,
+                      currentServings: doc.data().servings
                     });
                   } else {
                     this.setState({ error: "Recipe doesn't exist", loading: false });
@@ -83,6 +87,10 @@ class Recipe extends Component {
         this.setState({ user: null });
       }
     });
+  }
+
+  handleInput(e) {
+    this.setState({ currentServings: e.target.value });
   }
 
   handleLike = async () => {
@@ -159,10 +167,23 @@ class Recipe extends Component {
                   <h2>
                     <span className="underline--magical">Ingredients</span>
                   </h2>
+                  For{" "}
+                  <Input
+                    onChange={e => this.handleInput(e)}
+                    name="currentServings"
+                    type="number"
+                    style={{ width: 45 }}
+                    value={this.state.currentServings}
+                  />
+                  servings
                   <ul className="list">
                     {this.state.recipe.ingredients.map((ingredient, idx) => (
-                      <li key={idx}>
-                        {ingredient.amount === 0 ? " " : ingredient.amount} {ingredient.unit}
+                      <li name="ingredientField" key={idx}>
+                        {ingredient.amount === 0
+                          ? " "
+                          : (ingredient.amount * this.state.currentServings) /
+                            this.state.recipe.servings}{" "}
+                        {ingredient.unit}
                         {"   "}
                         {ingredient.ingredient}
                       </li>
@@ -206,7 +227,8 @@ class Recipe extends Component {
                     )}
                   </div>
                   <div>
-                    Do you like this recipe? Give it a &nbsp;
+                    Do you like this recipe?
+                    <br /> Give it a &nbsp;
                     <span className="likeButton">
                       {
                         <Checkbox

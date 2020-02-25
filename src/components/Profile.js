@@ -3,14 +3,21 @@ import { Link } from "@reach/router";
 import { FiPlusCircle } from "react-icons/fi";
 import SyncLoader from "react-spinners/SyncLoader";
 import ClipLoader from "react-spinners/ClipLoader";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import firebase from "./../firebase/config";
+import "firebase/storage";
 import "firebase/firestore";
 
-import CollectionPreview from "./CollectionPreview";
 import RecipeCard from "./RecipeCard";
 import HTTP_404 from "./HTTP_404";
 import { Helmet } from "react-helmet";
+import { Modal, Fade, TextField, InputAdornment, Backdrop } from "@material-ui/core";
 
+const storage = firebase.storage();
 var db = firebase.firestore();
 
 class Profile extends Component {
@@ -18,11 +25,19 @@ class Profile extends Component {
     super(props);
     this.state = {
       loading: false,
+      snackbarOpen: false,
+      progress: 0,
+      image: null,
+      imageUrl: "",
       profileUser: null,
+      profileName: "",
       error: null,
       recipes: [],
+      likedRecipes: [],
+      likedRecipeIds: [],
       recipe: null,
-      recipeIds: []
+      recipeIds: [],
+      open: false
     };
   }
   async componentDidMount() {
@@ -34,7 +49,7 @@ class Profile extends Component {
         .get();
 
       if (profileUser.exists) {
-        this.setState({ profileUser: profileUser.data(), loading: false });
+        this.setState({ profileUser: profileUser.data(), profileName: profileUser.data().name });
       } else {
         this.setState({ error: "User doesn't exist", loading: false });
       }
@@ -44,14 +59,14 @@ class Profile extends Component {
     try {
       var recipeData = db.collection("Recipes");
 
-      var query = await recipeData.where("user_id", "==", this.props.userId).get();
+      var allOwnedRecipes = await recipeData.where("user_id", "==", this.props.userId).get();
 
-      if (query.empty) {
-        console.log("No matching documents.");
+      if (allOwnedRecipes.empty) {
+        console.log("No recipes found owned by User");
+        this.setState({ loading: false });
         return;
       }
-
-      query.forEach(doc => {
+      allOwnedRecipes.forEach(doc => {
         this.setState({
           recipes: [...this.state.recipes, doc.data()],
           recipeIds: [...this.state.recipeIds, doc.id]
@@ -60,43 +75,205 @@ class Profile extends Component {
     } catch (err) {
       console.error("error", err.message);
     }
+    try {
+      if (this.state.profileUser.likedRecipes.length === 0) {
+        this.setState({ loading: false });
+        return;
+      }
+      this.state.profileUser.likedRecipes.forEach(async likedRecipeId => {
+        const recipeDoc = await db
+          .collection("Recipes")
+          .doc(likedRecipeId)
+          .get();
+
+        this.setState({
+          likedRecipes: [...this.state.likedRecipes, recipeDoc.data()],
+          likedRecipeIds: [...this.state.likedRecipeIds, likedRecipeId],
+          loading: false
+        });
+      });
+    } catch (err) {
+      this.setState({ loading: false });
+      console.error("error", err.message);
+    }
   }
+
+  handleUpload = e => {
+    if (e.target.files[0] && e.target.files[0] !== this.state.image) {
+      const image = e.target.files[0];
+      this.setState(
+        () => ({ image }),
+        () => {
+          const { image } = this.state;
+          const uploadTask = storage.ref(`profileImages/${image.name}`).put(image);
+          uploadTask.on(
+            "state_changed",
+            snapshot => {
+              const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+              this.setState({ progress });
+            },
+            error => {
+              console.log(error);
+            },
+            () => {
+              storage
+                .ref("profileImages")
+                .child(image.name)
+                .getDownloadURL()
+                .then(imageUrl => {
+                  this.setState({ imageUrl }, () => {
+                    db.collection("Users")
+                      .doc(this.props.registeredUserId)
+                      .update({ profileImageUrl: this.state.imageUrl });
+                  });
+                });
+            }
+          );
+        }
+      );
+    }
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ snackbarOpen: false, open: false });
+  };
+
+  updateInfo = (e, handleClose) => {
+    if (this.state.profileName === "") {
+      this.setState({ snackbarOpen: true });
+      return;
+    }
+    db.collection("Users")
+      .doc(this.props.registeredUserId)
+      .update({ name: this.state.profileName });
+    handleClose();
+  };
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleOpen = e => {
+    this.setState({ open: true });
+  };
 
   render() {
     return (
       <>
+        <Snackbar open={this.state.snackbarOpen} autoHideDuration={6000} onClose={this.handleClose}>
+          <MuiAlert elevation={6} variant="filled" onClose={this.handleClose} severity="error">
+            Your username can't be empty
+          </MuiAlert>
+        </Snackbar>
         {this.state.error && <HTTP_404 message={this.state.error} />}
         {!this.state.loading && this.state.profileUser !== null ? (
           <>
             <Helmet>
-              <title>{this.state.profileUser.name} Profile | Octo Waffle</title>
+              <title>{this.state.profileName} Profile | Octo Waffle</title>
             </Helmet>
             <div className="container">
+              <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={this.state.open}
+                closeAfterTransition
+                className="changeNameModal"
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500
+                }}
+              >
+                <Fade in={this.state.open}>
+                  <div className="paper">
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      label="Update your name"
+                      className="changeName"
+                      name="profileName"
+                      multiline
+                      rowsMax="3"
+                      value={this.state.profileName}
+                      onChange={e => this.handleChange(e)}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Button
+                              onClick={e => this.updateInfo(e, this.handleClose)}
+                              variant="contained"
+                              color="primary"
+                            >
+                              {"Update"}
+                            </Button>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </div>
+                </Fade>
+              </Modal>
               <div className="row">
                 <div className="col-4 col-md-3 ml-0 mt-4">
                   <img
-                    src="https://cdn-images-1.medium.com/max/1600/1*zm5NLjdhGd3VVTA2u-xEPg.gif"
-                    alt=""
+                    src={
+                      this.state.imageUrl === ""
+                        ? this.state.profileUser.profileImageUrl
+                        : this.state.imageUrl
+                    }
+                    alt="profile"
                     className="img img-fluid rounded profilePicture shadow"
                   />
+
+                  {this.props.registeredUserId === this.state.profileUser.userId ? (
+                    <Button
+                      variant="outlined"
+                      component="label"
+                      onChange={this.handleUpload}
+                      color={this.state.progress === 100 ? "primary" : "default"}
+                      style={{ fontSize: "12px", width: "100%" }}
+                    >
+                      {this.state.progress === 100 ? "Sucess!" : "Upload Image"}
+
+                      <input type="file" style={{ display: "none" }} accept="image/*" />
+                    </Button>
+                  ) : null}
+                  {this.state.progress !== 0 && (
+                    <LinearProgress variant="determinate" value={this.state.progress} />
+                  )}
                 </div>
+
                 <div className="col-8 ml-auto p0">
                   <div className="row profileInformation mt-3 p0">
                     <div className="col p-0">
-                      <h1>{this.state.profileUser.name}</h1>
+                      {this.props.registeredUserId === this.state.profileUser.userId ? (
+                        <h1 className="name">
+                          {this.state.profileName}
+                          <button
+                            className="edit"
+                            type={"button"}
+                            onClick={e => this.handleOpen(e)}
+                          >
+                            <EditIcon />
+                          </button>
+                        </h1>
+                      ) : (
+                        <h1>{this.state.profileUser.name}</h1>
+                      )}
                     </div>
                     <div className="col">
                       {this.state.profileUser.userId !== this.props.registeredUserId ? (
-                        <button class="btn btn-primary" type="submit">
+                        <Button
+                          style={{ fontSize: "12px", width: "100%" }}
+                          variant="outlined"
+                          className="btn btn-primary"
+                          type="submit"
+                        >
                           Follow
-                        </button>
-                      ) : (
-                        <Link to="/profile/settings">
-                          <button className="btn btn-primary" type="submit">
-                            Edit
-                          </button>
-                        </Link>
-                      )}
+                        </Button>
+                      ) : null}
                     </div>
                   </div>
                   <div className="row mt-2 mt-lg-5">
@@ -127,24 +304,7 @@ class Profile extends Component {
                   </div>
                 </div>
               </div>
-
-              <h4 className="mt-5 mb-2">Deine Sammlungen</h4>
-              {this.state.profileUser.userId === this.props.registeredUserId ? (
-                <p>
-                  <Link to="/add-recipe" className="nav-link addButton">
-                    <FiPlusCircle /> Neue hinzufügen
-                  </Link>
-                </p>
-              ) : null}
-
-              <div className="row">
-                <CollectionPreview />
-                <CollectionPreview />
-                <CollectionPreview />
-                <CollectionPreview />
-              </div>
-
-              <h4 className="mt-5 mb-2">Deine Rezepte</h4>
+              <h4 className="mt-5 mb-2">Your Recipes</h4>
               {this.state.profileUser.userId === this.props.registeredUserId ? (
                 <p className="px-0 mx-0">
                   <Link to="/add-recipe" className="nav-link addButton">
@@ -152,7 +312,6 @@ class Profile extends Component {
                   </Link>
                 </p>
               ) : null}
-
               <div className="row">
                 {!this.state.loading && this.state.recipes.length > 0 ? (
                   this.state.recipes.map((recipe, index) => (
@@ -160,6 +319,38 @@ class Profile extends Component {
                       <RecipeCard
                         index={index}
                         id={this.state.recipeIds[index]}
+                        title={recipe.title}
+                        flags={recipe.flags}
+                        name={recipe.user_name}
+                        duration={recipe.duration}
+                        imageUrl={recipe.imageUrl}
+                        difficulty={recipe.difficulty}
+                        description={recipe.description}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div>
+                    <ClipLoader
+                      css={`
+                        display: block;
+                        margin: 0 auto;
+                      `}
+                      size={150}
+                      color={"#333"}
+                      loading={this.state.loading}
+                    />
+                  </div>
+                )}
+              </div>
+              <h4 className="mt-5 mb-2">Your Favorites</h4>
+              <div className="row">
+                {!this.state.loading && this.state.likedRecipes.length > 0 ? (
+                  this.state.likedRecipes.map((recipe, index) => (
+                    <div className="col-12 col-lg-6 mr-auto" key={index}>
+                      <RecipeCard
+                        index={index}
+                        id={this.state.likedRecipeIds[index]}
                         title={recipe.title}
                         flags={recipe.flags}
                         name={recipe.user_name}
