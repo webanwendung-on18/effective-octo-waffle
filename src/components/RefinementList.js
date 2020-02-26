@@ -35,7 +35,7 @@ const RefinementList = ({ refine, items, title }) => {
                 <ListItemIcon>
                   <Checkbox
                     key={index}
-                    color="secondary"
+                    color="primary"
                     edge="start"
                     checked={item.isRefined}
                     disableRipple
