@@ -24,7 +24,7 @@ body {
 html,
 body,
 #app,
-#app>div {
+#app > div {
   height: 100%;
 }
 
@@ -51,10 +51,21 @@ a {
   text-decoration: none !important;
 }
 
+.noColorLink {
+  color: $dark;
+  &:hover {
+    color: $dark;
+  }
+}
+
 #nav-space {
   margin-bottom: 5rem;
 }
 
 .no-nav-space {
   margin-top: -5rem !important;
+}
+
+.nobreak {
+  white-space: nowrap;
 }
