@@ -45,7 +45,7 @@ const RefinementList = ({ refine, items, title }) => {
                 <ListItemText id={labelId} primary={item.label} />
                 <ListItemSecondaryAction>
                   <IconButton aria-label="count" disabled>
-                    <StyledBadge badgeContent={item.count} color="secondary" />
+                    <StyledBadge badgeContent={item.count} color="primary" />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
