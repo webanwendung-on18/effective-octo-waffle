@@ -22,9 +22,8 @@ const RefinementList = ({ refine, items, title }) => {
         {items.map((item, index) => {
           const labelId = `checkbox-list-label-${item}`;
           return (
-            <div className="ListItem">
+            <div className="ListItem" key={index}>
               <ListItem
-                key={index}
                 role={undefined}
                 dense
                 onClick={() => {
