@@ -6,62 +6,46 @@ import { IoIosTime } from "react-icons/io";
 
 class RecipeCard extends Component {
   render() {
-    const {
-      id,
-      name,
-      flags,
-      index,
-      title,
-      duration,
-      imageUrl,
-      difficulty,
-      description
-    } = this.props;
-    const recipeIndex = index + 1;
+    const { name, id, flags, title, duration, imageUrl, difficulty, description } = this.props;
+    const open = () => <Link to={`/recipes/${id}`}></Link>;
     return (
-      <div className="card-outline">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-7">
-              <div className="card-content mr-4">
-                <span className="card-number card-circle subtle">
-                  {("0" + recipeIndex).slice(-2)}
-                </span>
-                <span className="ml-2">
-                  {flags.map((flag, idx) => (
-                    <span key={idx} className="flag">
-                      {flag}
+      <Link to={`/recipes/${id}`} className="nounderline noColorLink">
+        <div onClick={open} className="container nounderline">
+          <div className="card-outline mb-5">
+            <div className="row">
+              <div className="col-md-7">
+                <div className="card-content">
+                  <span className="card-author subtle">{name}</span>
+                  <div className="my-2 mb-4">
+                    {flags.map((flag, idx) => (
+                      <span key={idx} className="flag">
+                        {flag}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 className="card-title">
+                    <Textfit mode="multi">{title}</Textfit>
+                  </h2>
+                  <span className="card-description subtle my-1">{description}</span>
+                  <div className="mt-3 pt-2 my-4 rInfo">
+                    <span className="mr-1 mb-2" style={{ fontWeight: "600" }}>
+                      Difficulty:
                     </span>
-                  ))}
-                </span>
-                <span className="card-author subtle">{name}</span>
-                <h2 className="card-title">
-                  <Textfit mode="single">{title}</Textfit>
-                </h2>
-                <span className="card-description subtle">{description}</span>
-                <Link to={`/recipes/${id}`} className="card-read">
-                  <br></br>
-                  <span className="underline--magical">Read more</span>
-                </Link>
-                <div className="d-flex flex-wrap align-items-center">
-                  <span className="mr-1" style={{ fontWeight: "600" }}>
-                    Difficulty:
-                  </span>
-                  <span className="mr-4">{difficulty}</span>
-
-                  <span className="mt-xs-2 mt-lg-0">
-                    <IoIosTime size={"1.5em"} color={"#333"} className={"mr-1"} />
-                    {`${duration} minutes`}
-                  </span>
+                    <span className="mr-4">{difficulty}</span>
+                    <span className="mt-xs-2 mt-lg-0 nobreak">
+                      <IoIosTime size={"1.5em"} color={"#333"} className={"mr-1"} />
+                      {`${duration} minutes`}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-md-5">
-              <img src={imageUrl} alt="recipeImage" className="card-media" />
+              <div className="col-md-5">
+                <img src={imageUrl} alt="recipeImage" className="card-media" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }

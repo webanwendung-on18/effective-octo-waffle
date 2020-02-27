@@ -16,7 +16,8 @@ export const theme = createMuiTheme({
     }
   },
   palette: {
-    primary: { main: "#6ab04c" }
+    primary: { main: "#6ab04c" },
+    secondary: { main: "#FFC850" }
   },
   typography: {
     fontFamily: ['"Lato"'],
