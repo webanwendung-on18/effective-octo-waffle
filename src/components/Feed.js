@@ -1,17 +1,11 @@
 import React, { Component } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Helmet } from "react-helmet";
-import algoliasearch from "algoliasearch";
-import { InstantSearch } from "react-instantsearch-dom";
-import { CustomSearchBox } from "./SearchBox";
-import { CustomRefinementList } from "./RefinementList";
-import { CustomHits } from "./Hits";
+import Hits from "./Hits";
 
 import firebase from "./../firebase/config";
 import "firebase/firestore";
 var db = firebase.firestore();
-
-const searchClient = algoliasearch("471N5SCCV8", "3b9d814b0c08445b640fd407b8dbae54");
 
 class Feed extends Component {
   constructor(props) {
@@ -21,14 +15,15 @@ class Feed extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    db.collection("Recipes").onSnapshot(snapshot => {
+    db.collection("Recipes").onSnapshot((snapshot) => {
       let recipes = [];
-      snapshot.forEach(doc => recipes.push({ ...doc.data(), uid: doc.id }));
+      snapshot.forEach((doc) => recipes.push({ ...doc.data(), uid: doc.id }));
+      console.log("recipes", recipes);
       this.setState(
         {
           recipes,
           loading: false,
-          refresh: true
+          refresh: true,
         },
         () => this.setState({ refresh: false })
       );
@@ -42,51 +37,19 @@ class Feed extends Component {
           <title>Feed | Octo Waffle</title>
         </Helmet>
         {!this.state.loading ? (
-          <InstantSearch
-            searchClient={searchClient}
-            indexName="Recipes"
-            refresh={this.state.refresh}
-          >
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-md-7 col-lg-1">
-                  <div className="refinementPaper">
-                    <CustomRefinementList
-                      attribute="flags"
-                      title="Flags"
-                      operator="and"
-                      transformItems={items =>
-                        items.map(item => ({
-                          ...item,
-                          label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
-                        }))
-                      }
-                    />
-                    <CustomRefinementList
-                      attribute="difficulty"
-                      title="Difficulty"
-                      operator="or"
-                      transformItems={items =>
-                        items.map(item => ({
-                          ...item,
-                          label: item.label.charAt(0).toUpperCase() + item.label.slice(1)
-                        }))
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="col-md-10 col-lg-6 mt-3 nounderline maxcard">
-                  <h1 className="headline-feed my-4">
-                    <span className="underline--magical">Feed</span>
-                  </h1>
-                  <CustomSearchBox />
-                  <div className="mt-5">
-                    <CustomHits />
-                  </div>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-7 col-lg-1"></div>
+              <div className="col-md-10 col-lg-6 mt-3 nounderline maxcard">
+                <h1 className="headline-feed my-4">
+                  <span className="underline--magical">Feed</span>
+                </h1>
+                <div className="mt-5">
+                  <Hits recipes={this.state.recipes} />
                 </div>
               </div>
             </div>
-          </InstantSearch>
+          </div>
         ) : (
           <div>
             <ClipLoader

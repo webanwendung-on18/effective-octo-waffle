@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import RecipeCard from "./RecipeCard";
-import { connectHits } from "react-instantsearch-dom";
 
 class Hits extends Component {
   render() {
     return (
       <>
-        {this.props.hits.length > 0
-          ? this.props.hits.map((hit, index) => (
+        {this.props.recipes.length > 0
+          ? this.props.recipes.map((hit, index) => (
               <div className="feed-container" key={hit.objectID}>
                 <RecipeCard
                   index={index}
@@ -28,4 +27,4 @@ class Hits extends Component {
   }
 }
 
-export const CustomHits = connectHits(Hits);
+export default Hits;
