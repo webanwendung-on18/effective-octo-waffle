@@ -10,7 +10,7 @@ class Hits extends Component {
               <div className="feed-container" key={hit.objectID}>
                 <RecipeCard
                   index={index}
-                  id={hit.objectID}
+                  id={hit.uid}
                   title={hit.title}
                   flags={hit.flags}
                   name={hit.user_name}
