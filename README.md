@@ -16,7 +16,7 @@ This repository is a student project work about an online recipe sharing platfor
 - [Nils Eisenhauer](https://github.com/eisenils)
 - [Natascha Forster](https://github.com/NataschaForster)
 - [Felix Keller](https://github.com/felixkeller98)
-- [Ole Mantei](https://github.com/OleMantei)
+- Ole M.
 
 ___
 
